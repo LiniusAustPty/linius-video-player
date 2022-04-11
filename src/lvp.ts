@@ -2,7 +2,7 @@ import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 
 import { configDefault } from "./config";
 
-export default class LiniusVideoPlayer {
+export default class LVP {
   private _player: VideoJsPlayer;
 
   constructor(elementId: string, config: VideoJsPlayerOptions = configDefault) {

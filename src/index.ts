@@ -1,5 +1,5 @@
-import LiniusVideoPlayer from "./LiniusVideoPlayer";
+import LVP from "./lvp";
 
 export default (elementId: string, config: any) => {
-  return new LiniusVideoPlayer(elementId, config);
+  return new LVP(elementId, config);
 };
