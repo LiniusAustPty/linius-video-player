@@ -1,11 +1,14 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 
-import { configDefault } from "./config";
+import { defaultOptions } from "./options";
 
 export default class LVP {
   private _player: VideoJsPlayer;
 
-  constructor(elementId: string, config: VideoJsPlayerOptions = configDefault) {
+  constructor(
+    elementId: string = "video-js",
+    config: VideoJsPlayerOptions = defaultOptions
+  ) {
     this._player = videojs(elementId, config);
   }
 

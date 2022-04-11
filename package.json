@@ -2,6 +2,7 @@
   "name": "linius-video-player",
   "version": "1.0.0",
   "description": "Linius Video Player",
+  "main": "dist/lvp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --open --config webpack.dev.js",

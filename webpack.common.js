@@ -37,9 +37,10 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: "lvp.min.js",
     clean: true,
+    filename: "lvp.js",
     library: "lvp",
+    libraryTarget: "umd",
     libraryExport: "default",
   },
 };

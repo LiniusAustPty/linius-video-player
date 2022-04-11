@@ -1,6 +1,6 @@
 import { VideoJsPlayerOptions } from "video.js";
 
-export const configDefault: VideoJsPlayerOptions = {
+export const defaultOptions: VideoJsPlayerOptions = {
   controls: true,
   preload: "auto",
   fluid: true,
