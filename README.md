@@ -1,1 +1,1 @@
-# video-player
+# linius-video-player
