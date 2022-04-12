@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/index.ts"),
@@ -15,8 +16,16 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.(s(a|c)ss)$/,
+        include: path.resolve(__dirname, "./src/styles.scss"),
+        use: [
+          process.env.NODE_ENV !== "production"
+            ? "style-loader"
+            : MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "sass-loader",
+        ],
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -39,8 +48,15 @@ module.exports = {
     path: path.resolve(__dirname, "./dist"),
     clean: true,
     filename: "lvp.js",
-    library: "lvp",
-    libraryTarget: "umd",
-    libraryExport: "default",
+    library: {
+      name: "lvp",
+      export: "default",
+      type: "var",
+    },
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "lvp.css",
+    }),
+  ],
 };

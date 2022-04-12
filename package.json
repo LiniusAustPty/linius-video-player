@@ -5,7 +5,7 @@
   "main": "dist/lvp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open --config webpack.dev.js",
+    "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/LiniusAustPty/linius-video-player.git"
   },
   "author": "Linius",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/LiniusAustPty/linius-video-player/issues"
   },
@@ -32,6 +32,10 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "json-loader": "^0.5.7",
+    "mini-css-extract-plugin": "^2.6.0",
+    "node-sass": "^7.0.1",
+    "postcss-loader": "^6.2.1",
+    "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.3",

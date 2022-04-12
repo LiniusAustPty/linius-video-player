@@ -2,9 +2,10 @@ import { VideoJsPlayerOptions } from "video.js";
 
 import { defaultOptions } from "./options";
 import LVP from "./lvp";
+import "./styles.scss";
 
 export default (elementId: string, options: VideoJsPlayerOptions) => {
-  const lvp = new LVP(elementId, options || defaultOptions);
+  const player = new LVP(elementId, options || defaultOptions);
 
-  return lvp.player;
+  return player.player;
 };

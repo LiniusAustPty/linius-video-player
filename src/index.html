@@ -3,17 +3,15 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="./videojs-default.styles.css" />
-    <link rel="stylesheet" href="./videojs-linius.styles.css" />
   </head>
   <body>
-    <video-js id="lvp" class="video-js lvp">
+    <video-js id="player1" class="video-js lvp">
       <source src="./video.mp4" type="video/mp4">
     </video-js>
     <script>
       (function() {
-        window.onload = function() {
-          var player = lvp("lvp");
+        window.onload = () => {
+          var player = lvp("player1");
         }
       })()
     </script>

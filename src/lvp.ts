@@ -1,6 +1,7 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 
 import { defaultOptions } from "./options";
+import "./styles.scss";
 
 export default class LVP {
   private _player: VideoJsPlayer;
