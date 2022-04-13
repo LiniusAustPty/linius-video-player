@@ -17,9 +17,8 @@ module.exports = {
       },
       {
         test: /\.(s(a|c)ss)$/,
-        include: path.resolve(__dirname, "./src/styles.scss"),
         use: [
-          process.env.NODE_ENV !== "production"
+          process.env.NODE_ENV === "development"
             ? "style-loader"
             : MiniCssExtractPlugin.loader,
           "css-loader",
@@ -42,7 +41,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ["*", ".ts", ".js"],
   },
   output: {
     path: path.resolve(__dirname, "./dist"),
