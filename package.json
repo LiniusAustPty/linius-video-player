@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Linius Video Player",
   "main": "dist/lvp.js",
+  "types": "dist/lvp.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack.dev.js",
