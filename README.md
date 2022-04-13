@@ -5,6 +5,8 @@
 ### As JS library
 
 ```
+// html
+
 <head>
   <link href="lvp.css" rel="stylesheet" />
 </head>
@@ -31,12 +33,16 @@
 ### As Package
 
 ```
+// package.json
+
 "dependencies": {
   "linius-video-player": "https://github.com/LiniusAustPty/linius-video-player.git",
 },
 ```
 
 ```
+// js/ts
+
 import lvp from "linius-video-player"
 import "lvp.css"
 
