@@ -1111,6 +1111,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/video.js@^7.3.33":
+  version "7.3.33"
+  resolved "https://registry.yarnpkg.com/@types/video.js/-/video.js-7.3.33.tgz#10166f37289acef2883b62df1880092524852670"
+  integrity sha512-noV9lOUrKtgshy+RScP0RSQKhJtFwGXQ1FzD04TBWu6AvJ1vcQIyMGcd9wQ58sBOMgjw8T/20ot4zKgJUwC6tw==
+
 "@types/ws@^8.5.1":
   version "8.5.3"
   resolved "https://registry.npmjs.org/@types/ws/-/ws-8.5.3.tgz"

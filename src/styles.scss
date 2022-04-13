@@ -1,3 +1,5 @@
+@import url('./video-js.css');
+
 .video-js {
   &.lvp {
     position: relative;
@@ -29,9 +31,6 @@
       bottom: 0;
       height: 6em;
       background: transparent;
-      -webkit-transition: bottom 0.15s;
-      -moz-transition: bottom 0.15s;
-      -o-transition: bottom 0.15s;
       transition: bottom 0.15s;
       
       &::before {
@@ -43,9 +42,6 @@
         bottom: 0;
         height: 9em;
         background: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 0.9));
-        -webkit-transition: opacity 0.15s;
-        -moz-transition: opacity 0.15s;
-        -o-transition: opacity 0.15s;
         transition: opacity 0.15s;
       }
 
@@ -104,13 +100,6 @@
         align-items: center;
         font-size: 1.2em;
 
-        &.vjs-time-divider {
-          padding-left: 0.25em;
-          padding-right: 0.25em;
-          min-width: 0;
-          z-index: 1;
-        }
-
         &.vjs-current-time {
           padding-left: 1em;
           padding-right: 0.5em;
@@ -120,12 +109,19 @@
           padding-left: 0.5em;
           padding-right: 1em;
         }
+
+        &.vjs-time-divider {
+          padding-left: 0.25em;
+          padding-right: 0.25em;
+          min-width: 0;
+          z-index: 1;
+        }
       }
 
       .vjs-button {
         width: 6em;
       
-        &:before {
+        &::before {
           font-size: 2.4em;
           height: auto;
           width: auto;
@@ -177,9 +173,6 @@
         bottom: 6em;
         padding-left: 1em;
         padding-right: 1em;
-        -webkit-transition: padding 0.15s;
-        -moz-transition: padding 0.15s;
-        -o-transition: padding 0.15s;
         transition: padding 0.15s;
 
         .vjs-slider {
@@ -216,16 +209,10 @@
       .vjs-control-bar {
         opacity: 1;
         bottom: -6em;
-        -webkit-transition: bottom 0.25s;
-        -moz-transition: bottom 0.25s;
-        -o-transition: bottom 0.25s;
         transition: bottom 0.25s;
 
-        &:before {
+        &::before {
           opacity: 0;
-          -webkit-transition-delay: 0.1s;
-          -moz-transition-delay: 0.1s;
-          -o-transition-delay: 0.1s;
           transition-delay: 0.1s;
         }
 
