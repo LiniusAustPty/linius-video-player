@@ -17,10 +17,6 @@ module.exports = merge(common, {
           from: path.resolve(__dirname, "./public/"),
           to: "",
         },
-        {
-          from: path.resolve(__dirname, "./types/"),
-          to: "",
-        },
       ],
     }),
     new HtmlWebpackPlugin({

@@ -1,6 +1,7 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from "video.js";
 
 import { defaultOptions } from "./options";
+import { addHeaders } from "./utils";
 import "./styles.scss";
 
 export default class LVP {
@@ -8,9 +9,14 @@ export default class LVP {
 
   constructor(
     elementId: string = "video-js",
-    config: VideoJsPlayerOptions = defaultOptions
+    config: VideoJsPlayerOptions = defaultOptions,
+    readyCallback?: videojs.ReadyCallback,
+    apiKey?: string,
+    authToken?: string
   ) {
-    this._player = videojs(elementId, config);
+    this._player = videojs(elementId, config, readyCallback);
+
+    addHeaders(this._player, apiKey, authToken);
   }
 
   public get player() {

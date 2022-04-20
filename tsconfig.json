@@ -1,5 +1,26 @@
 {
+  "include": ["src"],
   "compilerOptions": {
-    "target": "es5"
+    "target": "es5",
+    // Tells TypeScript to read JS files, as
+    // normally they are ignored as source files
+    //"allowJs": true,
+    // Generate d.ts files
+    "typeRoots": ["video.js"],
+    //"declaration": true,
+    // This compiler run should
+    // only output d.ts files
+    //"emitDeclarationOnly": true,
+    // Types should go into this directory.
+    // Removing this would place the .d.ts files
+    // next to the .js files
+    //"allowSyntheticDefaultImports": true,
+    //"declarationDir": "dist",
+    //"module": "commonjs",
+    "module": "esnext",
+    "outDir": "dist"
+    //"module": "amd",
+    //"outFile": "dist/types/lvp2.d.ts"
+    //"isolatedModules": true
   }
 }
