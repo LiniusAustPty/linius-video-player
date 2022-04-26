@@ -45,7 +45,12 @@
 ```
 // js/ts
 
-import lvp, { videojs, VideoJsPlayer, VideoJsPlayerOptions, VideoJsPlayerPluginOptions } from "linius-video-player"
+import lvp, {
+  videojs,
+  VideoJsPlayer,
+  VideoJsPlayerOptions,
+  VideoJsPlayerPluginOptions,
+} from "linius-video-player";
 import "lvp.css"
 
 lvp.setHeaders(HEADERS);
