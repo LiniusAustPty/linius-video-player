@@ -1,25 +1,39 @@
-import vjs, { VideoJsPlayerOptions } from "video.js";
+import vjs from "video.js";
 
 import { defaultOptions } from "./options";
-import LVP from "./lvp";
 import "./styles.scss";
 
-export const videojs = vjs;
+export namespace lvp {
+  export const videojs = vjs;
 
-export default (
-  elementId: string,
-  options: VideoJsPlayerOptions,
-  readyCallback?: vjs.ReadyCallback,
-  apiKey?: string,
-  authToken?: string
-) => {
-  const player = new LVP(
-    elementId,
-    options || defaultOptions,
-    readyCallback,
-    apiKey,
-    authToken
-  );
+  export function setHeaders(data?: any) {
+    const headers: Headers = new Headers();
 
-  return player.player;
-};
+    Object.entries(data).forEach(([key, value]) => {
+      headers.append(key, `${value}`);
+    });
+
+    addHeaders.call(videojs, headers);
+  }
+
+  export function player(
+    id: string = "video-js",
+    playerOptions: vjs.PlayerOptions = defaultOptions,
+    readyCallback?: vjs.ReadyCallback
+  ) {
+    const options = videojs.mergeOptions(defaultOptions, playerOptions);
+    const player = videojs.call(this, id, options, readyCallback);
+
+    return player;
+  }
+
+  function addHeaders(headers: Headers) {
+    if (this.hasOwnProperty("vhs")) {
+      this.vhs.xhr.beforeRequest = (options) => {
+        options.headers = headers;
+
+        return options;
+      };
+    }
+  }
+}

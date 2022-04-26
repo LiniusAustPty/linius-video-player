@@ -1,4 +1,4 @@
-import { VideoJsPlayerOptions } from "video.js";
+import videojs, { VideoJsPlayerOptions } from "video.js";
 
 export const defaultOptions: VideoJsPlayerOptions = {
   controls: true,
@@ -6,18 +6,8 @@ export const defaultOptions: VideoJsPlayerOptions = {
   fluid: true,
   responsive: true,
   html5: {
-    hlsjsConfig: {
-      //enableWorker: true,
-      //overrideNative: !videojs.browser.IS_SAFARI,
-      //liveBackBufferLength: 500,
-      //liveSyncDurationCount: 1,
-    },
     vhs: {
-      //overrideNative: !videojs.browser.IS_SAFARI,
-      //limitRenditionByPlayerDimensions: true,
-    },
-    hls: {
-      //overrideNative: !videojs.browser.IS_SAFARI,
+      overrideNative: !videojs.browser.IS_SAFARI,
     },
   },
   controlBar: {
@@ -31,12 +21,12 @@ export const defaultOptions: VideoJsPlayerOptions = {
       "durationDisplay",
       "fullscreenToggle",
       /*
-      // volumePanel?: VolumePanelOptions | boolean | undefined;
+      volumePanel?: VolumePanelOptions | boolean | undefined;
       'captionsButton',
       'chaptersButton',
       'subtitlesButton',
       'remainingTimeDisplay',
-      //progressControl?: ProgressControlOptions | boolean | undefined;
+      progressControl?: ProgressControlOptions | boolean | undefined;
       'playbackRateMenuButton',
       'pictureInPictureToggle',
       'liveDisplay',

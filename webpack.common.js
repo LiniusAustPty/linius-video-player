@@ -49,8 +49,8 @@ module.exports = {
     filename: "lvp.js",
     library: {
       name: "lvp",
-      export: "default",
-      type: "var",
+      export: "lvp",
+      type: "umd",
     },
   },
   plugins: [

@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <video id="player1" width="640" height="360" class="video-js2 lvp" controls>
+    <video id="player1" width="640" height="360" class="video-js lvp" controls>
       <!--
       <source
         src="https://api.lvs.linius.com/v3/assembly/ldash?id=907275&o=0&d=-1"
@@ -93,7 +93,7 @@
           ],
           */
         };
-        const source = dashMp4Source;
+        const source = hlsSource;
         const apiKey = "yIF5w2j18hT4zHR9rg9GuD2zmIACGosaUoVmDzV4";
         const authToken =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiIzNDY4Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sInRlbmFudElkIjoiNjFiYjMxMDBhOWZjY2Y1M2EwMTNhMjQ3IiwidXNlck5hbWUiOiJjaGFybGVzc3R1cnR1YyIsInBsYXRmb3JtTmFtZSI6IkxWUyIsImV4cCI6MTY1MDI5MjI4NSwidXNlcklkIjozNDY4LCJlbWFpbCI6InN0YW5ub21lZGlhK2NzdUBnbWFpbC5jb20iLCJkZWFjdGl2YXRlZCI6ZmFsc2UsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoieUtXbExVYmJRdTJXOVkzek9UQ21QLVRsTlcwIiwiY2xpZW50X2lkIjoiNzVvajZjNDhrZGRqbXVpM3RjNHAwN2Q0MTMifQ.w0ZZ-g6WmwPXyWN2bkj-5iBnKtp4YbsYtRrrZWoGlgI";
@@ -118,23 +118,26 @@
           //    return { ...options, headers };
           //  };
           //}
-          if (videojs.hasOwnProperty("Vhs")) {
-            videojs.Vhs.xhr.beforeRequest = (options) => {
+          if (lvp.hasOwnProperty("Vhs")) {
+            lvp.Vhs.xhr.beforeRequest = (options) => {
               options.headers = headers;
 
               return options;
             };
           }
         };
-        /*
-        var player = videojs("player1", {
-          hls: {
-            overrideNative: !videojs.browser.IS_SAFARI,
-          },
-        });
-        */
+
+        window.onload = function () {
+          console.log("lvp", lvp);
+          var player = lvp.player("player1", {
+            hls: {
+              overrideNative: !lvp.vjs.browser.IS_SAFARI,
+            },
+          });
+        };
         //console.log("playerplayer", player);
 
+        /*
         var videoHtml = document.querySelector("video");
 
         var playerDash = dashjs.MediaPlayer().create();
@@ -150,7 +153,7 @@
               "X-AxDRM-Message":
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU",
             },
-            */
+            *
             //priority: 0,
           },
         };
@@ -196,11 +199,11 @@
             },
           },
         });
-        */
+        *
         const url =
           "https://api.lvs.linius.com/v3/assembly/ldash?id=907275&o=0&d=-1";
         /*
-         */
+         *
         playerDash.on(
           dashjs.MediaPlayer.events.PLAYBACK_NOT_ALLOWED,
           function (data) {
@@ -232,6 +235,7 @@
           console.log("getActiveStream", playerDash.getActiveStream());
           //console.log("retrieveManifest", playerDash.retrieveManifest());
         }, 1000);
+        */
         //console.log("getManifest", playerDash.getManifest());
 
         /*
