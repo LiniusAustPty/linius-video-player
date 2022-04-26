@@ -18,13 +18,12 @@ export namespace lvp {
 
   export function player(
     id: string = "video-js",
-    playerOptions: vjs.PlayerOptions = defaultOptions,
-    readyCallback?: vjs.ReadyCallback
+    options: vjs.PlayerOptions = defaultOptions,
+    ready?: vjs.ReadyCallback
   ) {
-    const options = videojs.mergeOptions(defaultOptions, playerOptions);
-    const player = videojs.call(this, id, options, readyCallback);
+    const mergedOptions = videojs.mergeOptions(defaultOptions, options);
 
-    return player;
+    return videojs.call(this, id, mergedOptions, ready);
   }
 
   function addHeaders(headers: Headers) {
