@@ -2,7 +2,7 @@
 
 ## Usage
 
-### As JS library
+### As JavaScript library
 
 ```
 // html
@@ -24,13 +24,15 @@
     <source src="MY_VIDEO.mp4" type="video/mp4" />
   </video-js>
   <script src="lvp.js">
-    var player = lvp("my-video");
+    lvp.setHeaders(HEADERS);
+
+    var player = lvp.player("my-video", OPTIONS, READY_CALLBACK);
   </script>
   <script src="lvp.js"></script>
 </head>
 ```
 
-### As Package
+### As node.js package
 
 ```
 // package.json
@@ -43,8 +45,10 @@
 ```
 // js/ts
 
-import lvp from "linius-video-player"
+import lvp, { videojs, VideoJsPlayer, VideoJsPlayerOptions, VideoJsPlayerPluginOptions } from "linius-video-player"
 import "lvp.css"
 
-const player = lvp(ref.current, config);
+lvp.setHeaders(HEADERS);
+
+const player = lvp.player(ref.current, OPTIONS, READY_CALLBACK);
 ```
