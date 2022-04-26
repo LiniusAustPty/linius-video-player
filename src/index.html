@@ -3,249 +3,30 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <style>
-      body {
-        font-family: "Courier New", Courier, monospace;
-      }
-
-      .row {
-        padding: 4px 0;
-      }
-    </style>
   </head>
   <body>
-    <video id="player1" width="640" height="360" class="video-js lvp" controls>
-      <!--
-      <source
-        src="https://api.lvs.linius.com/v3/assembly/ldash?id=907275&o=0&d=-1"
-        type="?? - maybe video/mpd+webm"
-      />
-      -->
-    </video>
-    <div>
-      <form onsubmit="submitForm()">
-        <div class="row">
-          <label>URL: </label><input id="url" type="text" />
-        </div>
-        <div class="row">
-          <label>Token: </label><input id="token" type="text" />
-        </div>
-        <div class="row">
-          <label>API Key: </label><input id="apikey" type="text" />
-        </div>
-        <div class="row">
-          <input type="submit" />
-        </div>
-      </form>
-    </div>
-    <!--
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.19.1/video.js"
-      integrity="sha512-pguYbCUfCcXlTRvozOLKWrxrm/g+l5Jtw52qNTCAVuwAnDLocNoP8T6gXLnQ0xJcCA2nZdIHNqs3cDdElIr3TA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/dashjs/4.3.0/dash.all.min.js"
-      integrity="sha512-XySDxg2J8BFPCGF0ToToWEkPGqvg9as64sBRrelx17aITK+JKxBEG9fATs5F2H/d5OLZP4V3AULTeM4k14coGQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <!--
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-dash/5.1.1/videojs-dash.js"
-      integrity="sha512-LuoCJvUjM2KymaiyL4P4sqZAPj/FlLiltZ4v8O8jJmTYGONL2taeVrXqSFdtlVNmn2EaC8NV7MfMq99GU/0QnQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    -->
+    <video
+      id="player1"
+      width="640"
+      height="360"
+      class="video-js lvp"
+      controls
+    ></video>
     <script>
-      const inputUrl = document.getElementById("url");
-      const inputToken = document.getElementById("token");
-      const inputApiKey = document.getElementById("apikey");
-      const submitForm = function () {};
+      const source = {
+        src: "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
+        type: "application/x-mpegURL",
+      };
 
-      (function () {
-        //let url = "";
-        //let authToken = "";
-        //let apiKey = "";
-
-        const hlsSource = {
-          src: "https://api.lvs.linius.com/v3/assembly/hls?id=907274&o=0&d=-1",
-          type: "application/x-mpegURL",
-        };
-        const dashMp4Source = {
-          src: "https://api.lvs.linius.com/v3/assembly/ldash?id=907275&o=0&d=-1",
-          type: "linius/dash+xml",
-          //type: "application/x-mpegURL", //["linius/ldash", "application/dash+xml"]
-          //type: "linius/ldash",
-          //withCredentials: true,
-          //type: "application/dash+xml",
-          /*
-          keySystemOptions: [
-            {
-              name: "com.widevine.alpha",
-              options: {
-                serverURL: "https://wv-keyos.licensekeyserver.com",
-              },
-            },
-          ],
-          */
-        };
-        const source = hlsSource;
-        const apiKey = "yIF5w2j18hT4zHR9rg9GuD2zmIACGosaUoVmDzV4";
-        const authToken =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiIzNDY4Iiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl0sInRlbmFudElkIjoiNjFiYjMxMDBhOWZjY2Y1M2EwMTNhMjQ3IiwidXNlck5hbWUiOiJjaGFybGVzc3R1cnR1YyIsInBsYXRmb3JtTmFtZSI6IkxWUyIsImV4cCI6MTY1MDI5MjI4NSwidXNlcklkIjozNDY4LCJlbWFpbCI6InN0YW5ub21lZGlhK2NzdUBnbWFpbC5jb20iLCJkZWFjdGl2YXRlZCI6ZmFsc2UsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoieUtXbExVYmJRdTJXOVkzek9UQ21QLVRsTlcwIiwiY2xpZW50X2lkIjoiNzVvajZjNDhrZGRqbXVpM3RjNHAwN2Q0MTMifQ.w0ZZ-g6WmwPXyWN2bkj-5iBnKtp4YbsYtRrrZWoGlgI";
-
-        var addHeaders = (player, apiKey, authToken, accept) => {
-          const headers = {};
-
-          if (authToken) {
-            headers.Authorization = `Bearer ${authToken}`;
-          }
-
-          if (apiKey) {
-            headers["x-api-key"] = apiKey;
-          }
-
-          if (accept) {
-            //headers.Accept = "application/octet-stream,application/json";
-          }
-
-          //if (videojs.hasOwnProperty("Vhs")) {
-          //  videojs.Vhs.xhr.beforeRequest = (options) => {
-          //    return { ...options, headers };
-          //  };
-          //}
-          if (lvp.hasOwnProperty("Vhs")) {
-            lvp.Vhs.xhr.beforeRequest = (options) => {
-              options.headers = headers;
-
-              return options;
-            };
-          }
-        };
-
-        window.onload = function () {
-          console.log("lvp", lvp);
-          var player = lvp.player("player1", {
-            hls: {
-              overrideNative: !lvp.vjs.browser.IS_SAFARI,
-            },
-          });
-        };
-        //console.log("playerplayer", player);
-
-        /*
-        var videoHtml = document.querySelector("video");
-
-        var playerDash = dashjs.MediaPlayer().create();
-
-        var protData = {
-          "com.widevine.alpha": {
-            serverURL: "https://wv-keyos.licensekeyserver.com",
-            //httpRequestHeaders: {
-            //  "X-AxDRM-Message": "authToken",
-            //},
-            /*
-            httpRequestHeaders: {
-              "X-AxDRM-Message":
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU",
-            },
-            *
-            //priority: 0,
-          },
-        };
-
-        // Extend RequestModifier class and implement our own behaviour
-        playerDash.extend("RequestModifier", function () {
-          return {
-            modifyRequestHeader: function (xhr) {
-              console.log("modifyRequestHeader");
-              // Add custom header. Requires to set up Access-Control-Allow-Headers in your
-              // response header in the server side. Reference: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/setRequestHeader
-              xhr.setRequestHeader("Authorization", `Bearer ${authToken}`);
-              xhr.setRequestHeader("x-api-key", apiKey);
-              xhr.setRequestHeader("Content-Type", "linius/ldash");
-              xhr.setRequestHeader(
-                "Accept",
-                "application/octet-stream,application/json"
-              );
-              //xhr.setRequestHeader("Access-Control-Request-Method", "HEAD");
-              return xhr;
-            },
-            modifyRequestURL: function (url) {
-              //  // Modify url adding a custom query string parameter
-              return url;
-            },
-          };
-        });
-        /*
-        playerDash.updateSettings({
-          streaming: {
-            liveDelay: 2,
-            liveCatchUpMinDrift: 0.05,
-            liveCatchUpPlaybackRate: 0.5,
-            stableBufferTime: 2,
-            bufferTimeAtTopQuality: 2,
-            bufferTimeAtTopQualityLongForm: 2,
-            bufferToKeep: 2,
-            bufferAheadToKeep: 2,
-            lowLatencyEnabled: true,
-            fastSwitchEnabled: true,
-            abr: {
-              limitBitrateByPortal: true,
-            },
+      window.onload = function () {
+        var player = lvp.player("player1", {
+          hls: {
+            overrideNative: !lvp.videojs.browser.IS_SAFARI,
           },
         });
-        *
-        const url =
-          "https://api.lvs.linius.com/v3/assembly/ldash?id=907275&o=0&d=-1";
-        /*
-         *
-        playerDash.on(
-          dashjs.MediaPlayer.events.PLAYBACK_NOT_ALLOWED,
-          function (data) {
-            console.log(
-              "Playback did not start due to auto play restrictions. Muting audio and reloading"
-            );
-            video.muted = true;
-            ///playerDash.initialize(videoHtml, url, true);
-          }
-        );
 
-        //playerDash.initialize(videoHtml, url, true);
-        //playerDash.setProtectionData(protData);
-        playerDash.initialize();
-
-        setTimeout(() => {
-          //playerDash.load(url, null, "application/dash+xml");
-          //playerDash.play();
-          playerDash.attachView(videoHtml);
-          playerDash.attachSource(url);
-          //playerDash.attachSource({
-          //  url,
-          //  type: "linius/ldash",
-          //});
-          console.log("playerDash", playerDash);
-          console.log("getSettings", playerDash.getSettings());
-          console.log("getAutoPlay", playerDash.getAutoPlay());
-          console.log("getSource", playerDash.getSource());
-          console.log("getActiveStream", playerDash.getActiveStream());
-          //console.log("retrieveManifest", playerDash.retrieveManifest());
-        }, 1000);
-        */
-        //console.log("getManifest", playerDash.getManifest());
-
-        /*
-        player.ready(function () {
-          addHeaders(player, apiKey, authToken, true);
-
-          player.src(source);
-        });
-        */
-      })();
+        player.src(source);
+      };
     </script>
   </body>
 </html>
