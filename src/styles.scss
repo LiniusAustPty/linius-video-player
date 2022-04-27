@@ -38,7 +38,7 @@
     &.vjs-layout-large,
     &.vjs-layout-x-large {
       .vjs-big-play-button {
-        font-size: 5em;
+        font-size: 4em;
       }
     }
 
@@ -57,7 +57,7 @@
         width: 100%;
         bottom: 0;
         height: 9em;
-        background: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 0.9));
+        background: linear-gradient(rgba(17, 17, 17, 0), rgba(17, 17, 17, 0.8));
         transition: opacity 0.15s;
       }
 
@@ -122,11 +122,11 @@
 
         &.vjs-current-time {
           padding-left: 1em;
-          padding-right: 0.5em;
+          padding-right: 0.25em;
         }
 
         &.vjs-duration {
-          padding-left: 0.5em;
+          padding-left: 0.25em;
           padding-right: 1em;
         }
 
@@ -154,23 +154,6 @@
       .vjs-play-control {
         position: relative;
         width: 6em;
-
-        &::before {
-          z-index: 1;
-        }
-
-        &::after {
-          content: "";
-          display: block;
-          position: absolute;
-          width: 4em;
-          height: 4em;
-          top: 1em;
-          left: 1em;
-          border-radius: 50%;
-          z-index: 0;
-          background-color: var(--color-brand, black);
-        }
       }
 
       .vjs-progress-holder {
