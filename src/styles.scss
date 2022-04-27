@@ -66,10 +66,14 @@
         width: 15%;
         margin-right: 3em;
 
+        .vjs-mouse-display {
+          display: none;
+        }
+
         .vjs-volume-bar {
           margin-left: 0;
           margin-right: 0;
-          background-color: rgba(238, 238, 238, 0.5);
+          background-color: rgba(12, 9, 9, 0.5);
           width: 100%;
 
           &.vjs-slider-horizontal {
@@ -165,9 +169,6 @@
           left: 1em;
           border-radius: 50%;
           z-index: 0;
-          border-width: 2px;
-          border-style: solid;
-          border-color: var(--color-brand, white);
           background-color: var(--color-brand, black);
         }
       }
