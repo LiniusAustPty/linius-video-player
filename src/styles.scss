@@ -121,18 +121,18 @@
         font-size: 1.2em;
 
         &.vjs-current-time {
-          padding-left: 1em;
-          padding-right: 0.25em;
+          padding-left: 0.5em;
+          padding-right: 0.5em;
         }
 
         &.vjs-duration {
-          padding-left: 0.25em;
-          padding-right: 1em;
+          padding-left: 0.5em;
+          padding-right: 0.5em;
         }
 
         &.vjs-time-divider {
-          padding-left: 0.25em;
-          padding-right: 0.25em;
+          padding-left: 0;
+          padding-right: 0;
           min-width: 0;
           z-index: 1;
         }
