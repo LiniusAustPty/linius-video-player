@@ -7,6 +7,12 @@ export namespace lvp {
   export const videojs = vjs;
 
   export function setHeaders(data?: any) {
+    if (!validateHeaders(data)) {
+      console.log("Linius Video Player: Error - Invalid headers provided.");
+
+      return;
+    }
+
     const headers: Headers = new Headers();
 
     Object.entries(data).forEach(([key, value]) => {
@@ -21,9 +27,12 @@ export namespace lvp {
     options: vjs.PlayerOptions = defaultOptions,
     ready?: vjs.ReadyCallback
   ) {
-    const mergedOptions = videojs.mergeOptions(defaultOptions, options);
-
-    return videojs.call(this, id, mergedOptions, ready);
+    return videojs.call(
+      this,
+      id,
+      videojs.mergeOptions(defaultOptions, options),
+      ready
+    );
   }
 
   function addHeaders(headers: Headers) {
@@ -34,5 +43,9 @@ export namespace lvp {
         return options;
       };
     }
+  }
+
+  function validateHeaders(data?: any) {
+    return typeof data === "object" && !Array.isArray(data) && data !== null;
   }
 }
