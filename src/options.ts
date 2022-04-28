@@ -5,6 +5,7 @@ export const defaultOptions: VideoJsPlayerOptions = {
   preload: "auto",
   fluid: true,
   responsive: true,
+  nativeControlsForTouch: true,
   html5: {
     vhs: {
       overrideNative: !videojs.browser.IS_SAFARI,

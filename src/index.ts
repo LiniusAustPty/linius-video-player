@@ -8,7 +8,7 @@ export namespace lvp {
 
   export function setHeaders(data?: any) {
     if (!validateHeaders(data)) {
-      console.log("Linius Video Player: Error - Invalid headers provided.");
+      console.error("Linius Video Player: Invalid headers provided.");
 
       return;
     }
