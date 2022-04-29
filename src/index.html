@@ -20,6 +20,9 @@
 
       window.onload = function () {
         var player = lvp.player("player1", {
+          plugins: {
+            ClipBarPlugin: {},
+          },
           hls: {
             overrideNative: !lvp.videojs.browser.IS_SAFARI,
           },

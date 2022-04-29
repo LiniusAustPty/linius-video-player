@@ -1,14 +1,15 @@
-import vjs from "video.js";
+import vjs, { VideoJsPlayerPluginOptions } from "video.js";
 
 import { defaultOptions } from "./options";
-import "./styles.scss";
+import { ClipBarPlugin } from "./plugins";
+import "./styles/index.scss";
 
 export namespace lvp {
   export const videojs = vjs;
 
   export function setHeaders(data?: any) {
     if (!validateHeaders(data)) {
-      console.error("Linius Video Player: Invalid headers provided.");
+      videojs.log("Linius Video Player: Invalid headers provided.");
 
       return;
     }
@@ -27,22 +28,38 @@ export namespace lvp {
     options: vjs.PlayerOptions = defaultOptions,
     ready?: vjs.ReadyCallback
   ) {
-    return videojs.call(
+    if (options?.plugins) {
+      registerPlugins(options.plugins);
+    }
+
+    const player = videojs.call(
       this,
       id,
       videojs.mergeOptions(defaultOptions, options),
       ready
     );
+
+    return player;
   }
 
   function addHeaders(headers: Headers) {
     if (this.hasOwnProperty("vhs")) {
-      this.vhs.xhr.beforeRequest = (options) => {
+      this.vhs.xhr.beforeRequest = (options: any) => {
         options.headers = headers;
 
         return options;
       };
     }
+  }
+
+  function registerPlugins(plugins: Partial<VideoJsPlayerPluginOptions>) {
+    Object.keys(plugins).forEach((key) => {
+      switch (key) {
+        case "ClipBarPlugin":
+          videojs.registerPlugin(key, ClipBarPlugin);
+          break;
+      }
+    });
   }
 
   function validateHeaders(data?: any) {
