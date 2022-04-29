@@ -40,6 +40,10 @@ export default class ClipBarScale extends Component {
         label: "x16",
         value: 16,
       },
+      {
+        label: "x32",
+        value: 32,
+      },
     ];
   }
 }
