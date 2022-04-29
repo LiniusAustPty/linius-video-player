@@ -61,9 +61,13 @@ export default class ClipBarCarousel extends Component {
   }
 
   public setSegments(segments: SegmentType[]) {
+    this._carousel.children().forEach((child) => {
+      this._carousel.removeChild(child);
+    });
+
     this.mapSegmentsToPositions(segments).forEach((segment) => {
       this._carousel.addChild(
-        this.createSegment(segment.x, segment.w, segment.time)
+        this.createSegment(segment.x, segment.width, segment.time)
       );
     });
 
@@ -96,7 +100,7 @@ export default class ClipBarCarousel extends Component {
   }
 
   private mapSegmentsToPositions(segments: SegmentType[]) {
-    const results: { x: number; w: number; time: number }[] = [];
+    const results: { x: number; width: number; time: number }[] = [];
     const totalDuration = segments.reduce(
       (count, { duration }) => count + parseFloat(duration),
       0
@@ -116,7 +120,7 @@ export default class ClipBarCarousel extends Component {
 
         return {
           x: time / totalDuration,
-          w: parseFloat(duration) / totalDuration,
+          width: parseFloat(duration) / totalDuration,
           time,
         };
       })

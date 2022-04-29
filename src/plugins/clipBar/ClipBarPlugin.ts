@@ -2,7 +2,7 @@ import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from "video.js";
 
 import ClipBarCarousel from "./ClipBarCarousel";
 import ClipBarScale from "./ClipBarScale";
-import { SegmentType } from "../clipBar/types";
+import { SegmentType } from "./types";
 import "./styles.scss";
 
 const Component = videojs.getComponent("Component");
@@ -17,28 +17,32 @@ export default class ClipBarPlugin extends Plugin {
   constructor(player: VideoJsPlayer, options: VideoJsPlayerPluginOptions) {
     super(player, options);
 
-    const carousel = new ClipBarCarousel(this.player);
-    const expand = this.createExpandButton();
-    const scaler = new ClipBarScale(this.player, (value: number) =>
+    const carousel = new ClipBarCarousel(player);
+
+    const expandButton = new Button(player);
+    expandButton.addClass("lvp-timeline-container-expand");
+    expandButton.on("click", () => this.setOpen(!this._isOpen));
+
+    const scaleMenu = new ClipBarScale(this.player, (value: number) =>
       carousel.setScale(value)
     );
 
-    const inner = new Component(this.player);
+    const inner = new Component(player);
     inner.addClass("lvp-timeline");
-    inner.addChild(scaler);
+    inner.addChild(scaleMenu);
     inner.addChild(carousel);
 
-    this._wrapper = new Component(this.player);
+    this._wrapper = new Component(player);
     this._wrapper.addClass("lvp-timeline-container");
     this._wrapper.addChild(inner);
-    this._wrapper.addChild(expand);
+    this._wrapper.addChild(expandButton);
 
-    this.on(this.player, "loadedmetadata", () => {
+    this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
         ?.segments as SegmentType[];
 
       if (segments) {
-        this.player.controlBar.addChild(this._wrapper);
+        player.controlBar?.addChild(this._wrapper);
 
         carousel.setSegments(segments);
       }
@@ -49,20 +53,6 @@ export default class ClipBarPlugin extends Plugin {
     super.dispose();
 
     videojs.log("Linius Video Player: The ClipBarPlugin is being disposed.");
-  }
-
-  private createScaleMenu() {
-    const menu = new Menu(this.player);
-
-    return menu;
-  }
-
-  private createExpandButton() {
-    const component = new Button(this.player);
-    component.addClass("lvp-timeline-container-expand");
-    component.on("click", () => this.setOpen(!this._isOpen));
-
-    return component;
   }
 
   private setOpen(value?: boolean) {
