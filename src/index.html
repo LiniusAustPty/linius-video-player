@@ -3,6 +3,11 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      html {
+        --color-lvp: #00ff00;
+      }
+    </style>
   </head>
   <body>
     <video
@@ -23,9 +28,6 @@
         var player = lvp.player("player1", {
           plugins: {
             ClipBarPlugin: {},
-          },
-          hls: {
-            overrideNative: !lvp.videojs.browser.IS_SAFARI,
           },
         });
 

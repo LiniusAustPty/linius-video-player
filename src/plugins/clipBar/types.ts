@@ -1,4 +1,4 @@
-export interface SegmentType {
+export interface Segment {
   discontinuity: boolean;
   duration: string;
   uri: string;

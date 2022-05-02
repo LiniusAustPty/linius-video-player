@@ -1,1 +1,1 @@
-export { default } from "./ClipBarPlugin";
+export { default } from "./ClipBar";

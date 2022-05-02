@@ -1,43 +1,45 @@
 import videojs, { VideoJsPlayer } from "video.js";
-import { SegmentType } from "./types";
+import ClipBarCarouselList from "./ClipBarCarouselList";
+import { Segment } from "./types";
 
 const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarCarousel extends Component {
   private _page: number = 0;
-  private _scale: number = 1;
-  private _carousel: videojs.Component;
+  private _scale: number = 2;
+  private _carousel: ClipBarCarouselList;
+  private _buttonPrevious: videojs.Button;
+  private _buttonNext: videojs.Button;
 
   constructor(player: VideoJsPlayer) {
     super(player);
 
-    this.createButton()
-      .createCarouselContainer()
-      .createButton(true)
-      .setScale(4)
-      .addClass("lvp-timeline-carousel");
+    this._buttonPrevious = this.createButton();
+    this._buttonNext = this.createButton(true);
+
+    this.addChild(this._buttonPrevious);
+    this.createCarouselContainer();
+    this.addChild(this._buttonNext);
+    this.setScale(this._scale).addClass("lvp-clipbar-carousel");
   }
 
   private createButton(isRight?: boolean) {
     const component = new Button(this.player());
-    component.addClass("lvp-timeline-carousel-button");
+    component.addClass("lvp-clipbar-carousel-button");
     component.addClass(
-      `lvp-timeline-carousel-button--${isRight ? "right" : "left"}`
+      `lvp-clipbar-carousel-button--${isRight ? "right" : "left"}`
     );
     component.on("click", () => this.incrementPage(isRight ? 1 : -1));
 
-    this.addChild(component);
-
-    return this;
+    return component;
   }
 
   private createCarouselContainer() {
-    this._carousel = new Component(this.player());
-    this._carousel.addClass("lvp-timeline-carousel-segments-scroll");
+    this._carousel = new ClipBarCarouselList(this.player());
 
     const component = new Component(this.player());
-    component.addClass("lvp-timeline-carousel-segments");
+    component.addClass("lvp-clipbar-carousel-inner");
     component.addChild(this._carousel);
 
     this.addChild(component);
@@ -45,31 +47,8 @@ export default class ClipBarCarousel extends Component {
     return this;
   }
 
-  private createSegment(x: number, width: number, time: number) {
-    const inner = new Button(this.player());
-    inner.addClass("segment-inner");
-    inner.on("click", () => {
-      this.player().currentTime(time);
-    });
-
-    const component = new Component(this.player());
-    component.addClass("segment");
-    component.setAttribute("style", `left:${x * 100}%;width:${width * 100}%`);
-    component.addChild(inner);
-
-    return component;
-  }
-
-  public setSegments(segments: SegmentType[]) {
-    this._carousel.children().forEach((child) => {
-      this._carousel.removeChild(child);
-    });
-
-    this.mapSegmentsToPositions(segments).forEach((segment) => {
-      this._carousel.addChild(
-        this.createSegment(segment.x, segment.width, segment.time)
-      );
-    });
+  public addItems(segments: Segment[]) {
+    this._carousel.addItems(segments);
 
     return this;
   }
@@ -84,6 +63,12 @@ export default class ClipBarCarousel extends Component {
     return this.updatePosition();
   }
 
+  public setTime(value: number) {
+    this._carousel.setTime(value);
+
+    return this;
+  }
+
   private incrementPage(direction: number) {
     this._page = Math.min(Math.max(this._page + direction, 0), this._scale - 1);
 
@@ -91,41 +76,31 @@ export default class ClipBarCarousel extends Component {
   }
 
   private updatePosition() {
+    return this.updateButtons().updateCarousel();
+  }
+
+  private updateButtons() {
+    if (this._page < 1) {
+      this._buttonPrevious.disable();
+    } else {
+      this._buttonPrevious.enable();
+    }
+
+    if (this._page === this._scale - 1) {
+      this._buttonNext.disable();
+    } else {
+      this._buttonNext.enable();
+    }
+
+    return this;
+  }
+
+  private updateCarousel() {
     this._carousel.setAttribute(
       "style",
       `left:${-this._page * 100}%;width:${this._scale * 100}%`
     );
 
     return this;
-  }
-
-  private mapSegmentsToPositions(segments: SegmentType[]) {
-    const results: { x: number; width: number; time: number }[] = [];
-    const totalDuration = segments.reduce(
-      (count, { duration }) => count + parseFloat(duration),
-      0
-    );
-
-    if (!totalDuration) {
-      return results;
-    }
-
-    let currentTime = 0;
-
-    results.push(
-      ...segments.map(({ duration }) => {
-        const time = currentTime;
-
-        currentTime = currentTime + parseFloat(duration);
-
-        return {
-          x: time / totalDuration,
-          width: parseFloat(duration) / totalDuration,
-          time,
-        };
-      })
-    );
-
-    return results;
   }
 }

@@ -7,11 +7,11 @@ export default class ClipBarScale extends Component {
   constructor(player: VideoJsPlayer, onClick: (value: number) => void) {
     super(player);
 
-    this.addClass("lvp-timeline-scale");
+    this.addClass("lvp-clipbar-scale");
 
     this.scales.forEach(({ label, value }) => {
       const component = new Button(this.player());
-      component.addClass("lvp-timeline-scale-button");
+      component.addClass("lvp-clipbar-scale-button");
       component.on("click", () => onClick(value));
 
       this.addChild(component, { text: label });
