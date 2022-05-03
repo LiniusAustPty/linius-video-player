@@ -4,7 +4,7 @@ declare module "linius-video-player" {
   export const videojs: typeof vjs;
   export function setHeaders(headers: any): void;
   export function player(
-    id?: string,
+    element?: string | HTMLVideoElement,
     options?: vjs.PlayerOptions,
     ready?: vjs.ReadyCallback
   ): vjs.Player;
@@ -19,7 +19,7 @@ declare module "linius-video-player" {
     export const videojs: typeof vjs;
     export function setHeaders(headers: any): void;
     export function player(
-      id?: string,
+      element?: string | HTMLVideoElement,
       options?: vjs.PlayerOptions,
       ready?: vjs.ReadyCallback
     ): vjs.Player;

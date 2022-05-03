@@ -24,7 +24,7 @@ export namespace lvp {
   }
 
   export function player(
-    id: string = "video-js",
+    element: string | HTMLVideoElement = "video-js",
     options: vjs.PlayerOptions = defaultOptions,
     ready?: vjs.ReadyCallback
   ) {
@@ -34,7 +34,7 @@ export namespace lvp {
 
     const player = videojs.call(
       this,
-      id,
+      element,
       videojs.mergeOptions(defaultOptions, options),
       ready
     );
