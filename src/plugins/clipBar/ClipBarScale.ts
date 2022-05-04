@@ -9,41 +9,22 @@ export default class ClipBarScale extends Component {
 
     this.addClass("lvp-clipbar-scale");
 
-    this.scales.forEach(({ label, value }) => {
-      const component = new Button(this.player());
-      component.addClass("lvp-clipbar-scale-button");
-      component.on("click", () => onClick(value));
+    const minus = new Button(this.player());
+    minus.addClass("lvp-clipbar-scale-button");
+    minus.addClass("lvp-clipbar-scale-button--minus");
+    minus.addClass("vjs-control");
+    minus.addClass("vjs-button");
+    minus.on("click", () => onClick(-1));
 
-      this.addChild(component, { text: label });
-    });
-  }
+    this.addChild(minus);
 
-  public get scales() {
-    return [
-      {
-        label: "x1",
-        value: 1,
-      },
-      {
-        label: "x2",
-        value: 2,
-      },
-      {
-        label: "x4",
-        value: 4,
-      },
-      {
-        label: "x8",
-        value: 8,
-      },
-      {
-        label: "x16",
-        value: 16,
-      },
-      {
-        label: "x32",
-        value: 32,
-      },
-    ];
+    const plus = new Button(this.player());
+    plus.addClass("lvp-clipbar-scale-button");
+    plus.addClass("lvp-clipbar-scale-button--plus");
+    plus.addClass("vjs-control");
+    plus.addClass("vjs-button");
+    plus.on("click", () => onClick(1));
+
+    this.addChild(plus);
   }
 }

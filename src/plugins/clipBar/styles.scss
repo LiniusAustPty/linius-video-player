@@ -1,141 +1,239 @@
 @import "../../styles/_vars.scss";
 
-.video-js.lvp .vjs-control-bar .lvp-clipbar {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  bottom: 8em;
-  padding-left: 1em;
-  padding-right: 1em;
-
-  &-expand.vjs-button {
-    cursor: pointer;
+.video-js.lvp {
+  .vjs-control-bar .lvp-clipbar {
     position: absolute;
-    right: 1em;
-    top: -2em;
-    width: 4em;
-    height: 2em;
-    border: 1px solid #f3f3f3;
-
-    &::before {
-      font-family: "Material Icons Outlined";
-      content: "\e5c5";
-    }
-  }
-
-  &--collapsed {
-    .lvp-clipbar-expand::before {
-      content: "\e5c7";
-    }
-  }
-
-  &-inner {
-    position: relative;
     width: 100%;
-    height: 5em;
-    overflow: hidden;
-    transition: 250ms height;
-  }
-
-  &--collapsed {
-    .lvp-clipbar-inner {
-      height: 0;
-    }
-  }
-
-  .lvp-clipbar-scale {
-    position: absolute;
-    top: 0;
     left: 0;
-    display: flex;
+    bottom: 8em;
+    padding-left: 1em;
+    padding-right: 1em;
+    transition: 150ms opacity;
 
-    &-button {
-      width: 2em;
-      height: 2em;
-      margin-right: 0.25em;
+    &-expand.vjs-button {
+      cursor: pointer;
+      position: absolute;
+      right: 1em;
+      top: -2em;
+      width: 3em;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+      height: 1.5em;
+      border-radius: 0.25em;
+      border: 1px solid $color-light;
+
+      &::before {
+        font-family: "Material Icons Outlined";
+        content: "\e5c5";
+      }
     }
-  }
 
-  .lvp-clipbar-carousel {
-    position: relative;
-    width: 100%;
-    top: 1.5em;
-    padding-left: 48px;
-    padding-right: 48px;
+    &--collapsed {
+      .lvp-clipbar-expand::before {
+        content: "\e5c7";
+      }
+    }
 
     &-inner {
       position: relative;
       width: 100%;
-      height: 4em;
-      min-width: 0;
+      height: 7em;
       overflow: hidden;
+      transition: 250ms height;
     }
 
-    &-list {
-      top: 50%;
-      position: absolute;
+    &--collapsed {
+      .lvp-clipbar-inner {
+        height: 0;
+      }
+    }
+
+    .lvp-clipbar-scale {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+
+      &-button {
+        cursor: pointer;
+        width: 2em;
+        height: 2em;
+        margin-right: 0.25em;
+        //background-color: rgba($color-light, 1);
+        //border: 1px solid rgba($color-light, 1);
+
+        &::before {
+          font-family: "Material Icons Outlined";
+          font-size: 2em;
+        }
+
+        &--plus {
+          &::before {
+            content: "\e146";
+          }
+        }
+
+        &--minus {
+          &::before {
+            content: "\e909";
+          }
+        }
+      }
+    }
+
+    .lvp-clipbar-carousel {
+      position: relative;
       width: 100%;
-      transition: 500ms left, 500ms width;
+      //top: 1em;
+      padding-left: 48px;
+      padding-right: 48px;
+
+      &-inner {
+        position: relative;
+        width: 100%;
+        height: 4em;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      &-list {
+        top: 50%;
+        position: absolute;
+        width: 100%;
+        transition: 500ms left, 500ms width;
+
+        &-item {
+          cursor: pointer;
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 14px;
+          border-radius: 6px;
+          border: 0;
+          left: 0;
+          top: 0;
+          overflow: hidden;
+          background-color: rgba($color-light, 0.5);
+          transition: 150ms height;
+          transform: translateY(-50%);
+
+          &:hover {
+            background-color: rgba($color-light, 0.75);
+            height: 20px;
+          }
+
+          &-fill {
+            position: absolute;
+            display: block;
+            left: 0;
+            top: 0;
+            width: 0%;
+            height: 100%;
+            background-color: $color-brand;
+            opacity: 0.9;
+          }
+        }
+      }
+
+      &-button {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        width: 4em;
+        height: 4em;
+
+        &::before {
+          font-family: "Material Icons Outlined";
+        }
+
+        &--left {
+          left: 0;
+
+          &::before {
+            content: "\e5cb";
+          }
+        }
+
+        &--right {
+          right: 0;
+
+          &::before {
+            content: "\e5cc";
+          }
+        }
+      }
+    }
+
+    .lvp-clipbar-lower {
+      margin-top: 0.25em;
+      display: flex;
+      width: 100%;
+      align-items: center;
+
+      &-left {
+        width: 25%;
+      }
+
+      &-center {
+        width: 50%;
+      }
+
+      &-right {
+        width: 25%;
+      }
+    }
+
+    .lvp-clipbar-upper {
+      margin-top: 0.25em;
+      display: flex;
+      width: 100%;
+      align-items: center;
+
+      &-left {
+        //width: 25%;
+      }
+
+      &-center {
+        width: 100%;
+      }
+
+      &-right {
+        //width: 25%;
+      }
+    }
+
+    .lvp-clipbar-pagination {
+      display: flex;
+      justify-content: space-around;
+
+      &-inner {
+        justify-content: space-around;
+        display: flex;
+      }
 
       &-item {
         cursor: pointer;
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: 14px;
-        border-radius: 6px;
-        border: 0;
-        left: 0;
-        top: 0;
-        overflow: hidden;
-        background-color: rgba($color-light, 0.5);
-        transition: 150ms height;
-        transform: translateY(-50%);
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        background-color: rgba($color-light, 0.6);
 
         &:hover {
-          background-color: rgba($color-light, 0.75);
-          height: 20px;
+          background-color: rgba($color-light, 0.9);
         }
 
-        &-fill {
-          position: absolute;
-          display: block;
-          left: 0;
-          top: 0;
-          width: 0%;
-          height: 100%;
+        &--active,
+        &--active:hover {
           background-color: $color-brand;
-          opacity: 0.75;
         }
       }
     }
+  }
 
-    &-button {
-      cursor: pointer;
-      position: absolute;
-      top: 0;
-      width: 4em;
-      height: 4em;
-
-      &::before {
-        font-family: "Material Icons Outlined";
-      }
-
-      &--left {
-        left: 0;
-
-        &::before {
-          content: "\e5cb";
-        }
-      }
-
-      &--right {
-        right: 0;
-
-        &::before {
-          content: "\e5cc";
-        }
-      }
-    }
+  &.vjs-has-started.vjs-user-inactive.vjs-playing
+    .vjs-control-bar
+    .lvp-clipbar {
+    opacity: 0;
   }
 }

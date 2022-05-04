@@ -1,26 +1,65 @@
 import videojs, { VideoJsPlayer } from "video.js";
 import ClipBarCarouselList from "./ClipBarCarouselList";
-import { Segment } from "./types";
+import ClipBarPagination from "./ClipBarPagination";
+import ClipBarScale from "./ClipBarScale";
 
 const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarCarousel extends Component {
   private _page: number = 0;
-  private _scale: number = 2;
+  private _scale: number = 1;
   private _carousel: ClipBarCarouselList;
+  private _durations: number[] = [];
   private _buttonPrevious: videojs.Button;
   private _buttonNext: videojs.Button;
+  private _pagination: ClipBarPagination;
 
   constructor(player: VideoJsPlayer) {
     super(player);
 
     this._buttonPrevious = this.createButton();
     this._buttonNext = this.createButton(true);
+    this._carousel = new ClipBarCarouselList(this.player());
+    this._pagination = new ClipBarPagination(
+      this.player(),
+      (value: number) => this.incrementPage(value),
+      (value: number) => this.setPage(value)
+    );
 
-    this.addChild(this._buttonPrevious);
-    this.createCarouselContainer();
-    this.addChild(this._buttonNext);
+    const scaleMenu = new ClipBarScale(this.player(), (value: number) =>
+      this.incrementScale(value)
+    );
+
+    const carouselWrapper = new Component(this.player());
+    carouselWrapper.addClass("lvp-clipbar-carousel-inner");
+    carouselWrapper.addChild(this._carousel);
+
+    const centerWrapper = new Component(this.player());
+    centerWrapper.addClass("lvp-clipbar-lower-center");
+    centerWrapper.addChild(this._pagination);
+
+    const leftWrapper = new Component(this.player());
+    leftWrapper.addClass("lvp-clipbar-lower-left");
+
+    const rightWrapper = new Component(this.player());
+    rightWrapper.addClass("lvp-clipbar-lower-right");
+    rightWrapper.addChild(scaleMenu);
+
+    const lowerWrapper = new Component(this.player());
+    lowerWrapper.addClass("lvp-clipbar-lower");
+    lowerWrapper.addChild(leftWrapper);
+    lowerWrapper.addChild(centerWrapper);
+    lowerWrapper.addChild(rightWrapper);
+
+    const highWrapper = new Component(this.player());
+    highWrapper.addClass("lvp-clipbar-upper");
+    highWrapper.addChild(this._buttonPrevious);
+    highWrapper.addChild(carouselWrapper);
+    highWrapper.addChild(this._buttonNext);
+
+    this.addChild(highWrapper);
+    this.addChild(lowerWrapper);
     this.setScale(this._scale).addClass("lvp-clipbar-carousel");
   }
 
@@ -35,32 +74,48 @@ export default class ClipBarCarousel extends Component {
     return component;
   }
 
-  private createCarouselContainer() {
-    this._carousel = new ClipBarCarouselList(this.player());
-
-    const component = new Component(this.player());
-    component.addClass("lvp-clipbar-carousel-inner");
-    component.addChild(this._carousel);
-
-    this.addChild(component);
+  public addItems(durations: number[]) {
+    this._durations = durations;
+    this._carousel.addItems(durations);
 
     return this;
   }
 
-  public addItems(segments: Segment[]) {
-    this._carousel.addItems(segments);
-
-    return this;
+  public incrementScale(value: number) {
+    return this.setScale(Math.min(Math.max(this._scale + value, 0), 3));
   }
 
   public setScale(value: number) {
     this._scale = value;
 
-    if (this._page > this._scale - 1) {
-      this._page = this._scale - 1;
+    if (this._page > this.scale - 1) {
+      this._page = this.scale - 1;
     }
 
-    return this.updatePosition();
+    this._pagination.setPages(this.scale).setPage(this._page);
+
+    return this.update();
+  }
+
+  public next() {
+    return this.incrementItem(1);
+  }
+
+  public previous() {
+    return this.incrementItem(-1);
+  }
+
+  public incrementItem(value: number) {
+    const currentTime = this.player().currentTime();
+    const index = Math.min(
+      Math.max(this.getIndexFromTime(currentTime) + value, 0),
+      this._durations.length - 1
+    );
+    const time = this.getTimeFromIndex(index);
+
+    this.player().currentTime(time);
+
+    return this;
   }
 
   public setTime(value: number) {
@@ -69,14 +124,22 @@ export default class ClipBarCarousel extends Component {
     return this;
   }
 
-  private incrementPage(direction: number) {
-    this._page = Math.min(Math.max(this._page + direction, 0), this._scale - 1);
+  public setPage(value: number) {
+    this._page = value;
 
-    return this.updatePosition();
+    this._pagination.setPage(this._page);
+
+    return this.update();
   }
 
-  private updatePosition() {
-    return this.updateButtons().updateCarousel();
+  public incrementPage(direction: number) {
+    return this.setPage(
+      Math.min(Math.max(this._page + direction, 0), this.scale - 1)
+    );
+  }
+
+  private update() {
+    return this.updateButtons().updatePosition();
   }
 
   private updateButtons() {
@@ -86,7 +149,7 @@ export default class ClipBarCarousel extends Component {
       this._buttonPrevious.enable();
     }
 
-    if (this._page === this._scale - 1) {
+    if (this._page === this.scale - 1) {
       this._buttonNext.disable();
     } else {
       this._buttonNext.enable();
@@ -95,12 +158,30 @@ export default class ClipBarCarousel extends Component {
     return this;
   }
 
-  private updateCarousel() {
+  private updatePosition() {
     this._carousel.setAttribute(
       "style",
-      `left:${-this._page * 100}%;width:${this._scale * 100}%`
+      `left:${-this._page * 100}%;width:${this.scale * 100}%`
     );
 
     return this;
+  }
+
+  public getIndexFromTime(time: number) {
+    return this._durations.reduce(
+      (previous, value, index) => (time >= value ? index : previous),
+      0
+    );
+  }
+
+  public getTimeFromIndex(index: number) {
+    return this._durations.reduce(
+      (previous, value, i) => (i > index ? previous + value : previous),
+      0
+    );
+  }
+
+  public get scale() {
+    return Math.pow(2, this._scale + 1) / 2;
   }
 }

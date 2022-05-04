@@ -1,7 +1,6 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
 import ClipBarCarouselItem from "./ClipBarCarouselItem";
-import { Segment } from "./types";
 
 const Component = videojs.getComponent("Component");
 
@@ -14,43 +13,43 @@ export default class ClipBarCarouselList extends Component {
     this.addClass("lvp-clipbar-carousel-list");
   }
 
-  public addItems(segments: Segment[]) {
+  public addItems(segments: number[]) {
     this.removeChildren();
 
     this._items = this.createItems(segments);
     this._items.forEach((item) => {
       this.addChild(item);
     });
+
+    return this;
   }
 
   public setTime(value: number) {
     this._items.forEach((segment) => {
-      const isActive =
-        value >= segment.startTime &&
-        value <= segment.startTime + segment.duration;
+      const { startTime, duration } = segment;
+      const isActive = value > startTime && value <= startTime + duration;
       const fill = isActive
-        ? (value - segment.startTime) / segment.duration
-        : segment.startTime < value
+        ? (value - startTime) / duration
+        : startTime < value
         ? 1
         : 0;
 
       segment.setFill(fill);
     });
+
+    return this;
   }
 
-  private createItems(segments: Segment[]) {
+  private removeChildren() {
+    this.children().forEach((child) => {
+      this.removeChild(child);
+    });
+
+    return this;
+  }
+
+  private createItems(durations: number[]) {
     const items: ClipBarCarouselItem[] = [];
-    const durations = segments.reduce<number[]>((previous, segment, index) => {
-      if (segment.discontinuity || !index) {
-        return [...previous, parseFloat(segment.duration)];
-      } else {
-        return previous.map((value, index, array) => {
-          return index === array.length - 1
-            ? value + parseFloat(segment.duration)
-            : value;
-        });
-      }
-    }, []);
     const totalDuration = durations.reduce(
       (previous, value) => previous + value,
       0
@@ -77,11 +76,5 @@ export default class ClipBarCarouselList extends Component {
     });
 
     return items;
-  }
-
-  private removeChildren() {
-    this.children().forEach((child) => {
-      this.removeChild(child);
-    });
   }
 }

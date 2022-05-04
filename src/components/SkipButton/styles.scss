@@ -1,0 +1,23 @@
+@import "../../styles/_vars.scss";
+
+.video-js.lvp .vjs-control-bar .lvp-skipbuttons {
+  &-button {
+    cursor: pointer;
+
+    &::before {
+      font-family: "Material Icons Outlined";
+    }
+
+    &--previous {
+      &::before {
+        content: "\e045";
+      }
+    }
+
+    &--next {
+      &::before {
+        content: "\e044";
+      }
+    }
+  }
+}
