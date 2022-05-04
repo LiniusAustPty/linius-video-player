@@ -38,16 +38,23 @@ export default class ClipBarCarouselList extends Component {
     });
   }
 
-  private calculateTotalDuration(segments: Segment[]) {
-    return segments.reduce(
-      (count, { duration }) => count + parseFloat(duration),
-      0
-    );
-  }
-
   private createItems(segments: Segment[]) {
     const items: ClipBarCarouselItem[] = [];
-    const totalDuration = this.calculateTotalDuration(segments);
+    const durations = segments.reduce((previous, segment, index) => {
+      if (segment.discontinuity || !index) {
+        return [...previous, parseFloat(segment.duration)];
+      } else {
+        return previous.map((value, index, array) => {
+          return index === array.length - 1
+            ? value + parseFloat(segment.duration)
+            : value;
+        });
+      }
+    }, []);
+    const totalDuration = durations.reduce(
+      (previous, value) => previous + value,
+      0
+    );
 
     console.log("segments", segments);
 
@@ -57,7 +64,7 @@ export default class ClipBarCarouselList extends Component {
 
     let currentTime = 0;
 
-    segments.forEach(({ duration }) => {
+    durations.forEach((duration) => {
       const startTime = currentTime;
       const durationFloat = parseFloat(duration);
 
