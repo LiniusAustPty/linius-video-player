@@ -32,14 +32,12 @@ export namespace lvp {
       registerPlugins(options.plugins);
     }
 
-    const player = videojs.call(
+    return videojs.call(
       this,
       element,
       videojs.mergeOptions(defaultOptions, options),
       ready
     );
-
-    return player;
   }
 
   function addHeaders(headers: Headers) {

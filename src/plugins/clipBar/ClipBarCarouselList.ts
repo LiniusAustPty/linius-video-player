@@ -49,6 +49,8 @@ export default class ClipBarCarouselList extends Component {
     const items: ClipBarCarouselItem[] = [];
     const totalDuration = this.calculateTotalDuration(segments);
 
+    console.log("segments", segments);
+
     if (!totalDuration) {
       return items;
     }
