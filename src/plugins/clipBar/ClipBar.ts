@@ -31,18 +31,20 @@ export default class ClipBar extends Plugin {
     inner.addChild(scaleMenu);
     inner.addChild(carousel);
 
-    this._wrapper = new Component(player);
+    this._wrapper = new Component(player, {});
     this._wrapper.addClass("lvp-clipbar");
     this._wrapper.addChild(inner);
     this._wrapper.addChild(expandButton);
+
+    this.on(player, "ready", () => {
+      this.addComponentToControlBar();
+    });
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
         ?.segments as Segment[];
 
       if (segments) {
-        this.addComponentToControlBar();
-
         carousel.addItems(segments);
       } else {
         videojs.log("Linius Video Player: No video segments found.");
@@ -61,12 +63,7 @@ export default class ClipBar extends Plugin {
   }
 
   private addComponentToControlBar() {
-    if (
-      this.player.controlBar &&
-      !this.player.controlBar.getChild(this._wrapper.name())
-    ) {
-      this.player.controlBar.addChild(this._wrapper);
-    }
+    this.player.controlBar?.addChild(this._wrapper);
 
     return this;
   }

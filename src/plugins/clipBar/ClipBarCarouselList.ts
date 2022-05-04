@@ -40,7 +40,7 @@ export default class ClipBarCarouselList extends Component {
 
   private createItems(segments: Segment[]) {
     const items: ClipBarCarouselItem[] = [];
-    const durations = segments.reduce((previous, segment, index) => {
+    const durations = segments.reduce<number[]>((previous, segment, index) => {
       if (segment.discontinuity || !index) {
         return [...previous, parseFloat(segment.duration)];
       } else {
@@ -56,8 +56,6 @@ export default class ClipBarCarouselList extends Component {
       0
     );
 
-    console.log("segments", segments);
-
     if (!totalDuration) {
       return items;
     }
@@ -65,20 +63,17 @@ export default class ClipBarCarouselList extends Component {
     let currentTime = 0;
 
     durations.forEach((duration) => {
-      const startTime = currentTime;
-      const durationFloat = parseFloat(duration);
-
-      currentTime = currentTime + durationFloat;
-
       const component = new ClipBarCarouselItem(
         this.player(),
-        startTime / totalDuration,
-        durationFloat / totalDuration,
-        startTime,
-        durationFloat
+        currentTime / totalDuration,
+        duration / totalDuration,
+        currentTime,
+        duration
       );
 
       items.push(component);
+
+      currentTime += duration;
     });
 
     return items;
