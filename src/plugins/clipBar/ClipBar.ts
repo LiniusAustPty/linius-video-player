@@ -34,7 +34,7 @@ export default class ClipBar extends Plugin {
     this._skipButtons.addChild(nextButton);
 
     const inner = new Component(player);
-    inner.addClass("lvp-clipbar-inner");
+    inner.addClass("lvp-clipbar-collapse");
     inner.addChild(carousel);
 
     this._wrapper = new Component(player, {});

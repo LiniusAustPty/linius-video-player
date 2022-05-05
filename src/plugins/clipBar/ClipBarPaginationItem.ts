@@ -3,16 +3,12 @@ import videojs, { VideoJsPlayer } from "video.js";
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarPaginationItem extends Button {
-  constructor(
-    player: VideoJsPlayer,
-    index: number,
-    onClick: (value: number) => void
-  ) {
+  constructor(player: VideoJsPlayer, onClick: Function) {
     super(player);
 
     this.addClass("lvp-clipbar-pagination-item");
     this.on("click", () => {
-      onClick && onClick(index);
+      onClick && onClick();
     });
   }
 
@@ -21,6 +17,14 @@ export default class ClipBarPaginationItem extends Button {
       this.addClass("lvp-clipbar-pagination-item--active");
     } else {
       this.removeClass("lvp-clipbar-pagination-item--active");
+    }
+  }
+
+  public setDisabled(value?: boolean) {
+    if (value) {
+      this.disable();
+    } else {
+      this.enable();
     }
   }
 }

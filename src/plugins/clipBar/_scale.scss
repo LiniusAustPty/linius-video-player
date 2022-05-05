@@ -1,0 +1,32 @@
+@import "../../styles/_vars.scss";
+
+.video-js.lvp .vjs-control-bar .lvp-clipbar .lvp-clipbar-scale {
+  display: flex;
+  justify-content: flex-end;
+
+  &-button {
+    cursor: pointer;
+    width: 2em;
+    height: 2em;
+    margin-left: 0.5em;
+    //background-color: rgba($color-light, 1);
+    //border: 1px solid rgba($color-light, 1);
+
+    &::before {
+      font-family: "Material Icons Outlined";
+      font-size: 2em;
+    }
+
+    &--plus {
+      &::before {
+        content: "\e145";
+      }
+    }
+
+    &--minus {
+      &::before {
+        content: "\e15b";
+      }
+    }
+  }
+}

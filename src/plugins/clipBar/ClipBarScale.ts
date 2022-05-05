@@ -4,27 +4,46 @@ const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarScale extends Component {
-  constructor(player: VideoJsPlayer, onClick: (value: number) => void) {
-    super(player);
+  private _increaseButton: videojs.Button;
+  private _decreaseButton: videojs.Button;
+
+  constructor(
+    player: VideoJsPlayer,
+    incrementScale: (value: number) => void,
+    options?: videojs.ComponentOptions
+  ) {
+    super(player, options);
+
+    this._decreaseButton = new Button(this.player());
+    this._decreaseButton.addClass("lvp-clipbar-scale-button--minus");
+    this._decreaseButton.addClass("lvp-clipbar-scale-button");
+    this._decreaseButton.addClass("vjs-control");
+    this._decreaseButton.addClass("vjs-button");
+    this._decreaseButton.on("click", () => incrementScale(-1));
+
+    this._increaseButton = new Button(this.player());
+    this._increaseButton.addClass("lvp-clipbar-scale-button--plus");
+    this._increaseButton.addClass("lvp-clipbar-scale-button");
+    this._increaseButton.addClass("vjs-control");
+    this._increaseButton.addClass("vjs-button");
+    this._increaseButton.on("click", () => incrementScale(1));
 
     this.addClass("lvp-clipbar-scale");
+    this.addChild(this._decreaseButton);
+    this.addChild(this._increaseButton);
+  }
 
-    const minus = new Button(this.player());
-    minus.addClass("lvp-clipbar-scale-button");
-    minus.addClass("lvp-clipbar-scale-button--minus");
-    minus.addClass("vjs-control");
-    minus.addClass("vjs-button");
-    minus.on("click", () => onClick(-1));
+  public setScale(value: number) {
+    if (value < 1) {
+      this._decreaseButton.disable();
+    } else {
+      this._decreaseButton.enable();
+    }
 
-    this.addChild(minus);
-
-    const plus = new Button(this.player());
-    plus.addClass("lvp-clipbar-scale-button");
-    plus.addClass("lvp-clipbar-scale-button--plus");
-    plus.addClass("vjs-control");
-    plus.addClass("vjs-button");
-    plus.on("click", () => onClick(1));
-
-    this.addChild(plus);
+    if (value > 2) {
+      this._increaseButton.disable();
+    } else {
+      this._increaseButton.enable();
+    }
   }
 }

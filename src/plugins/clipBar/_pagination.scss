@@ -1,0 +1,25 @@
+@import "../../styles/_vars.scss";
+
+.video-js.lvp .vjs-control-bar .lvp-clipbar .lvp-clipbar-pagination {
+  display: flex;
+  justify-content: space-around;
+
+  &-item {
+    cursor: pointer;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: rgba($color-light, 0.6);
+
+    &:hover {
+      background-color: rgba($color-light, 0.9);
+    }
+
+    &--active,
+    &--active:hover {
+      background-color: $color-brand;
+    }
+  }
+}

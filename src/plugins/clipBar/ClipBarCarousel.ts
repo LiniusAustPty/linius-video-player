@@ -14,6 +14,7 @@ export default class ClipBarCarousel extends Component {
   private _buttonPrevious: videojs.Button;
   private _buttonNext: videojs.Button;
   private _pagination: ClipBarPagination;
+  private _scaleUI: ClipBarScale;
 
   constructor(player: VideoJsPlayer) {
     super(player);
@@ -21,13 +22,11 @@ export default class ClipBarCarousel extends Component {
     this._buttonPrevious = this.createButton();
     this._buttonNext = this.createButton(true);
     this._carousel = new ClipBarCarouselList(this.player());
-    this._pagination = new ClipBarPagination(
-      this.player(),
-      (value: number) => this.incrementPage(value),
-      (value: number) => this.setPage(value)
+    this._pagination = new ClipBarPagination(this.player(), (value: number) =>
+      this.setPage(value)
     );
 
-    const scaleMenu = new ClipBarScale(this.player(), (value: number) =>
+    this._scaleUI = new ClipBarScale(this.player(), (value: number) =>
       this.incrementScale(value)
     );
 
@@ -44,7 +43,7 @@ export default class ClipBarCarousel extends Component {
 
     const rightWrapper = new Component(this.player());
     rightWrapper.addClass("lvp-clipbar-lower-right");
-    rightWrapper.addChild(scaleMenu);
+    rightWrapper.addChild(this._scaleUI);
 
     const lowerWrapper = new Component(this.player());
     lowerWrapper.addClass("lvp-clipbar-lower");
@@ -52,11 +51,23 @@ export default class ClipBarCarousel extends Component {
     lowerWrapper.addChild(centerWrapper);
     lowerWrapper.addChild(rightWrapper);
 
+    const centerWrapper2 = new Component(this.player());
+    centerWrapper2.addClass("lvp-clipbar-upper-center");
+    centerWrapper2.addChild(carouselWrapper);
+
+    const leftWrapper2 = new Component(this.player());
+    leftWrapper2.addClass("lvp-clipbar-upper-left");
+    leftWrapper2.addChild(this._buttonPrevious);
+
+    const rightWrapper2 = new Component(this.player());
+    rightWrapper2.addClass("lvp-clipbar-upper-right");
+    rightWrapper2.addChild(this._buttonNext);
+
     const highWrapper = new Component(this.player());
     highWrapper.addClass("lvp-clipbar-upper");
-    highWrapper.addChild(this._buttonPrevious);
-    highWrapper.addChild(carouselWrapper);
-    highWrapper.addChild(this._buttonNext);
+    highWrapper.addChild(leftWrapper2);
+    highWrapper.addChild(centerWrapper2);
+    highWrapper.addChild(rightWrapper2);
 
     this.addChild(highWrapper);
     this.addChild(lowerWrapper);
@@ -88,6 +99,8 @@ export default class ClipBarCarousel extends Component {
   public setScale(value: number) {
     this._scale = value;
 
+    this._scaleUI.setScale(value);
+
     if (this._page > this.scale - 1) {
       this._page = this.scale - 1;
     }
@@ -107,17 +120,11 @@ export default class ClipBarCarousel extends Component {
 
   public incrementItem(value: number) {
     const currentTime = this.player().currentTime();
-    console.log("currentTime", currentTime);
-    console.log("_durations", this._durations);
-    console.log("value", value);
-    console.log("getIndexFromTime", this.getIndexFromTime(currentTime));
     const index = Math.min(
       Math.max(this.getIndexFromTime(currentTime) + value, 0),
       this._durations.length - 1
     );
-    console.log("index", index);
     const time = this.getTimeFromIndex(index);
-    console.log("time", time);
 
     this.player().currentTime(time);
 

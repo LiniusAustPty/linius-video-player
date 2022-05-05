@@ -1,4 +1,7 @@
 @import "../../styles/_vars.scss";
+@import "./_carousel.scss";
+@import "./_pagination.scss";
+@import "./_scale.scss";
 
 .video-js.lvp {
   .vjs-control-bar .lvp-clipbar {
@@ -20,7 +23,7 @@
       margin-right: 0.5em;
       height: 1.5em;
       border-radius: 0.25em;
-      border: 1px solid $color-light;
+      background-color: rgba($color-dark, 0.6);
 
       &::before {
         font-family: "Material Icons Outlined";
@@ -28,205 +31,62 @@
       }
     }
 
-    &--collapsed {
-      .lvp-clipbar-expand::before {
-        content: "\e5c7";
-      }
+    &--collapsed .lvp-clipbar-expand::before {
+      content: "\e5c7";
     }
 
-    &-inner {
+    &-collapse {
       position: relative;
       width: 100%;
       height: 7em;
       overflow: hidden;
       transition: 250ms height;
+      padding-top: 0.25em;
     }
 
-    &--collapsed {
-      .lvp-clipbar-inner {
-        height: 0;
-      }
+    &--collapsed .lvp-clipbar-collapse {
+      height: 0;
     }
 
-    .lvp-clipbar-scale {
-      position: relative;
+    .lvp-clipbar-upper {
       display: flex;
-      justify-content: flex-end;
-
-      &-button {
-        cursor: pointer;
-        width: 2em;
-        height: 2em;
-        margin-right: 0.25em;
-        //background-color: rgba($color-light, 1);
-        //border: 1px solid rgba($color-light, 1);
-
-        &::before {
-          font-family: "Material Icons Outlined";
-          font-size: 2em;
-        }
-
-        &--plus {
-          &::before {
-            content: "\e146";
-          }
-        }
-
-        &--minus {
-          &::before {
-            content: "\e909";
-          }
-        }
-      }
-    }
-
-    .lvp-clipbar-carousel {
-      position: relative;
       width: 100%;
-      //top: 1em;
-      padding-left: 48px;
-      padding-right: 48px;
+      align-items: center;
 
-      &-inner {
-        position: relative;
-        width: 100%;
-        height: 4em;
-        min-width: 0;
-        overflow: hidden;
+      &-left {
+        flex: 5em 0 0;
+        padding-right: 1em;
       }
 
-      &-list {
-        top: 50%;
-        position: absolute;
-        width: 100%;
-        transition: 500ms left, 500ms width;
-
-        &-item {
-          cursor: pointer;
-          position: absolute;
-          display: block;
-          width: 100%;
-          height: 14px;
-          border-radius: 6px;
-          border: 0;
-          left: 0;
-          top: 0;
-          overflow: hidden;
-          background-color: rgba($color-light, 0.5);
-          transition: 150ms height;
-          transform: translateY(-50%);
-
-          &:hover {
-            background-color: rgba($color-light, 0.75);
-            height: 20px;
-          }
-
-          &-fill {
-            position: absolute;
-            display: block;
-            left: 0;
-            top: 0;
-            width: 0%;
-            height: 100%;
-            background-color: $color-brand;
-            opacity: 0.9;
-          }
-        }
+      &-center {
+        flex: 100% 1 1;
       }
 
-      &-button {
-        cursor: pointer;
-        position: absolute;
-        top: 0;
-        width: 4em;
-        height: 4em;
-
-        &::before {
-          font-family: "Material Icons Outlined";
-        }
-
-        &--left {
-          left: 0;
-
-          &::before {
-            content: "\e5cb";
-          }
-        }
-
-        &--right {
-          right: 0;
-
-          &::before {
-            content: "\e5cc";
-          }
-        }
+      &-right {
+        flex: 5em 0 0;
+        padding-left: 1em;
       }
     }
 
     .lvp-clipbar-lower {
-      margin-top: 0.25em;
       display: flex;
       width: 100%;
       align-items: center;
 
       &-left {
-        width: 25%;
+        flex-basis: 25%;
+        padding-left: 5em;
       }
 
       &-center {
-        width: 50%;
-      }
-
-      &-right {
-        width: 25%;
-      }
-    }
-
-    .lvp-clipbar-upper {
-      margin-top: 0.25em;
-      display: flex;
-      width: 100%;
-      align-items: center;
-
-      &-left {
-        //width: 25%;
-      }
-
-      &-center {
-        width: 100%;
-      }
-
-      &-right {
-        //width: 25%;
-      }
-    }
-
-    .lvp-clipbar-pagination {
-      display: flex;
-      justify-content: space-around;
-
-      &-inner {
-        justify-content: space-around;
         display: flex;
+        justify-content: space-around;
+        flex-basis: 50%;
       }
 
-      &-item {
-        cursor: pointer;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-        width: 1em;
-        height: 1em;
-        border-radius: 50%;
-        background-color: rgba($color-light, 0.6);
-
-        &:hover {
-          background-color: rgba($color-light, 0.9);
-        }
-
-        &--active,
-        &--active:hover {
-          background-color: $color-brand;
-        }
+      &-right {
+        flex-basis: 25%;
+        padding-right: 5em;
       }
     }
   }
