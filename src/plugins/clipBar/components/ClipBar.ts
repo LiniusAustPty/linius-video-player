@@ -3,7 +3,6 @@ import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from "video.js";
 import ClipBarCarousel from "./ClipBarCarousel";
 import { Segment } from "../types";
 import { segmentsToDurations } from "../utils";
-import Skipbutton from "../../../components/SkipButton/SkipButton";
 import "../styles/index.scss";
 
 const Component = videojs.getComponent("Component");
@@ -14,8 +13,8 @@ export default class ClipBar extends Plugin {
   private _isOpen: boolean = true;
   private _isAdded: boolean = false;
   private _clipBar: videojs.Component;
-  private _nextButton: Skipbutton;
-  private _previousButton: Skipbutton;
+  private _nextButton: videojs.Button;
+  private _previousButton: videojs.Button;
   private _expandButton: videojs.Button;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
@@ -28,11 +27,21 @@ export default class ClipBar extends Plugin {
     this._expandButton.setAttribute("title", "Close");
     this._expandButton.on("click", () => this.toggleOpen());
 
-    this._nextButton = new Skipbutton(player, () => carousel.next(), true);
+    this._nextButton = new Button(player);
+    this._nextButton.addClass("vjs-control");
+    this._nextButton.addClass("vjs-button");
+    this._nextButton.addClass("lvp-skipbuttons-button");
+    this._nextButton.addClass("lvp-skipbuttons-button--next");
     this._nextButton.setAttribute("title", "Next clip");
+    this._nextButton.on("click", () => carousel.next());
 
-    this._previousButton = new Skipbutton(player, () => carousel.previous());
+    this._previousButton = new Button(player);
+    this._previousButton.addClass("vjs-control");
+    this._previousButton.addClass("vjs-button");
+    this._previousButton.addClass("lvp-skipbuttons-button");
+    this._previousButton.addClass("lvp-skipbuttons-button--previous");
     this._previousButton.setAttribute("title", "Previous clip");
+    this._previousButton.on("click", () => carousel.previous());
 
     const collapse = new Component(player);
     collapse.addClass("lvp-clipbar-collapse");
