@@ -107,11 +107,17 @@ export default class ClipBarCarousel extends Component {
 
   public incrementItem(value: number) {
     const currentTime = this.player().currentTime();
+    console.log("currentTime", currentTime);
+    console.log("_durations", this._durations);
+    console.log("value", value);
+    console.log("getIndexFromTime", this.getIndexFromTime(currentTime));
     const index = Math.min(
       Math.max(this.getIndexFromTime(currentTime) + value, 0),
       this._durations.length - 1
     );
+    console.log("index", index);
     const time = this.getTimeFromIndex(index);
+    console.log("time", time);
 
     this.player().currentTime(time);
 
@@ -168,15 +174,22 @@ export default class ClipBarCarousel extends Component {
   }
 
   public getIndexFromTime(time: number) {
-    return this._durations.reduce(
-      (previous, value, index) => (time >= value ? index : previous),
-      0
-    );
+    let index = 0;
+    let total = 0;
+
+    this._durations.forEach((value, i) => {
+      if (total < time) {
+        index = i;
+        total += value;
+      }
+    });
+
+    return index;
   }
 
   public getTimeFromIndex(index: number) {
     return this._durations.reduce(
-      (previous, value, i) => (i > index ? previous + value : previous),
+      (previous, value, i) => (i < index ? previous + value : previous),
       0
     );
   }
