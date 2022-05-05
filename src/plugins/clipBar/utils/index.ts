@@ -1,4 +1,4 @@
-import { Segment } from "./types";
+import { Segment } from "../types";
 
 export function segmentsToDurations(segments: Segment[]) {
   return segments.reduce<number[]>((previous, segment, index) => {
