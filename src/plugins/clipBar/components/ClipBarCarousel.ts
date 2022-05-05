@@ -20,7 +20,9 @@ export default class ClipBarCarousel extends Component {
     super(player);
 
     this._buttonPrevious = this.createButton();
+    this._buttonPrevious.setAttribute("title", "Previous page");
     this._buttonNext = this.createButton(true);
+    this._buttonNext.setAttribute("title", "Next page");
     this._carousel = new ClipBarCarouselList(this.player());
     this._pagination = new ClipBarPagination(this.player(), (value: number) =>
       this.setPage(value)

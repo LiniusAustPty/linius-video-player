@@ -3,12 +3,17 @@ import videojs, { VideoJsPlayer } from "video.js";
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarPaginationItem extends Button {
-  constructor(player: VideoJsPlayer, onClick: Function) {
+  constructor(
+    player: VideoJsPlayer,
+    index: number,
+    onClick: (value: number) => void
+  ) {
     super(player);
 
     this.addClass("lvp-clipbar-pagination-item");
+    this.setAttribute("title", `Page ${index + 1}`);
     this.on("click", () => {
-      onClick && onClick();
+      onClick && onClick(index);
     });
   }
 

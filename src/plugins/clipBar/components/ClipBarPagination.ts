@@ -22,8 +22,8 @@ export default class ClipBarCarousel extends Component {
     });
 
     this._items = Array.apply(null, Array(value)).map((_, index) => {
-      return new ClipBarPaginationItem(this.player(), () =>
-        this._setPage(index)
+      return new ClipBarPaginationItem(this.player(), index, (value: number) =>
+        this._setPage(value)
       );
     });
 

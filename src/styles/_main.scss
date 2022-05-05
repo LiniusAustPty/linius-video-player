@@ -3,7 +3,17 @@
   overflow: hidden;
 
   .vjs-button {
+    width: 6em;
     cursor: pointer;
+
+    &::before {
+      font-size: 2.5em;
+      height: auto;
+      width: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     &.vjs-disabled {
       cursor: default;
@@ -65,7 +75,7 @@
         rgba($color-dark, 0) 0 0,
         rgba($color-dark, 0.95) 50% 100%
       );
-      transition: opacity 0.15s;
+      transition: height 0.25s, opacity 0.15s;
     }
 
     .vjs-volume-control {
@@ -132,19 +142,6 @@
         padding-right: 0;
         min-width: 0;
         z-index: 1;
-      }
-    }
-
-    .vjs-button {
-      width: 6em;
-
-      &::before {
-        font-size: 2.5em;
-        height: auto;
-        width: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
       }
     }
 

@@ -15,18 +15,23 @@ export default class ClipBar extends Plugin {
   private _isAdded: boolean = false;
   private _clipBar: videojs.Component;
   private _skipButtons: videojs.Component;
+  private expandButton: videojs.Button;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
     super(player, options);
 
     const carousel = new ClipBarCarousel(player);
 
-    const expandButton = new Button(player);
-    expandButton.addClass("lvp-clipbar-expand");
-    expandButton.on("click", () => this.toggleOpen());
+    this.expandButton = new Button(player);
+    this.expandButton.addClass("lvp-clipbar-expand");
+    this.expandButton.setAttribute("title", "Close");
+    this.expandButton.on("click", () => this.toggleOpen());
 
     const nextButton = new Skipbutton(player, () => carousel.next(), true);
+    nextButton.setAttribute("title", "Next");
+
     const previousButton = new Skipbutton(player, () => carousel.previous());
+    previousButton.setAttribute("title", "Previous");
 
     this._skipButtons = new Component(player);
     this._skipButtons.addClass("lvp-skipbuttons");
@@ -40,7 +45,7 @@ export default class ClipBar extends Plugin {
     this._clipBar = new Component(player, {});
     this._clipBar.addClass("lvp-clipbar");
     this._clipBar.addChild(inner);
-    this._clipBar.addChild(expandButton);
+    this._clipBar.addChild(this.expandButton);
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
@@ -76,8 +81,10 @@ export default class ClipBar extends Plugin {
     this._isOpen = value;
 
     if (value) {
+      this.expandButton.setAttribute("title", "Close");
       this.player.controlBar?.removeClass("lvp-clipbar--collapsed");
     } else {
+      this.expandButton.setAttribute("title", "Open");
       this.player.controlBar?.addClass("lvp-clipbar--collapsed");
     }
 
@@ -89,8 +96,8 @@ export default class ClipBar extends Plugin {
       this._isAdded = value;
 
       if (value) {
-        this.player.controlBar?.addChild(this._clipBar);
-        this.player.controlBar?.addChild(this._skipButtons);
+        this.player.controlBar?.addChild(this._clipBar, undefined, 0);
+        this.player.controlBar?.addChild(this._skipButtons, undefined, 3);
         this.player.controlBar?.addClass("vjs-control-bar--lvp");
       } else {
         this.player.controlBar?.removeChild(this._clipBar);
