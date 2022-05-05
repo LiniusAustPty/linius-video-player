@@ -19,7 +19,7 @@ export default class ClipBarScale extends Component {
     this._decreaseButton.addClass("lvp-clipbar-scale-button");
     this._decreaseButton.addClass("vjs-control");
     this._decreaseButton.addClass("vjs-button");
-    this._decreaseButton.setAttribute("title", "Decrease scale");
+    this._decreaseButton.setAttribute("title", "Scale down");
     this._decreaseButton.on("click", () => incrementScale(-1));
 
     this._increaseButton = new Button(this.player());
@@ -27,7 +27,7 @@ export default class ClipBarScale extends Component {
     this._increaseButton.addClass("lvp-clipbar-scale-button");
     this._increaseButton.addClass("vjs-control");
     this._increaseButton.addClass("vjs-button");
-    this._increaseButton.setAttribute("title", "Increase scale");
+    this._increaseButton.setAttribute("title", "Scale up");
     this._increaseButton.on("click", () => incrementScale(1));
 
     this.addClass("lvp-clipbar-scale");

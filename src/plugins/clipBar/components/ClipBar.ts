@@ -14,38 +14,34 @@ export default class ClipBar extends Plugin {
   private _isOpen: boolean = true;
   private _isAdded: boolean = false;
   private _clipBar: videojs.Component;
-  private _skipButtons: videojs.Component;
-  private expandButton: videojs.Button;
+  private _nextButton: Skipbutton;
+  private _previousButton: Skipbutton;
+  private _expandButton: videojs.Button;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
     super(player, options);
 
     const carousel = new ClipBarCarousel(player);
 
-    this.expandButton = new Button(player);
-    this.expandButton.addClass("lvp-clipbar-expand");
-    this.expandButton.setAttribute("title", "Close");
-    this.expandButton.on("click", () => this.toggleOpen());
+    this._expandButton = new Button(player);
+    this._expandButton.addClass("lvp-clipbar-expand");
+    this._expandButton.setAttribute("title", "Close");
+    this._expandButton.on("click", () => this.toggleOpen());
 
-    const nextButton = new Skipbutton(player, () => carousel.next(), true);
-    nextButton.setAttribute("title", "Next");
+    this._nextButton = new Skipbutton(player, () => carousel.next(), true);
+    this._nextButton.setAttribute("title", "Next clip");
 
-    const previousButton = new Skipbutton(player, () => carousel.previous());
-    previousButton.setAttribute("title", "Previous");
+    this._previousButton = new Skipbutton(player, () => carousel.previous());
+    this._previousButton.setAttribute("title", "Previous clip");
 
-    this._skipButtons = new Component(player);
-    this._skipButtons.addClass("lvp-skipbuttons");
-    this._skipButtons.addChild(previousButton);
-    this._skipButtons.addChild(nextButton);
-
-    const inner = new Component(player);
-    inner.addClass("lvp-clipbar-collapse");
-    inner.addChild(carousel);
+    const collapse = new Component(player);
+    collapse.addClass("lvp-clipbar-collapse");
+    collapse.addChild(carousel);
 
     this._clipBar = new Component(player, {});
     this._clipBar.addClass("lvp-clipbar");
-    this._clipBar.addChild(inner);
-    this._clipBar.addChild(this.expandButton);
+    this._clipBar.addChild(collapse);
+    this._clipBar.addChild(this._expandButton);
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
@@ -81,12 +77,12 @@ export default class ClipBar extends Plugin {
     this._isOpen = value;
 
     if (value) {
-      this.expandButton.setAttribute("title", "Close");
       this.player.controlBar?.removeClass("lvp-clipbar--collapsed");
     } else {
-      this.expandButton.setAttribute("title", "Open");
       this.player.controlBar?.addClass("lvp-clipbar--collapsed");
     }
+
+    this._expandButton.setAttribute("title", value ? "Close" : "Open");
 
     return this;
   }
@@ -97,11 +93,13 @@ export default class ClipBar extends Plugin {
 
       if (value) {
         this.player.controlBar?.addChild(this._clipBar, undefined, 0);
-        this.player.controlBar?.addChild(this._skipButtons, undefined, 3);
+        this.player.controlBar?.addChild(this._previousButton, undefined, 3);
+        this.player.controlBar?.addChild(this._nextButton, undefined, 4);
         this.player.controlBar?.addClass("vjs-control-bar--lvp");
       } else {
         this.player.controlBar?.removeChild(this._clipBar);
-        this.player.controlBar?.removeChild(this._skipButtons);
+        this.player.controlBar?.removeChild(this._previousButton);
+        this.player.controlBar?.removeChild(this._nextButton);
         this.player.controlBar?.removeClass("vjs-control-bar--lvp");
       }
     }
