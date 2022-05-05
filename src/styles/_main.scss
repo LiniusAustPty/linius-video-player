@@ -199,13 +199,15 @@
         &.vjs-slider-bar {
           &::before {
             content: "";
-            height: 100%;
-            top: -50%;
+            top: 50%;
+            right: -1em;
             width: 1em;
             height: 1em;
             border-radius: 50%;
             display: block;
             background-color: white;
+            transform: translate(-50%, -50%);
+            transition: height 150ms, border-radius 150ms;
           }
 
           &::after {
@@ -239,6 +241,7 @@
 
         &.vjs-slider-bar::before {
           border-radius: 0;
+          height: 0.6em;
         }
       }
     }
