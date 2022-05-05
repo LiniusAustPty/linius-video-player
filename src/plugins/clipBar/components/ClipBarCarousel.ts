@@ -35,42 +35,44 @@ export default class ClipBarCarousel extends Component {
     carouselWrapper.addChild(this._carousel);
 
     const centerWrapper = new Component(this.player());
-    centerWrapper.addClass("lvp-clipbar-lower-center");
+    centerWrapper.addClass("lvp-clipbar-row--bottom-center");
     centerWrapper.addChild(this._pagination);
 
     const leftWrapper = new Component(this.player());
-    leftWrapper.addClass("lvp-clipbar-lower-left");
+    leftWrapper.addClass("lvp-clipbar-row--bottom-left");
 
     const rightWrapper = new Component(this.player());
-    rightWrapper.addClass("lvp-clipbar-lower-right");
+    rightWrapper.addClass("lvp-clipbar-row--bottom-right");
     rightWrapper.addChild(this._scaleUI);
 
-    const lowerWrapper = new Component(this.player());
-    lowerWrapper.addClass("lvp-clipbar-lower");
-    lowerWrapper.addChild(leftWrapper);
-    lowerWrapper.addChild(centerWrapper);
-    lowerWrapper.addChild(rightWrapper);
+    const bottomWrapper = new Component(this.player());
+    bottomWrapper.addClass("lvp-clipbar-row");
+    bottomWrapper.addClass("lvp-clipbar-row--bottom");
+    bottomWrapper.addChild(leftWrapper);
+    bottomWrapper.addChild(centerWrapper);
+    bottomWrapper.addChild(rightWrapper);
 
     const centerWrapper2 = new Component(this.player());
-    centerWrapper2.addClass("lvp-clipbar-upper-center");
+    centerWrapper2.addClass("lvp-clipbar-row--top-center");
     centerWrapper2.addChild(carouselWrapper);
 
     const leftWrapper2 = new Component(this.player());
-    leftWrapper2.addClass("lvp-clipbar-upper-left");
+    leftWrapper2.addClass("lvp-clipbar-row--top-left");
     leftWrapper2.addChild(this._buttonPrevious);
 
     const rightWrapper2 = new Component(this.player());
-    rightWrapper2.addClass("lvp-clipbar-upper-right");
+    rightWrapper2.addClass("lvp-clipbar-row--top-right");
     rightWrapper2.addChild(this._buttonNext);
 
     const highWrapper = new Component(this.player());
-    highWrapper.addClass("lvp-clipbar-upper");
+    highWrapper.addClass("lvp-clipbar-row");
+    highWrapper.addClass("lvp-clipbar-row--top");
     highWrapper.addChild(leftWrapper2);
     highWrapper.addChild(centerWrapper2);
     highWrapper.addChild(rightWrapper2);
 
     this.addChild(highWrapper);
-    this.addChild(lowerWrapper);
+    this.addChild(bottomWrapper);
     this.setScale(this._scale).addClass("lvp-clipbar-carousel");
   }
 

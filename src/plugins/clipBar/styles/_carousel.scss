@@ -11,18 +11,17 @@
   }
 
   &-list {
-    top: 50%;
     position: absolute;
+    top: 50%;
     width: 100%;
     transition: 500ms left, 500ms width;
 
     &-item {
-      cursor: pointer;
       position: absolute;
       display: block;
       width: 100%;
-      height: 12px;
-      border-radius: 6px;
+      height: 1.2em;
+      border-radius: 0.6em;
       border: 0;
       left: 0;
       top: 0;
@@ -33,7 +32,7 @@
 
       &:hover {
         background-color: rgba($color-light, 0.8);
-        height: 16px;
+        height: 1.6em;
       }
 
       &-fill {
@@ -50,7 +49,6 @@
   }
 
   &-button {
-    cursor: pointer;
     width: 4em;
     height: 4em;
 
@@ -58,20 +56,12 @@
       font-family: "Material Icons Outlined";
     }
 
-    &--left {
-      left: 0;
-
-      &::before {
-        content: "\eac3";
-      }
+    &--left::before {
+      content: "\eac3";
     }
 
-    &--right {
-      right: 0;
-
-      &::before {
-        content: "\eac9";
-      }
+    &--right::before {
+      content: "\eac9";
     }
   }
 }

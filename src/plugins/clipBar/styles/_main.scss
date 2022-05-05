@@ -15,7 +15,6 @@
       transition: 150ms opacity;
 
       &-expand.vjs-button {
-        cursor: pointer;
         position: absolute;
         right: 1em;
         top: -2em;
@@ -41,45 +40,42 @@
         padding-top: 0.25em;
       }
 
-      .lvp-clipbar-upper {
+      .lvp-clipbar-row {
         display: flex;
         width: 100%;
         align-items: center;
 
-        &-left {
-          flex: 5em 0 0;
-          padding-right: 1em;
+        &--top {
+          &-left {
+            flex: 5em 0 0;
+            padding-right: 1em;
+          }
+
+          &-center {
+            flex: 100% 1 1;
+          }
+
+          &-right {
+            flex: 5em 0 0;
+            padding-left: 1em;
+          }
         }
 
-        &-center {
-          flex: 100% 1 1;
-        }
+        &--bottom {
+          &-left {
+            flex-basis: 25%;
+          }
 
-        &-right {
-          flex: 5em 0 0;
-          padding-left: 1em;
-        }
-      }
+          &-center {
+            display: flex;
+            justify-content: space-around;
+            flex-basis: 50%;
+          }
 
-      .lvp-clipbar-lower {
-        display: flex;
-        width: 100%;
-        align-items: center;
-
-        &-left {
-          flex-basis: 25%;
-          padding-left: 5em;
-        }
-
-        &-center {
-          display: flex;
-          justify-content: space-around;
-          flex-basis: 50%;
-        }
-
-        &-right {
-          flex-basis: 25%;
-          padding-right: 5em;
+          &-right {
+            flex-basis: 25%;
+            padding-right: 5em;
+          }
         }
       }
     }

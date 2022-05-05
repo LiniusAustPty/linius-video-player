@@ -41,11 +41,9 @@
     background-color: transparent;
   }
 
-  &.vjs-layout-large,
-  &.vjs-layout-x-large {
-    .vjs-big-play-button {
-      font-size: 4em;
-    }
+  &.vjs-layout-large .vjs-big-play-button,
+  &.vjs-layout-x-large .vjs-big-play-button {
+    font-size: 4em;
   }
 
   // control bar
@@ -86,32 +84,30 @@
         background-color: rgba($color-light, 0.6);
         border-radius: 0.2em;
 
-        &.vjs-volume-bar {
-          .vjs-volume-level {
-            position: relative;
-            height: 0.4em;
-            border-radius: 0.2em;
-            background-color: $color-brand;
+        .vjs-volume-level {
+          position: relative;
+          height: 0.4em;
+          border-radius: 0.2em;
+          background-color: $color-brand;
 
-            &::before {
-              content: "";
-              position: absolute;
-              display: block;
-              top: 50%;
-              right: -1em;
-              width: 1em;
-              height: 1em;
-              background-color: white;
-              border-radius: 50%;
-              transition: box-shadow 0.15s;
-              transform: translate(-50%, -50%);
-            }
+          &::before {
+            content: "";
+            position: absolute;
+            display: block;
+            top: 50%;
+            right: -1em;
+            width: 1em;
+            height: 1em;
+            background-color: white;
+            border-radius: 50%;
+            transition: box-shadow 0.15s;
+            transform: translate(-50%, -50%);
           }
+        }
 
-          &:hover .vjs-volume-level::before,
-          &.vjs-slider-active .vjs-volume-level::before {
-            box-shadow: 0 0 0 0.8em rgba($color-light, 0.2);
-          }
+        &:hover .vjs-volume-level::before,
+        &.vjs-slider-active .vjs-volume-level::before {
+          box-shadow: 0 0 0 0.8em rgba($color-light, 0.2);
         }
       }
     }
@@ -226,7 +222,7 @@
   &.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
     opacity: 1;
     bottom: -6em;
-    transition: bottom 0.25s;
+    transition: bottom 0.25s, opacity 0.25s;
 
     &::before {
       opacity: 0;
@@ -237,12 +233,16 @@
       padding-left: 0;
       padding-right: 0;
 
-      .vjs-progress-holder {
+      .vjs-slider {
         border-radius: 0;
       }
 
-      .vjs-slider {
-        background-color: rgba($color-light, 0.2);
+      .vjs-play-progress {
+        border-radius: 0;
+
+        &.vjs-slider-bar::before {
+          border-radius: 0;
+        }
       }
     }
   }
