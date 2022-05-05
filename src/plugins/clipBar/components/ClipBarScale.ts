@@ -4,8 +4,8 @@ const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarScale extends Component {
-  private _increaseButton: videojs.Button;
   private _decreaseButton: videojs.Button;
+  private _increaseButton: videojs.Button;
 
   constructor(
     player: VideoJsPlayer,

@@ -1,10 +1,10 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from "video.js";
 
 import ClipBarCarousel from "./ClipBarCarousel";
-import { Segment } from "./types";
-import "./styles.scss";
-import { segmentsToDurations } from "./utils";
-import Skipbutton from "../../components/SkipButton/SkipButton";
+import { Segment } from "../types";
+import { segmentsToDurations } from "../utils";
+import Skipbutton from "../../../components/SkipButton/SkipButton";
+import "../styles/index.scss";
 
 const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
@@ -13,7 +13,7 @@ const Plugin = videojs.getPlugin("plugin");
 export default class ClipBar extends Plugin {
   private _isOpen: boolean = true;
   private _isAdded: boolean = false;
-  private _wrapper: videojs.Component;
+  private _clipBar: videojs.Component;
   private _skipButtons: videojs.Component;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
@@ -37,10 +37,10 @@ export default class ClipBar extends Plugin {
     inner.addClass("lvp-clipbar-collapse");
     inner.addChild(carousel);
 
-    this._wrapper = new Component(player, {});
-    this._wrapper.addClass("lvp-clipbar");
-    this._wrapper.addChild(inner);
-    this._wrapper.addChild(expandButton);
+    this._clipBar = new Component(player, {});
+    this._clipBar.addClass("lvp-clipbar");
+    this._clipBar.addChild(inner);
+    this._clipBar.addChild(expandButton);
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
@@ -76,9 +76,9 @@ export default class ClipBar extends Plugin {
     this._isOpen = value;
 
     if (value) {
-      this._wrapper.removeClass("lvp-clipbar--collapsed");
+      this.player.controlBar?.removeClass("lvp-clipbar--collapsed");
     } else {
-      this._wrapper.addClass("lvp-clipbar--collapsed");
+      this.player.controlBar?.addClass("lvp-clipbar--collapsed");
     }
 
     return this;
@@ -89,11 +89,13 @@ export default class ClipBar extends Plugin {
       this._isAdded = value;
 
       if (value) {
-        this.player.controlBar?.addChild(this._wrapper);
+        this.player.controlBar?.addChild(this._clipBar);
         this.player.controlBar?.addChild(this._skipButtons);
+        this.player.controlBar?.addClass("vjs-control-bar--lvp");
       } else {
-        this.player.controlBar?.removeChild(this._wrapper);
+        this.player.controlBar?.removeChild(this._clipBar);
         this.player.controlBar?.removeChild(this._skipButtons);
+        this.player.controlBar?.removeClass("vjs-control-bar--lvp");
       }
     }
 

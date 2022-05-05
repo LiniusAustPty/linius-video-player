@@ -1,0 +1,23 @@
+.video-js.lvp .vjs-control-bar .lvp-clipbar .lvp-clipbar-scale {
+  display: flex;
+  justify-content: flex-end;
+
+  &-button {
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+
+    &::before {
+      font-family: "Material Icons Outlined";
+      font-size: 2em;
+    }
+
+    &--plus::before {
+      content: "\e145";
+    }
+
+    &--minus::before {
+      content: "\e15b";
+    }
+  }
+}

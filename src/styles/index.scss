@@ -6,9 +6,16 @@
   position: relative;
   overflow: hidden;
 
+  .vjs-button {
+    cursor: pointer;
+
+    &.vjs-disabled {
+      cursor: default;
+    }
+  }
+
   // big play button
   .vjs-big-play-button {
-    cursor: pointer;
     position: absolute;
     font-size: 3em;
     width: 2em;
@@ -59,7 +66,7 @@
       pointer-events: none;
       width: 100%;
       bottom: 0;
-      height: 16em;
+      height: 12em;
       background: linear-gradient(
         rgba($color-dark, 0) 0 0,
         rgba($color-dark, 0.95) 50% 100%

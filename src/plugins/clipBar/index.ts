@@ -1,1 +1,1 @@
-export { default } from "./ClipBar";
+export { default } from "./components/ClipBar";

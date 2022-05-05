@@ -1,0 +1,107 @@
+.video-js.lvp {
+  .vjs-control-bar {
+    &.vjs-control-bar--lvp::before {
+      height: 16em;
+      transition: 150ms height;
+    }
+
+    .lvp-clipbar {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 8em;
+      padding-left: 1em;
+      padding-right: 1em;
+      transition: 150ms opacity;
+
+      &-expand.vjs-button {
+        cursor: pointer;
+        position: absolute;
+        right: 1em;
+        top: -2em;
+        width: 3em;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        height: 1.5em;
+        border-radius: 0.25em;
+        background-color: rgba($color-dark, 0.6);
+
+        &::before {
+          font-family: "Material Icons Outlined";
+          content: "\e5c5";
+        }
+      }
+
+      &-collapse {
+        position: relative;
+        width: 100%;
+        height: 7em;
+        overflow: hidden;
+        transition: 250ms height;
+        padding-top: 0.25em;
+      }
+
+      .lvp-clipbar-upper {
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        &-left {
+          flex: 5em 0 0;
+          padding-right: 1em;
+        }
+
+        &-center {
+          flex: 100% 1 1;
+        }
+
+        &-right {
+          flex: 5em 0 0;
+          padding-left: 1em;
+        }
+      }
+
+      .lvp-clipbar-lower {
+        display: flex;
+        width: 100%;
+        align-items: center;
+
+        &-left {
+          flex-basis: 25%;
+          padding-left: 5em;
+        }
+
+        &-center {
+          display: flex;
+          justify-content: space-around;
+          flex-basis: 50%;
+        }
+
+        &-right {
+          flex-basis: 25%;
+          padding-right: 5em;
+        }
+      }
+    }
+
+    &.lvp-clipbar--collapsed {
+      &::before {
+        height: 12em;
+      }
+
+      .lvp-clipbar-collapse {
+        height: 0;
+      }
+
+      .lvp-clipbar-expand::before {
+        content: "\e5c7";
+      }
+    }
+  }
+
+  &.vjs-has-started.vjs-user-inactive.vjs-playing
+    .vjs-control-bar
+    .lvp-clipbar {
+    opacity: 0;
+  }
+}
