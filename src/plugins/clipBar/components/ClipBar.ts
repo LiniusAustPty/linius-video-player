@@ -1,8 +1,8 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from "video.js";
 
-import ClipBarCarousel from "./ClipBarCarousel";
 import { Segment } from "../types";
 import { segmentsToDurations } from "../utils";
+import ClipBarCarousel from "./ClipBarCarousel";
 import "../styles/index.scss";
 
 const Component = videojs.getComponent("Component");
@@ -21,9 +21,10 @@ export default class ClipBar extends Plugin {
     super(player, options);
 
     const carousel = new ClipBarCarousel(player);
-    const collapse = new Component(player);
-    collapse.addClass("lvp-clipbar-collapse");
-    collapse.addChild(carousel);
+
+    const collapseContainer = new Component(player);
+    collapseContainer.addClass("lvp-clipbar-collapse");
+    collapseContainer.addChild(carousel);
 
     this._openButton = new Button(player);
     this._openButton.addClass("lvp-clipbar-expand");
@@ -44,14 +45,14 @@ export default class ClipBar extends Plugin {
 
     this._clipBar = new Component(player, {});
     this._clipBar.addClass("lvp-clipbar");
-    this._clipBar.addChild(collapse);
+    this._clipBar.addChild(collapseContainer);
     this._clipBar.addChild(this._openButton);
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
         ?.segments as Segment[];
 
-      this.setComponent(!!segments);
+      this.addComponentToControlBar(!!segments);
 
       if (segments) {
         carousel.addItems(segmentsToDurations(segments));
@@ -61,7 +62,7 @@ export default class ClipBar extends Plugin {
     });
 
     this.on(player, "timeupdate", () => {
-      carousel.setTime(this.player.currentTime());
+      carousel.setCurrentTime(this.player.currentTime());
     });
   }
 
@@ -74,18 +75,16 @@ export default class ClipBar extends Plugin {
   private setOpen(value: boolean = true) {
     this._isOpen = value;
 
-    if (value) {
-      this.player.controlBar?.removeClass("lvp-clipbar--collapsed");
-      this._openButton.setAttribute("title", "Close");
-    } else {
-      this.player.controlBar?.addClass("lvp-clipbar--collapsed");
-      this._openButton.setAttribute("title", "Open");
-    }
+    this._openButton.setAttribute("title", value ? "Close" : "Open");
+
+    this.player.controlBar?.[value ? "removeClass" : "addClass"](
+      "lvp-clipbar--collapsed"
+    );
 
     return this;
   }
 
-  private setComponent(value: boolean = true) {
+  private addComponentToControlBar(value: boolean = true) {
     if (this._isAdded !== value) {
       this._isAdded = value;
 

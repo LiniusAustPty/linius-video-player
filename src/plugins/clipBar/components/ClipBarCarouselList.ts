@@ -13,18 +13,15 @@ export default class ClipBarCarouselList extends Component {
     this.addClass("lvp-clipbar-carousel-list");
   }
 
-  public addItems(segments: number[]) {
-    this.removeChildren();
-
-    this._items = this.createItems(segments);
-    this._items.forEach((item) => {
-      this.addChild(item);
-    });
+  public setDurations(durations: number[]) {
+    this._items.forEach((child) => this.removeChild(child));
+    this._items = this.createItems(durations);
+    this._items.forEach((item) => this.addChild(item));
 
     return this;
   }
 
-  public setTime(value: number) {
+  public setCurrentTime(value: number) {
     this._items.forEach((segment) => {
       const { startTime, duration } = segment;
       const isActive = value > startTime && value <= startTime + duration;
@@ -35,14 +32,6 @@ export default class ClipBarCarouselList extends Component {
         : 0;
 
       segment.setFill(fill);
-    });
-
-    return this;
-  }
-
-  private removeChildren() {
-    this.children().forEach((child) => {
-      this.removeChild(child);
     });
 
     return this;

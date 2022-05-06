@@ -1,4 +1,5 @@
 import videojs, { VideoJsPlayer } from "video.js";
+
 import ClipBarCarouselList from "./ClipBarCarouselList";
 import ClipBarPagination from "./ClipBarPagination";
 import ClipBarScale from "./ClipBarScale";
@@ -8,10 +9,10 @@ const Button = videojs.getComponent("Button");
 
 export default class ClipBarCarousel extends Component {
   private _page: number = 0;
-  private _carousel: ClipBarCarouselList;
   private _durations: number[] = [];
   private _prevButton: videojs.Button;
   private _nextButton: videojs.Button;
+  private _carousel: ClipBarCarouselList;
   private _pagination: ClipBarPagination;
   private _scale: ClipBarScale;
 
@@ -34,7 +35,7 @@ export default class ClipBarCarousel extends Component {
 
     this._pagination = new ClipBarPagination(this.player());
     this._pagination.on("update-page", (_, { value }) => {
-      this.setPage(value);
+      this.setCurrentPage(value);
     });
 
     this._scale = new ClipBarScale(this.player());
@@ -63,19 +64,9 @@ export default class ClipBarCarousel extends Component {
 
   public addItems(durations: number[]) {
     this._durations = durations;
-    this._carousel.addItems(durations);
+    this._carousel.setDurations(durations);
 
     return this;
-  }
-
-  public updateScale() {
-    if (this._page > this._scale.scale - 1) {
-      this._page = this._scale.scale - 1;
-    }
-
-    this._pagination.setPages(this._scale.scale).setPage(this._page);
-
-    return this.update();
   }
 
   public next() {
@@ -89,34 +80,44 @@ export default class ClipBarCarousel extends Component {
   public incrementItem(value: number) {
     const currentTime = this.player().currentTime();
     const index = Math.min(
-      Math.max(this.getIndexFromTime(currentTime) + value, 0),
+      Math.max(this.indexToTime(currentTime) + value, 0),
       this._durations.length - 1
     );
-    const time = this.getTimeFromIndex(index);
+    const time = this.timeToIndex(index);
 
     this.player().currentTime(time);
 
     return this;
   }
 
-  public setTime(value: number) {
-    this._carousel.setTime(value);
+  private incrementPage(value: number) {
+    return this.setCurrentPage(
+      Math.min(Math.max(this._page + value, 0), this._scale.scale - 1)
+    );
+  }
+
+  public setCurrentTime(value: number) {
+    this._carousel.setCurrentTime(value);
 
     return this;
   }
 
-  public setPage(value: number) {
+  private setCurrentPage(value: number) {
     this._page = value;
 
-    this._pagination.setPage(this._page);
+    this._pagination.setCurrentPage(this._page);
 
     return this.update();
   }
 
-  public incrementPage(direction: number) {
-    return this.setPage(
-      Math.min(Math.max(this._page + direction, 0), this._scale.scale - 1)
-    );
+  public updateScale() {
+    if (this._page > this._scale.scale - 1) {
+      this._page = this._scale.scale - 1;
+    }
+
+    this._pagination.setPages(this._scale.scale).setCurrentPage(this._page);
+
+    return this.update();
   }
 
   private update() {
@@ -124,17 +125,10 @@ export default class ClipBarCarousel extends Component {
   }
 
   private updateButtons() {
-    if (this._page < 1) {
-      this._prevButton.disable();
-    } else {
-      this._prevButton.enable();
-    }
-
-    if (this._page === this._scale.scale - 1) {
-      this._nextButton.disable();
-    } else {
-      this._nextButton.enable();
-    }
+    this._prevButton[this._page <= 0 ? "disable" : "enable"]();
+    this._nextButton[
+      this._page >= this._scale.scale - 1 ? "disable" : "enable"
+    ]();
 
     return this;
   }
@@ -148,7 +142,7 @@ export default class ClipBarCarousel extends Component {
     return this;
   }
 
-  public getIndexFromTime(time: number) {
+  private indexToTime(time: number) {
     let index = 0;
     let total = 0;
 
@@ -162,7 +156,7 @@ export default class ClipBarCarousel extends Component {
     return index;
   }
 
-  public getTimeFromIndex(index: number) {
+  private timeToIndex(index: number) {
     return this._durations.reduce(
       (previous, value, i) => (i < index ? previous + value : previous),
       0

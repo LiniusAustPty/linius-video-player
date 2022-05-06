@@ -4,7 +4,7 @@ const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarScale extends Component {
-  private _value: number = 1;
+  private _value: number = 0;
   private _lessButton: videojs.Button;
   private _moreButton: videojs.Button;
 
@@ -14,13 +14,13 @@ export default class ClipBarScale extends Component {
     this._lessButton = new Button(this.player());
     this._lessButton.addClass("lvp-clipbar-scale-button");
     this._lessButton.addClass("lvp-clipbar-scale-button--minus");
-    this._lessButton.setAttribute("title", "Scale down");
+    this._lessButton.setAttribute("title", "Zoom out");
     this._lessButton.on("click", () => this.incrementScale(-1));
 
     this._moreButton = new Button(this.player());
     this._moreButton.addClass("lvp-clipbar-scale-button");
     this._moreButton.addClass("lvp-clipbar-scale-button--plus");
-    this._moreButton.setAttribute("title", "Scale up");
+    this._moreButton.setAttribute("title", "Zoom in");
     this._moreButton.on("click", () => this.incrementScale(1));
 
     this.addClass("lvp-clipbar-scale");

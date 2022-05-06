@@ -13,27 +13,21 @@ export default class ClipBarCarousel extends Component {
   }
 
   public setPages(value: number) {
-    this._items.forEach((item) => {
-      this.removeChild(item);
-    });
-
-    this._items = Array.apply(null, Array(value)).map((_, index) => {
+    this._items.forEach((item) => this.removeChild(item));
+    this._items = Array.apply(null, Array(value)).map((_, value) => {
       const button = new Button(this.player());
       button.addClass("lvp-clipbar-pagination-item");
-      button.setAttribute("title", `Page ${index + 1}`);
-      button.on("click", () => this.trigger("update-page", { value: index }));
+      button.setAttribute("title", `Page ${value + 1}`);
+      button.on("click", () => this.trigger("update-page", { value }));
 
       return button;
     });
-
-    this._items.forEach((item) => {
-      this.addChild(item);
-    });
+    this._items.forEach((item) => this.addChild(item));
 
     return this;
   }
 
-  public setPage(value: number) {
+  public setCurrentPage(value: number) {
     this._items.forEach((item, index, array) => {
       item[value === index ? "addClass" : "removeClass"](
         "lvp-clipbar-pagination-item--active"
