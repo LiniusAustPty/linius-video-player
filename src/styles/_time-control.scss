@@ -4,24 +4,25 @@
     align-items: center;
     font-size: 1.5em;
 
-    &.vjs-current-time,
+    &.vjs-current-time {
+      padding-left: 0.5em;
+      padding-right: 0;
+    }
+
     &.vjs-duration {
-      padding-left: 0.25em;
-      padding-right: 0.25em;
+      padding-left: 0;
+      padding-right: 0.5em;
     }
 
     &.vjs-time-divider {
-      padding-left: 0;
-      padding-right: 0;
+      padding-left: 0.25em;
+      padding-right: 0.25em;
       min-width: 0;
       z-index: 1;
     }
   }
 
-  &.vjs-layout-small .vjs-control-bar .vjs-time-control {
-    display: flex;
-  }
-
+  &.vjs-layout-small .vjs-control-bar .vjs-time-control,
   &.vjs-layout-x-small .vjs-control-bar .vjs-time-control {
     display: none;
   }

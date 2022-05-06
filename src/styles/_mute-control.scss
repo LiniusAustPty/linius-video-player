@@ -1,17 +1,24 @@
-.video-js.lvp .vjs-control-bar .vjs-mute-control {
-  &.vjs-vol-0::before {
-    content: "\e04f";
+.video-js.lvp {
+  .vjs-control-bar .vjs-mute-control {
+    &.vjs-vol-0::before {
+      content: "\e04f";
+    }
+
+    &.vjs-vol-1::before {
+      content: "\e04e";
+    }
+
+    &.vjs-vol-2::before {
+      content: "\e04d";
+    }
+
+    &.vjs-vol-3::before {
+      content: "\e050";
+    }
   }
 
-  &.vjs-vol-1::before {
-    content: "\e04e";
-  }
-
-  &.vjs-vol-2::before {
-    content: "\e04d";
-  }
-
-  &.vjs-vol-3::before {
-    content: "\e050";
+  &.vjs-layout-x-small .vjs-control-bar .vjs-mute-control,
+  &.vjs-layout-small .vjs-control-bar .vjs-mute-control {
+    display: inline-block;
   }
 }
