@@ -1,17 +1,13 @@
 import videojs, { VideoJsPlayer } from "video.js";
-import ClipBarPaginationItem from "./ClipBarPaginationItem";
 
 const Component = videojs.getComponent("Component");
+const Button = videojs.getComponent("Button");
 
 export default class ClipBarCarousel extends Component {
-  private _setPage: (value: number) => void;
-  private _items: ClipBarPaginationItem[] = [];
-  private _wrapper: videojs.Component;
+  private _items: videojs.Button[] = [];
 
-  constructor(player: VideoJsPlayer, setPage: (value: number) => void) {
+  constructor(player: VideoJsPlayer) {
     super(player);
-
-    this._setPage = setPage;
 
     this.addClass("lvp-clipbar-pagination");
   }
@@ -22,9 +18,12 @@ export default class ClipBarCarousel extends Component {
     });
 
     this._items = Array.apply(null, Array(value)).map((_, index) => {
-      return new ClipBarPaginationItem(this.player(), index, (value: number) =>
-        this._setPage(value)
-      );
+      const button = new Button(this.player());
+      button.addClass("lvp-clipbar-pagination-item");
+      button.setAttribute("title", `Page ${index + 1}`);
+      button.on("click", () => this.trigger("update-page", { value: index }));
+
+      return button;
     });
 
     this._items.forEach((item) => {
@@ -36,8 +35,10 @@ export default class ClipBarCarousel extends Component {
 
   public setPage(value: number) {
     this._items.forEach((item, index, array) => {
-      item.setActive(value === index);
-      item.setDisabled(array.length === 1);
+      item[value === index ? "addClass" : "removeClass"](
+        "lvp-clipbar-pagination-item--active"
+      );
+      item[array.length === 1 ? "disable" : "enable"]();
     });
 
     return this;

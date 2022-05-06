@@ -1,0 +1,17 @@
+.video-js.lvp .vjs-control-bar .vjs-mute-control {
+  &.vjs-vol-0::before {
+    content: "\e04f";
+  }
+
+  &.vjs-vol-1::before {
+    content: "\e04e";
+  }
+
+  &.vjs-vol-2::before {
+    content: "\e04d";
+  }
+
+  &.vjs-vol-3::before {
+    content: "\e050";
+  }
+}

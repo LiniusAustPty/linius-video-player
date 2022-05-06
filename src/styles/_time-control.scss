@@ -1,0 +1,28 @@
+.video-js.lvp {
+  .vjs-control-bar .vjs-time-control {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+
+    &.vjs-current-time,
+    &.vjs-duration {
+      padding-left: 0.25em;
+      padding-right: 0.25em;
+    }
+
+    &.vjs-time-divider {
+      padding-left: 0;
+      padding-right: 0;
+      min-width: 0;
+      z-index: 1;
+    }
+  }
+
+  &.vjs-layout-small .vjs-control-bar .vjs-time-control {
+    display: flex;
+  }
+
+  &.vjs-layout-x-small .vjs-control-bar .vjs-time-control {
+    display: none;
+  }
+}

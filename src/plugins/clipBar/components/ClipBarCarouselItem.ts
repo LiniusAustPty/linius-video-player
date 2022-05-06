@@ -24,8 +24,8 @@ export default class ClipBarCarouselItem extends Button {
     this._fill.addClass("lvp-clipbar-carousel-list-item-fill");
 
     this.addClass("lvp-clipbar-carousel-list-item");
-    this.addChild(this._fill);
     this.setAttribute("style", `left:${x * 100}%;width:${width * 100}%`);
+    this.addChild(this._fill);
     this.on("click", () => {
       this.player().currentTime(startTime);
     });

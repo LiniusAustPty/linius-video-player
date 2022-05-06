@@ -3,11 +3,12 @@
   overflow: hidden;
 
   .vjs-button {
-    width: 6em;
     cursor: pointer;
+    width: 6em;
 
     &::before {
-      font-size: 2.5em;
+      font-family: "Material Icons Outlined";
+      font-size: 2.8em;
       height: auto;
       width: auto;
       top: 50%;
@@ -20,43 +21,6 @@
     }
   }
 
-  // big play button
-  .vjs-big-play-button {
-    position: absolute;
-    font-size: 3em;
-    width: 2em;
-    height: 2em;
-    left: 50%;
-    top: 50%;
-    border: 0;
-    transform: translate(-50%, -50%);
-    opacity: 0.9;
-    background-color: transparent;
-
-    &::before {
-      content: "\e039";
-      font-family: "Material Icons Outlined";
-      font-size: 3em;
-      width: auto;
-      height: auto;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  &:hover .vjs-big-play-button {
-    opacity: 1;
-    transition-duration: 0.15s;
-    background-color: transparent;
-  }
-
-  &.vjs-layout-large .vjs-big-play-button,
-  &.vjs-layout-x-large .vjs-big-play-button {
-    font-size: 4em;
-  }
-
-  // control bar
   .vjs-control-bar {
     bottom: 0;
     height: 6em;
@@ -73,146 +37,9 @@
       height: 12em;
       background: linear-gradient(
         rgba($color-dark, 0) 0 0,
-        rgba($color-dark, 0.95) 50% 100%
+        rgba($color-dark, 0.9) 50% 100%
       );
       transition: height 0.25s, opacity 0.15s;
-    }
-
-    .vjs-volume-control {
-      max-width: 10em;
-      width: 12%;
-      margin-right: 2.5em;
-
-      .vjs-mouse-display {
-        display: none;
-      }
-
-      .vjs-volume-bar {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-        background-color: rgba($color-light, 0.6);
-        border-radius: 0.2em;
-
-        .vjs-volume-level {
-          position: relative;
-          height: 0.4em;
-          border-radius: 0.2em;
-          background-color: $color-brand;
-
-          &::before {
-            content: "";
-            position: absolute;
-            display: block;
-            top: 50%;
-            right: -1em;
-            width: 1em;
-            height: 1em;
-            background-color: white;
-            border-radius: 50%;
-            transition: box-shadow 0.15s;
-            transform: translate(-50%, -50%);
-          }
-        }
-
-        &:hover .vjs-volume-level::before,
-        &.vjs-slider-active .vjs-volume-level::before {
-          box-shadow: 0 0 0 0.8em rgba($color-light, 0.2);
-        }
-      }
-    }
-
-    .vjs-time-control {
-      display: flex;
-      align-items: center;
-      font-size: 1.5em;
-
-      &.vjs-current-time,
-      &.vjs-duration {
-        padding-left: 0.25em;
-        padding-right: 0.25em;
-      }
-
-      &.vjs-time-divider {
-        padding-left: 0;
-        padding-right: 0;
-        min-width: 0;
-        z-index: 1;
-      }
-    }
-
-    .vjs-play-control {
-      position: relative;
-      width: 6em;
-
-      &::before {
-        font-family: "Material Icons Outlined";
-      }
-
-      &.vjs-paused::before {
-        content: "\e037";
-      }
-
-      &.vjs-playing::before {
-        content: "\e034";
-      }
-    }
-
-    .vjs-fullscreen-control {
-      margin-left: auto;
-    }
-
-    .vjs-progress-control {
-      position: absolute;
-      display: block;
-      width: 100%;
-      height: auto;
-      left: 0;
-      bottom: 6em;
-      padding-left: 1em;
-      padding-right: 1em;
-      transition: padding-left 0.15s, padding-right 0.15s;
-
-      .vjs-progress-holder {
-        margin: 0;
-        height: 0.5em;
-        transition: 150ms border-radius, 150ms height;
-      }
-
-      .vjs-slider {
-        border-radius: 0.25em;
-        background-color: rgba($color-light, 0.6);
-        transition: border-radius 0.15s;
-      }
-
-      .vjs-load-progress div {
-        background-color: rgba($color-light, 0.5);
-      }
-
-      .vjs-play-progress {
-        border-radius: 0.25em;
-        background-color: $color-brand;
-        transition: border-radius 0.15s;
-
-        &.vjs-slider-bar {
-          &::before {
-            content: "";
-            top: 50%;
-            right: -1em;
-            width: 1em;
-            height: 1em;
-            border-radius: 50%;
-            display: block;
-            background-color: white;
-            transform: translate(-50%, -50%);
-            transition: height 150ms, border-radius 150ms;
-          }
-
-          &::after {
-            display: none;
-          }
-        }
-      }
     }
   }
 
@@ -225,58 +52,6 @@
       opacity: 0;
       transition-delay: 0.1s;
     }
-
-    .vjs-progress-control {
-      padding-left: 0;
-      padding-right: 0;
-
-      .vjs-slider {
-        border-radius: 0;
-      }
-
-      .vjs-play-progress {
-        border-radius: 0;
-
-        &.vjs-slider-bar::before {
-          border-radius: 0;
-          height: 0.6em;
-        }
-      }
-    }
-  }
-
-  .vjs-mute-control {
-    &::before {
-      font-family: "Material Icons Outlined";
-    }
-
-    &.vjs-vol-0::before {
-      content: "\e04f";
-    }
-
-    &.vjs-vol-1::before {
-      content: "\e04e";
-    }
-
-    &.vjs-vol-2::before {
-      content: "\e04d";
-    }
-
-    &.vjs-vol-3::before {
-      content: "\e050";
-    }
-  }
-
-  &.vjs-layout-x-small .vjs-control-bar .vjs-mute-control,
-  &.vjs-layout-small .vjs-control-bar .vjs-mute-control {
-    display: inline-block;
-  }
-
-  &.vjs-layout-small .vjs-control-bar .vjs-time-control {
-    display: flex;
-  }
-  &.vjs-layout-x-small .vjs-control-bar .vjs-time-control {
-    display: none;
   }
 }
 

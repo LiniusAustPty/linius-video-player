@@ -1,6 +1,8 @@
 .video-js.lvp .vjs-control-bar .lvp-clipbar .lvp-clipbar-scale {
   display: flex;
   justify-content: flex-end;
+  flex-basis: 25%;
+  padding-right: 5em;
 
   &-button {
     width: 2em;
@@ -8,7 +10,6 @@
     margin-left: 1em;
 
     &::before {
-      font-family: "Material Icons Outlined";
       font-size: 2em;
     }
 

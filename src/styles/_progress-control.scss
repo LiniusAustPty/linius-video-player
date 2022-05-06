@@ -1,0 +1,75 @@
+.video-js.lvp {
+  .vjs-control-bar .vjs-progress-control {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: auto;
+    left: 0;
+    bottom: 6em;
+    padding-left: 1em;
+    padding-right: 1em;
+    transition: padding-left 0.15s, padding-right 0.15s;
+
+    .vjs-progress-holder {
+      margin: 0;
+      height: 0.5em;
+      transition: 150ms border-radius, 150ms height;
+    }
+
+    .vjs-slider {
+      border-radius: 0.25em;
+      background: rgba($color-light, 0.6);
+    }
+
+    .vjs-load-progress {
+      background: transparent;
+
+      div {
+        background: rgba($color-light, 0.5);
+      }
+    }
+
+    .vjs-play-progress {
+      border-radius: 0.25em;
+      background: $color-brand;
+
+      &.vjs-slider-bar {
+        &::before {
+          content: "";
+          top: 50%;
+          right: -1em;
+          width: 1em;
+          height: 1em;
+          border-radius: 50%;
+          display: block;
+          background: white;
+          transform: translate(-50%, -50%);
+        }
+
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+    .vjs-progress-control {
+      padding-left: 0;
+      padding-right: 0;
+
+      .vjs-slider {
+        border-radius: 0;
+      }
+
+      .vjs-play-progress {
+        border-radius: 0;
+
+        &.vjs-slider-bar::before {
+          border-radius: 0;
+          height: 0.6em;
+        }
+      }
+    }
+  }
+}

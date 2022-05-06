@@ -1,0 +1,43 @@
+.video-js.lvp .vjs-control-bar .vjs-volume-control {
+  max-width: 10em;
+  width: 12%;
+  margin-right: 2.5em;
+
+  .vjs-mouse-display {
+    display: none;
+  }
+
+  .vjs-volume-bar {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    background: rgba($color-light, 0.6);
+    border-radius: 0.2em;
+
+    .vjs-volume-level {
+      position: relative;
+      height: 0.4em;
+      border-radius: 0.2em;
+      background: $color-brand;
+
+      &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        top: 50%;
+        right: -1em;
+        width: 1em;
+        height: 1em;
+        background: white;
+        border-radius: 50%;
+        transition: box-shadow 0.15s;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &:hover .vjs-volume-level::before,
+    &.vjs-slider-active .vjs-volume-level::before {
+      box-shadow: 0 0 0 0.8em rgba($color-light, 0.2);
+    }
+  }
+}

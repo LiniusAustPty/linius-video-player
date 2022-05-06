@@ -14,43 +14,38 @@ export default class ClipBar extends Plugin {
   private _isAdded: boolean = false;
   private _clipBar: videojs.Component;
   private _nextButton: videojs.Button;
-  private _previousButton: videojs.Button;
-  private _expandButton: videojs.Button;
+  private _prevButton: videojs.Button;
+  private _openButton: videojs.Button;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
     super(player, options);
 
     const carousel = new ClipBarCarousel(player);
-
-    this._expandButton = new Button(player);
-    this._expandButton.addClass("lvp-clipbar-expand");
-    this._expandButton.setAttribute("title", "Close");
-    this._expandButton.on("click", () => this.toggleOpen());
-
-    this._nextButton = new Button(player);
-    this._nextButton.addClass("vjs-control");
-    this._nextButton.addClass("vjs-button");
-    this._nextButton.addClass("lvp-skipbuttons-button");
-    this._nextButton.addClass("lvp-skipbuttons-button--next");
-    this._nextButton.setAttribute("title", "Next clip");
-    this._nextButton.on("click", () => carousel.next());
-
-    this._previousButton = new Button(player);
-    this._previousButton.addClass("vjs-control");
-    this._previousButton.addClass("vjs-button");
-    this._previousButton.addClass("lvp-skipbuttons-button");
-    this._previousButton.addClass("lvp-skipbuttons-button--previous");
-    this._previousButton.setAttribute("title", "Previous clip");
-    this._previousButton.on("click", () => carousel.previous());
-
     const collapse = new Component(player);
     collapse.addClass("lvp-clipbar-collapse");
     collapse.addChild(carousel);
 
+    this._openButton = new Button(player);
+    this._openButton.addClass("lvp-clipbar-expand");
+    this._openButton.setAttribute("title", "Close");
+    this._openButton.on("click", () => this.toggleOpen());
+
+    this._prevButton = new Button(player);
+    this._prevButton.addClass("lvp-skip-control");
+    this._prevButton.addClass("lvp-skip-control--previous");
+    this._prevButton.setAttribute("title", "Previous clip");
+    this._prevButton.on("click", () => carousel.previous());
+
+    this._nextButton = new Button(player);
+    this._nextButton.addClass("lvp-skip-control");
+    this._nextButton.addClass("lvp-skip-control--next");
+    this._nextButton.setAttribute("title", "Next clip");
+    this._nextButton.on("click", () => carousel.next());
+
     this._clipBar = new Component(player, {});
     this._clipBar.addClass("lvp-clipbar");
     this._clipBar.addChild(collapse);
-    this._clipBar.addChild(this._expandButton);
+    this._clipBar.addChild(this._openButton);
 
     this.on(player, "loadedmetadata", () => {
       const segments = this.tech?.vhs?.playlists?.media()
@@ -70,12 +65,6 @@ export default class ClipBar extends Plugin {
     });
   }
 
-  public dispose() {
-    super.dispose();
-
-    videojs.log("Linius Video Player: The ClipBar is being disposed.");
-  }
-
   private toggleOpen() {
     this.setOpen(!this._isOpen);
 
@@ -87,11 +76,11 @@ export default class ClipBar extends Plugin {
 
     if (value) {
       this.player.controlBar?.removeClass("lvp-clipbar--collapsed");
+      this._openButton.setAttribute("title", "Close");
     } else {
       this.player.controlBar?.addClass("lvp-clipbar--collapsed");
+      this._openButton.setAttribute("title", "Open");
     }
-
-    this._expandButton.setAttribute("title", value ? "Close" : "Open");
 
     return this;
   }
@@ -102,18 +91,24 @@ export default class ClipBar extends Plugin {
 
       if (value) {
         this.player.controlBar?.addChild(this._clipBar, undefined, 0);
-        this.player.controlBar?.addChild(this._previousButton, undefined, 3);
+        this.player.controlBar?.addChild(this._prevButton, undefined, 3);
         this.player.controlBar?.addChild(this._nextButton, undefined, 4);
         this.player.controlBar?.addClass("vjs-control-bar--lvp");
       } else {
         this.player.controlBar?.removeChild(this._clipBar);
-        this.player.controlBar?.removeChild(this._previousButton);
+        this.player.controlBar?.removeChild(this._prevButton);
         this.player.controlBar?.removeChild(this._nextButton);
         this.player.controlBar?.removeClass("vjs-control-bar--lvp");
       }
     }
 
     return this;
+  }
+
+  public dispose() {
+    super.dispose();
+
+    videojs.log("Linius Video Player: The ClipBar is being disposed.");
   }
 
   public get tech() {

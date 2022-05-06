@@ -1,0 +1,13 @@
+.video-js.lvp {
+  .vjs-control-bar .vjs-fullscreen-control {
+    margin-left: auto;
+
+    &::before {
+      content: "\e5d0";
+    }
+  }
+
+  &.vjs-fullscreen .vjs-control-bar .vjs-fullscreen-control::before {
+    content: "\e5d1";
+  }
+}

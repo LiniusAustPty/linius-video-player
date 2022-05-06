@@ -4,48 +4,50 @@ const Component = videojs.getComponent("Component");
 const Button = videojs.getComponent("Button");
 
 export default class ClipBarScale extends Component {
-  private _decreaseButton: videojs.Button;
-  private _increaseButton: videojs.Button;
+  private _value: number = 1;
+  private _lessButton: videojs.Button;
+  private _moreButton: videojs.Button;
 
-  constructor(
-    player: VideoJsPlayer,
-    incrementScale: (value: number) => void,
-    options?: videojs.ComponentOptions
-  ) {
+  constructor(player: VideoJsPlayer, options?: videojs.ComponentOptions) {
     super(player, options);
 
-    this._decreaseButton = new Button(this.player());
-    this._decreaseButton.addClass("lvp-clipbar-scale-button--minus");
-    this._decreaseButton.addClass("lvp-clipbar-scale-button");
-    this._decreaseButton.addClass("vjs-control");
-    this._decreaseButton.addClass("vjs-button");
-    this._decreaseButton.setAttribute("title", "Scale down");
-    this._decreaseButton.on("click", () => incrementScale(-1));
+    this._lessButton = new Button(this.player());
+    this._lessButton.addClass("lvp-clipbar-scale-button");
+    this._lessButton.addClass("lvp-clipbar-scale-button--minus");
+    this._lessButton.setAttribute("title", "Scale down");
+    this._lessButton.on("click", () => this.incrementScale(-1));
 
-    this._increaseButton = new Button(this.player());
-    this._increaseButton.addClass("lvp-clipbar-scale-button--plus");
-    this._increaseButton.addClass("lvp-clipbar-scale-button");
-    this._increaseButton.addClass("vjs-control");
-    this._increaseButton.addClass("vjs-button");
-    this._increaseButton.setAttribute("title", "Scale up");
-    this._increaseButton.on("click", () => incrementScale(1));
+    this._moreButton = new Button(this.player());
+    this._moreButton.addClass("lvp-clipbar-scale-button");
+    this._moreButton.addClass("lvp-clipbar-scale-button--plus");
+    this._moreButton.setAttribute("title", "Scale up");
+    this._moreButton.on("click", () => this.incrementScale(1));
 
     this.addClass("lvp-clipbar-scale");
-    this.addChild(this._decreaseButton);
-    this.addChild(this._increaseButton);
+    this.addChild(this._lessButton);
+    this.addChild(this._moreButton);
   }
 
-  public setScale(value: number) {
-    if (value < 1) {
-      this._decreaseButton.disable();
-    } else {
-      this._decreaseButton.enable();
-    }
+  private incrementScale(direction: number) {
+    this._value = Math.min(
+      Math.max(this._value + direction, this.min),
+      this.max
+    );
+    this._lessButton[this._value <= this.min ? "disable" : "enable"]();
+    this._moreButton[this._value >= this.max ? "disable" : "enable"]();
 
-    if (value > 2) {
-      this._increaseButton.disable();
-    } else {
-      this._increaseButton.enable();
-    }
+    this.trigger("update-scale");
+  }
+
+  public get scale() {
+    return Math.pow(2, this._value + 1) / 2;
+  }
+
+  public get min() {
+    return 0;
+  }
+
+  public get max() {
+    return 3;
   }
 }

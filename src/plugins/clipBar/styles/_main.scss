@@ -43,39 +43,6 @@
         display: flex;
         width: 100%;
         align-items: center;
-
-        &--top {
-          &-left {
-            flex: 5em 0 0;
-            padding-right: 1em;
-          }
-
-          &-center {
-            flex: 100% 1 1;
-          }
-
-          &-right {
-            flex: 5em 0 0;
-            padding-left: 1em;
-          }
-        }
-
-        &--bottom {
-          &-left {
-            flex-basis: 25%;
-          }
-
-          &-center {
-            display: flex;
-            justify-content: space-around;
-            flex-basis: 50%;
-          }
-
-          &-right {
-            flex-basis: 25%;
-            padding-right: 5em;
-          }
-        }
       }
     }
 

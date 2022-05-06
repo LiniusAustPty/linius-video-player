@@ -1,21 +1,11 @@
-.video-js.lvp .vjs-control-bar .lvp-skipbuttons {
-  &-button {
-    width: 4em;
+.video-js.lvp .vjs-control-bar .lvp-skip-control {
+  width: 4em;
 
-    &::before {
-      font-family: "Material Icons Outlined";
-    }
+  &--previous::before {
+    content: "\e045";
+  }
 
-    &--previous {
-      &::before {
-        content: "\e045";
-      }
-    }
-
-    &--next {
-      &::before {
-        content: "\e044";
-      }
-    }
+  &--next::before {
+    content: "\e044";
   }
 }

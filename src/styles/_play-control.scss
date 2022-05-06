@@ -1,0 +1,9 @@
+.video-js.lvp .vjs-control-bar .vjs-play-control {
+  &.vjs-paused::before {
+    content: "\e037";
+  }
+
+  &.vjs-playing::before {
+    content: "\e034";
+  }
+}
