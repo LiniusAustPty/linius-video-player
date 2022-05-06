@@ -22,13 +22,13 @@ export default class ClipBarCarousel extends Component {
     this._prevButton.addClass("lvp-clipbar-carousel-button");
     this._prevButton.addClass("lvp-clipbar-carousel-button--left");
     this._prevButton.setAttribute("title", "Previous page");
-    this._prevButton.on("click", () => this.previous());
+    this._prevButton.on("click", () => this.incrementPage(-1));
 
     this._nextButton = new Button(this.player());
     this._nextButton.addClass("lvp-clipbar-carousel-button");
     this._nextButton.addClass("lvp-clipbar-carousel-button--right");
     this._nextButton.setAttribute("title", "Next page");
-    this._nextButton.on("click", () => this.next());
+    this._nextButton.on("click", () => this.incrementPage(1));
 
     this._carousel = new ClipBarCarouselList(this.player());
 
@@ -55,9 +55,9 @@ export default class ClipBarCarousel extends Component {
     bottomRow.addChild(this._pagination);
     bottomRow.addChild(this._scale);
 
+    this.addClass("lvp-clipbar-carousel");
     this.addChild(topRow);
     this.addChild(bottomRow);
-    this.addClass("lvp-clipbar-carousel");
     this.updateScale();
   }
 
