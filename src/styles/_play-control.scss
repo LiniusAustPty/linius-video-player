@@ -1,6 +1,6 @@
 .video-js.lvp .vjs-control-bar .vjs-play-control {
   &.vjs-paused::before {
-    content: "\e037";
+    content: url("../fonts/play_arrow_black_24dp.svg");
   }
 
   &.vjs-playing::before {

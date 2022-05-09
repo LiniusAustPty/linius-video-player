@@ -1,5 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const base64 = require("postcss-base64");
 
 module.exports = {
   entry: path.resolve(__dirname, "./src/index.ts"),
@@ -27,7 +28,11 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(svg|ttf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        use: ["base64-inline-loader"],
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
         use: [
           {
             loader: "file-loader",

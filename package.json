@@ -32,6 +32,7 @@
     "@babel/preset-env": "^7.16.11",
     "@types/video.js": "^7.3.33",
     "babel-loader": "^8.2.4",
+    "base64-inline-loader": "^2.0.1",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "file-loader": "^6.2.0",
@@ -50,7 +51,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "base64-inline-loader": "^2.0.1",
+    "postcss-base64": "^0.7.1",
     "video.js": "^7.18.1"
   }
 }
