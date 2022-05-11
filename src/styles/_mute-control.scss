@@ -1,19 +1,19 @@
 .video-js.lvp {
   .vjs-control-bar .vjs-mute-control {
     &.vjs-vol-0::before {
-      content: "\e04f";
+      content: url("volume_off.svg");
     }
 
     &.vjs-vol-1::before {
-      content: "\e04e";
+      content: url("volume_mute.svg");
     }
 
     &.vjs-vol-2::before {
-      content: "\e04d";
+      content: url("volume_down.svg");
     }
 
     &.vjs-vol-3::before {
-      content: "\e050";
+      content: url("volume_up.svg");
     }
   }
 

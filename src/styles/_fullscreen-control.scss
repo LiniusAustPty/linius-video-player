@@ -3,11 +3,11 @@
     margin-left: auto;
 
     &::before {
-      content: "\e5d0";
+      content: url("fullscreen.svg");
     }
   }
 
   &.vjs-fullscreen .vjs-control-bar .vjs-fullscreen-control::before {
-    content: "\e5d1";
+    content: url("fullscreen_exit.svg");
   }
 }

@@ -10,15 +10,16 @@
     margin-left: 1em;
 
     &::before {
-      font-size: 2em;
+      width: 20px;
+      height: 20px;
     }
 
     &--plus::before {
-      content: "\e145";
+      content: url("add.svg");
     }
 
     &--minus::before {
-      content: "\e15b";
+      content: url("remove.svg");
     }
   }
 }

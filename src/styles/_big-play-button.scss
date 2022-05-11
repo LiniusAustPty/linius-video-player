@@ -12,9 +12,8 @@
     background: transparent;
 
     &::before {
-      content: "\e039";
-      font-family: "Material Icons Outlined";
-      font-size: 3em;
+      content: url("play_arrow.svg");
+      //font-size: 3em;
       width: auto;
       height: auto;
       top: 50%;
@@ -31,6 +30,6 @@
 
   &.vjs-layout-large .vjs-big-play-button,
   &.vjs-layout-x-large .vjs-big-play-button {
-    font-size: 4em;
+    //font-size: 4em;
   }
 }

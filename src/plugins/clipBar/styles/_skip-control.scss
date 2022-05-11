@@ -2,10 +2,10 @@
   width: 6em;
 
   &--previous::before {
-    content: "\e045";
+    content: url("skip_previous.svg");
   }
 
   &--next::before {
-    content: "\e044";
+    content: url("skip_next.svg");
   }
 }

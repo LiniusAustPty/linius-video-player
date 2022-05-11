@@ -21,22 +21,6 @@ export const defaultOptions: VideoJsPlayerOptions = {
       "timeDivider",
       "durationDisplay",
       "fullscreenToggle",
-      /*
-      volumePanel?: VolumePanelOptions | boolean | undefined;
-      'captionsButton',
-      'chaptersButton',
-      'subtitlesButton',
-      'remainingTimeDisplay',
-      progressControl?: ProgressControlOptions | boolean | undefined;
-      'playbackRateMenuButton',
-      'pictureInPictureToggle',
-      'liveDisplay',
-      'seekToLive',
-      'customControlSpacer',
-      'descriptionsButton',
-      'subsCapsButton',
-      'audioTrackButton',
-      */
     ],
   },
 };
