@@ -1,6 +1,6 @@
 # linius-video-player
 
-![lvp](https://user-images.githubusercontent.com/7384630/167925228-c16dd90e-5dd7-46e3-828f-55527c6d5260.jpg)
+![lvp](https://user-images.githubusercontent.com/7384630/167926340-ec686ec5-d0fa-45b3-8306-e958820b7bbf.jpg)
 
 ## Usage
 
