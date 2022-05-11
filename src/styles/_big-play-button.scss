@@ -1,9 +1,8 @@
 .video-js.lvp {
   .vjs-big-play-button {
     position: absolute;
-    font-size: 3em;
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
     left: 50%;
     top: 50%;
     border: 0;
@@ -12,10 +11,9 @@
     background: transparent;
 
     &::before {
-      content: url("play_arrow.svg");
-      //font-size: 3em;
-      width: auto;
-      height: auto;
+      content: url("play_circle.svg");
+      width: 100%;
+      height: 100%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -30,6 +28,7 @@
 
   &.vjs-layout-large .vjs-big-play-button,
   &.vjs-layout-x-large .vjs-big-play-button {
-    //font-size: 4em;
+    width: 4em;
+    height: 4em;
   }
 }

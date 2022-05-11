@@ -1,6 +1,6 @@
 {
   "name": "linius-video-player",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Linius Video Player",
   "main": "dist/lvp.js",
   "module": "dist/lvp.js",
