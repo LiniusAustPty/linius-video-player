@@ -1,5 +1,7 @@
 # linius-video-player
 
+![lvp](https://user-images.githubusercontent.com/7384630/167925228-c16dd90e-5dd7-46e3-828f-55527c6d5260.jpg)
+
 ## Usage
 
 ### As JavaScript library
@@ -9,6 +11,11 @@
 
 <head>
   <link href="lvp.css" rel="stylesheet" />
+  <style>
+    html {
+      --color-lvp: #0f0;
+    }
+  </style>
 </head>
 <head>
   <video-js
@@ -18,7 +25,7 @@
     preload="auto"
     width="480"
     height="270"
-    poster="MY_VIDEO_POSTER.jpg"
+    poster="POSTER_IMAGE_URL"
     data-setup="{}"
   >
     <source src="MY_VIDEO.mp4" type="video/mp4" />
@@ -34,26 +41,81 @@
 
 ### As node.js package
 
-```
-// package.json
+#### Installation
 
-"dependencies": {
-  "linius-video-player": "https://github.com/LiniusAustPty/linius-video-player.git",
-},
-```
+### npm
 
 ```
-// js/ts
+npm install git+https://github.com/LiniusAustPty/linius-video-player.git
+```
 
-import lvp, {
-  videojs,
-  VideoJsPlayer,
-  VideoJsPlayerOptions,
-  VideoJsPlayerPluginOptions,
-} from "linius-video-player";
-import "lvp.css"
+### Yarn
 
-lvp.setHeaders(HEADERS);
+```
+yarn add git+https://github.com/LiniusAustPty/linius-video-player.git
+```
 
-const player = lvp.player(ref.current, OPTIONS, READY_CALLBACK);
+#### React Example
+
+```
+// ts
+
+import { useState, useRef } from "react";
+import lvp, { VideoJsPlayer } from "linius-video-player";
+import '../../../node_modules/linius-video-player/dist/lvp.css'
+
+function VideoPlayer({ src, headers }) {
+  const [player, setPlayer] = useState<VideoJsPlayer>();
+  const ref = useRef();
+
+  useEffect(() => {
+    const lvp = videojs(ref.current, OPTIONS);
+
+    setPlayer(lvp)
+
+    return () => {
+      lvp.dispose();
+    };
+  }, []);
+
+  useEffect(() => {
+    lvp.setHeaders(headers);
+  }, [headers]);
+
+  useEffect(() => {
+    player?.src(src);
+  }, [player, src]);
+
+  return (
+    <div data-vjs-player>
+      <video
+        playsInline
+        preload="auto"
+        className="video-js lvp"
+        autoPlay={autoplay}
+        ref={ref}
+        poster={VIDEO_POSTER_DEFAULT}
+      />
+    </div>
+  );
+}
+
+```
+
+### Plugins
+
+Plugins are initialised using options.
+
+[Video.js Options Reference](https://videojs.com/guides/options/)
+
+#### ClipBarPlugin
+
+The ClipBarPlugin will display a carousel of clips if available in the manifest.
+
+```
+const OPTIONS = {
+  plugins: {
+    ClipBarPlugin: {}
+  }
+}
 ```
