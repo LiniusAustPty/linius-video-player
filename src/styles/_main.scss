@@ -18,6 +18,10 @@
       transform: translate(-50%, -50%);
     }
 
+    &:hover {
+      filter: drop-shadow(white 0em 0em 1em);
+    }
+
     &.vjs-disabled {
       cursor: default;
     }

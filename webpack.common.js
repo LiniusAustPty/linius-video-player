@@ -1,6 +1,8 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 module.exports = {
   entry: path.resolve(__dirname, "./src/index.ts"),
   module: {
@@ -18,9 +20,7 @@ module.exports = {
       {
         test: /\.(s(a|c)ss)$/,
         use: [
-          process.env.NODE_ENV === "development"
-            ? "style-loader"
-            : MiniCssExtractPlugin.loader,
+          isProduction ? "style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
