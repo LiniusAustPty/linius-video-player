@@ -5,17 +5,16 @@
   .vjs-button {
     cursor: pointer;
     width: 6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &::before {
+      position: relative;
       font-size: 1em;
       line-height: 1;
-      height: auto;
-      width: auto;
-      top: 50%;
-      left: 50%;
       height: 3.2em;
       width: 3.2em;
-      transform: translate(-50%, -50%);
     }
 
     &:hover {
@@ -25,16 +24,9 @@
     &.vjs-disabled {
       cursor: default;
     }
-  }
 
-  &.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
-    opacity: 1;
-    bottom: -6em;
-    transition: bottom 0.25s, opacity 0.25s;
-
-    &::before {
-      opacity: 0;
-      transition-delay: 0.1s;
+    .vjs-icon-placeholder {
+      display: none;
     }
   }
 }
