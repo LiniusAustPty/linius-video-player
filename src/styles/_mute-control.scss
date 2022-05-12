@@ -19,6 +19,6 @@
 
   &.vjs-layout-x-small .vjs-control-bar .vjs-mute-control,
   &.vjs-layout-small .vjs-control-bar .vjs-mute-control {
-    display: inline-block;
+    display: flex;
   }
 }
