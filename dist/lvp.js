@@ -4026,8 +4026,7 @@ var ClipBarCarousel = /** @class */ (function (_super) {
         return this.incrementItem(-1);
     };
     ClipBarCarousel.prototype.incrementItem = function (value) {
-        var currentTime = this.player().currentTime();
-        var index = Math.min(Math.max(this.indexToTime(currentTime) + value, 0), this._durations.length - 1);
+        var index = Math.min(Math.max(this.indexToTime(this.currentTime) + value, 0), this._durations.length - 1);
         var time = this.timeToIndex(index);
         this.player().currentTime(time);
         return this;
@@ -4045,9 +4044,10 @@ var ClipBarCarousel = /** @class */ (function (_super) {
         return this.update();
     };
     ClipBarCarousel.prototype.updateScale = function () {
-        if (this._page > this._scale.scale - 1) {
-            this._page = this._scale.scale - 1;
-        }
+        this._page =
+            this._scale.scale > this._scale.prevScale && this.duration
+                ? Math.floor((this.currentTime / this.duration) * this._scale.scale)
+                : Math.floor((this._scale.scale / this._scale.prevScale) * this._page);
         this._pagination.setPages(this._scale.scale).setCurrentPage(this._page);
         return this.update();
     };
@@ -4077,6 +4077,20 @@ var ClipBarCarousel = /** @class */ (function (_super) {
     ClipBarCarousel.prototype.timeToIndex = function (index) {
         return this._durations.reduce(function (previous, value, i) { return (i < index ? previous + value : previous); }, 0);
     };
+    Object.defineProperty(ClipBarCarousel.prototype, "duration", {
+        get: function () {
+            return this.player().duration();
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(ClipBarCarousel.prototype, "currentTime", {
+        get: function () {
+            return this.player().currentTime();
+        },
+        enumerable: false,
+        configurable: true
+    });
     return ClipBarCarousel;
 }(Component));
 exports["default"] = ClipBarCarousel;
@@ -4311,6 +4325,7 @@ var ClipBarScale = /** @class */ (function (_super) {
     function ClipBarScale(player, options) {
         var _this = _super.call(this, player, options) || this;
         _this._value = 0;
+        _this._prev = 0;
         _this._lessButton = new Button(_this.player());
         _this._lessButton.addClass("lvp-clipbar-scale-button");
         _this._lessButton.addClass("lvp-clipbar-scale-button--minus");
@@ -4327,14 +4342,25 @@ var ClipBarScale = /** @class */ (function (_super) {
         return _this;
     }
     ClipBarScale.prototype.incrementScale = function (direction) {
+        this._prev = this._value;
         this._value = Math.min(Math.max(this._value + direction, this.min), this.max);
         this._lessButton[this._value <= this.min ? "disable" : "enable"]();
         this._moreButton[this._value >= this.max ? "disable" : "enable"]();
         this.trigger("update-scale");
     };
+    ClipBarScale.prototype.normalizeScale = function (value) {
+        return Math.pow(2, value + 1) / 2;
+    };
+    Object.defineProperty(ClipBarScale.prototype, "prevScale", {
+        get: function () {
+            return this.normalizeScale(this._prev);
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(ClipBarScale.prototype, "scale", {
         get: function () {
-            return Math.pow(2, this._value + 1) / 2;
+            return this.normalizeScale(this._value);
         },
         enumerable: false,
         configurable: true
@@ -4348,7 +4374,7 @@ var ClipBarScale = /** @class */ (function (_super) {
     });
     Object.defineProperty(ClipBarScale.prototype, "max", {
         get: function () {
-            return 3;
+            return 2;
         },
         enumerable: false,
         configurable: true
