@@ -78,9 +78,8 @@ export default class ClipBarCarousel extends Component {
   }
 
   public incrementItem(value: number) {
-    const currentTime = this.player().currentTime();
     const index = Math.min(
-      Math.max(this.indexToTime(currentTime) + value, 0),
+      Math.max(this.indexToTime(this.currentTime) + value, 0),
       this._durations.length - 1
     );
     const time = this.timeToIndex(index);
@@ -111,9 +110,10 @@ export default class ClipBarCarousel extends Component {
   }
 
   public updateScale() {
-    if (this._page > this._scale.scale - 1) {
-      this._page = this._scale.scale - 1;
-    }
+    this._page =
+      this._scale.scale > this._scale.prevScale && this.duration
+        ? Math.floor((this.currentTime / this.duration) * this._scale.scale)
+        : Math.floor((this._scale.scale / this._scale.prevScale) * this._page);
 
     this._pagination.setPages(this._scale.scale).setCurrentPage(this._page);
 
@@ -161,5 +161,13 @@ export default class ClipBarCarousel extends Component {
       (previous, value, i) => (i < index ? previous + value : previous),
       0
     );
+  }
+
+  private get duration() {
+    return this.player().duration();
+  }
+
+  private get currentTime() {
+    return this.player().currentTime();
   }
 }

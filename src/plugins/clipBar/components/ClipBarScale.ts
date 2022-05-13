@@ -5,6 +5,7 @@ const Button = videojs.getComponent("Button");
 
 export default class ClipBarScale extends Component {
   private _value: number = 0;
+  private _prev: number = 0;
   private _lessButton: videojs.Button;
   private _moreButton: videojs.Button;
 
@@ -29,6 +30,7 @@ export default class ClipBarScale extends Component {
   }
 
   private incrementScale(direction: number) {
+    this._prev = this._value;
     this._value = Math.min(
       Math.max(this._value + direction, this.min),
       this.max
@@ -39,8 +41,16 @@ export default class ClipBarScale extends Component {
     this.trigger("update-scale");
   }
 
+  private normalizeScale(value: number) {
+    return Math.pow(2, value + 1) / 2;
+  }
+
+  public get prevScale() {
+    return this.normalizeScale(this._prev);
+  }
+
   public get scale() {
-    return Math.pow(2, this._value + 1) / 2;
+    return this.normalizeScale(this._value);
   }
 
   public get min() {
@@ -48,6 +58,6 @@ export default class ClipBarScale extends Component {
   }
 
   public get max() {
-    return 3;
+    return 2;
   }
 }
