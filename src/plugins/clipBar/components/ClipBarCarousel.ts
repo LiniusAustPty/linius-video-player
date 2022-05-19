@@ -5,13 +5,13 @@ import ClipBarPagination from "./ClipBarPagination";
 import ClipBarScale from "./ClipBarScale";
 
 const Component = videojs.getComponent("Component");
-const Button = videojs.getComponent("Button");
+const ClickableComponent = videojs.getComponent("ClickableComponent");
 
 export default class ClipBarCarousel extends Component {
   private _page: number = 0;
   private _durations: number[] = [];
-  private _prevButton: videojs.Button;
-  private _nextButton: videojs.Button;
+  private _prevButton: videojs.ClickableComponent;
+  private _nextButton: videojs.ClickableComponent;
   private _carousel: ClipBarCarouselList;
   private _pagination: ClipBarPagination;
   private _scale: ClipBarScale;
@@ -19,17 +19,17 @@ export default class ClipBarCarousel extends Component {
   constructor(player: VideoJsPlayer) {
     super(player);
 
-    this._prevButton = new Button(this.player());
+    this._prevButton = new ClickableComponent(this.player());
     this._prevButton.addClass("lvp-clipbar-carousel-button");
     this._prevButton.addClass("lvp-clipbar-carousel-button--left");
     this._prevButton.setAttribute("title", "Previous page");
-    this._prevButton.on("click", () => this.incrementPage(-1));
+    this._prevButton.on(["tap", "click"], () => this.incrementPage(-1));
 
-    this._nextButton = new Button(this.player());
+    this._nextButton = new ClickableComponent(this.player());
     this._nextButton.addClass("lvp-clipbar-carousel-button");
     this._nextButton.addClass("lvp-clipbar-carousel-button--right");
     this._nextButton.setAttribute("title", "Next page");
-    this._nextButton.on("click", () => this.incrementPage(1));
+    this._nextButton.on(["tap", "click"], () => this.incrementPage(1));
 
     this._carousel = new ClipBarCarouselList(this.player());
 

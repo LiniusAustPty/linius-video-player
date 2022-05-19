@@ -1,7 +1,7 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
 const Component = videojs.getComponent("Component");
-const Button = videojs.getComponent("Button");
+const ClickableComponent = videojs.getComponent("ClickableComponent");
 
 export default class ClipBarCarousel extends Component {
   private _items: videojs.Button[] = [];
@@ -15,10 +15,10 @@ export default class ClipBarCarousel extends Component {
   public setPages(value: number) {
     this._items.forEach((item) => this.removeChild(item));
     this._items = Array.apply(null, Array(value)).map((_, value) => {
-      const button = new Button(this.player());
+      const button = new ClickableComponent(this.player());
       button.addClass("lvp-clipbar-pagination-item");
       button.setAttribute("title", `Page ${value + 1}`);
-      button.on("click", () => this.trigger("update-page", { value }));
+      button.on(["tap", "click"], () => this.trigger("update-page", { value }));
 
       return button;
     });

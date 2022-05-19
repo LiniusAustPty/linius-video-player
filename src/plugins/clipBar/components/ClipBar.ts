@@ -6,16 +6,16 @@ import ClipBarCarousel from "./ClipBarCarousel";
 import "../styles/index.scss";
 
 const Component = videojs.getComponent("Component");
-const Button = videojs.getComponent("Button");
+const ClickableComponent = videojs.getComponent("ClickableComponent");
 const Plugin = videojs.getPlugin("plugin");
 
 export default class ClipBar extends Plugin {
   private _isOpen: boolean = true;
   private _isAdded: boolean = false;
   private _clipBar: videojs.Component;
-  private _nextButton: videojs.Button;
-  private _prevButton: videojs.Button;
-  private _openButton: videojs.Button;
+  private _nextButton: videojs.ClickableComponent;
+  private _prevButton: videojs.ClickableComponent;
+  private _openButton: videojs.ClickableComponent;
 
   constructor(player: VideoJsPlayer, options?: VideoJsPlayerPluginOptions) {
     super(player, options);
@@ -26,22 +26,24 @@ export default class ClipBar extends Plugin {
     collapseContainer.addClass("lvp-clipbar-collapse");
     collapseContainer.addChild(carousel);
 
-    this._openButton = new Button(player);
+    this._openButton = new ClickableComponent(player);
     this._openButton.addClass("lvp-clipbar-expand");
     this._openButton.setAttribute("title", "Close");
-    this._openButton.on("click", () => this.toggleOpen());
+    this._openButton.on(["tap", "click"], () => this.toggleOpen());
 
-    this._prevButton = new Button(player);
+    this._prevButton = new ClickableComponent(player);
     this._prevButton.addClass("lvp-skip-control");
     this._prevButton.addClass("lvp-skip-control--previous");
     this._prevButton.setAttribute("title", "Previous clip");
-    this._prevButton.on("click", () => carousel.previous());
+    this._prevButton.on(["tap", "click"], () => {
+      carousel.previous();
+    });
 
-    this._nextButton = new Button(player);
+    this._nextButton = new ClickableComponent(player);
     this._nextButton.addClass("lvp-skip-control");
     this._nextButton.addClass("lvp-skip-control--next");
     this._nextButton.setAttribute("title", "Next clip");
-    this._nextButton.on("click", () => carousel.next());
+    this._nextButton.on(["tap", "click"], () => carousel.next());
 
     this._clipBar = new Component(player, {});
     this._clipBar.addClass("lvp-clipbar");

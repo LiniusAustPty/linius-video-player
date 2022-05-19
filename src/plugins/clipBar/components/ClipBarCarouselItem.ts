@@ -1,9 +1,9 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
 const Component = videojs.getComponent("Component");
-const Button = videojs.getComponent("Button");
+const ClickableComponent = videojs.getComponent("ClickableComponent");
 
-export default class ClipBarCarouselItem extends Button {
+export default class ClipBarCarouselItem extends ClickableComponent {
   private _startTime: number;
   private _duration: number;
   private _fill: videojs.Component;
@@ -26,7 +26,7 @@ export default class ClipBarCarouselItem extends Button {
     this.addClass("lvp-clipbar-carousel-list-item");
     this.setAttribute("style", `left:${x * 100}%;width:${width * 100}%`);
     this.addChild(this._fill);
-    this.on("click", () => {
+    this.on(["tap", "click"], () => {
       this.player().currentTime(startTime);
     });
   }

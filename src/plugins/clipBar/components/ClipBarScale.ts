@@ -1,28 +1,28 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
 const Component = videojs.getComponent("Component");
-const Button = videojs.getComponent("Button");
+const ClickableComponent = videojs.getComponent("ClickableComponent");
 
 export default class ClipBarScale extends Component {
   private _value: number = 0;
   private _prev: number = 0;
-  private _lessButton: videojs.Button;
-  private _moreButton: videojs.Button;
+  private _lessButton: videojs.ClickableComponent;
+  private _moreButton: videojs.ClickableComponent;
 
   constructor(player: VideoJsPlayer, options?: videojs.ComponentOptions) {
     super(player, options);
 
-    this._lessButton = new Button(this.player());
+    this._lessButton = new ClickableComponent(this.player());
     this._lessButton.addClass("lvp-clipbar-scale-button");
     this._lessButton.addClass("lvp-clipbar-scale-button--minus");
     this._lessButton.setAttribute("title", "Zoom out");
-    this._lessButton.on("click", () => this.incrementScale(-1));
+    this._lessButton.on(["tap", "click"], () => this.incrementScale(-1));
 
-    this._moreButton = new Button(this.player());
+    this._moreButton = new ClickableComponent(this.player());
     this._moreButton.addClass("lvp-clipbar-scale-button");
     this._moreButton.addClass("lvp-clipbar-scale-button--plus");
     this._moreButton.setAttribute("title", "Zoom in");
-    this._moreButton.on("click", () => this.incrementScale(1));
+    this._moreButton.on(["tap", "click"], () => this.incrementScale(1));
 
     this.addClass("lvp-clipbar-scale");
     this.addChild(this._lessButton);
