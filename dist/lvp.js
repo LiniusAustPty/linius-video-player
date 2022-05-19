@@ -3849,7 +3849,7 @@ var utils_1 = __webpack_require__(29);
 var ClipBarCarousel_1 = __webpack_require__(214);
 __webpack_require__(138);
 var Component = video_js_1.default.getComponent("Component");
-var Button = video_js_1.default.getComponent("Button");
+var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
 var Plugin = video_js_1.default.getPlugin("plugin");
 var ClipBar = /** @class */ (function (_super) {
     __extends(ClipBar, _super);
@@ -3861,20 +3861,22 @@ var ClipBar = /** @class */ (function (_super) {
         var collapseContainer = new Component(player);
         collapseContainer.addClass("lvp-clipbar-collapse");
         collapseContainer.addChild(carousel);
-        _this._openButton = new Button(player);
+        _this._openButton = new ClickableComponent(player);
         _this._openButton.addClass("lvp-clipbar-expand");
         _this._openButton.setAttribute("title", "Close");
-        _this._openButton.on("click", function () { return _this.toggleOpen(); });
-        _this._prevButton = new Button(player);
+        _this._openButton.on(["tap", "click"], function () { return _this.toggleOpen(); });
+        _this._prevButton = new ClickableComponent(player);
         _this._prevButton.addClass("lvp-skip-control");
         _this._prevButton.addClass("lvp-skip-control--previous");
         _this._prevButton.setAttribute("title", "Previous clip");
-        _this._prevButton.on("click", function () { return carousel.previous(); });
-        _this._nextButton = new Button(player);
+        _this._prevButton.on(["tap", "click"], function () {
+            carousel.previous();
+        });
+        _this._nextButton = new ClickableComponent(player);
         _this._nextButton.addClass("lvp-skip-control");
         _this._nextButton.addClass("lvp-skip-control--next");
         _this._nextButton.setAttribute("title", "Next clip");
-        _this._nextButton.on("click", function () { return carousel.next(); });
+        _this._nextButton.on(["tap", "click"], function () { return carousel.next(); });
         _this._clipBar = new Component(player, {});
         _this._clipBar.addClass("lvp-clipbar");
         _this._clipBar.addChild(collapseContainer);
@@ -3971,23 +3973,23 @@ var ClipBarCarouselList_1 = __webpack_require__(233);
 var ClipBarPagination_1 = __webpack_require__(611);
 var ClipBarScale_1 = __webpack_require__(470);
 var Component = video_js_1.default.getComponent("Component");
-var Button = video_js_1.default.getComponent("Button");
+var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
 var ClipBarCarousel = /** @class */ (function (_super) {
     __extends(ClipBarCarousel, _super);
     function ClipBarCarousel(player) {
         var _this = _super.call(this, player) || this;
         _this._page = 0;
         _this._durations = [];
-        _this._prevButton = new Button(_this.player());
+        _this._prevButton = new ClickableComponent(_this.player());
         _this._prevButton.addClass("lvp-clipbar-carousel-button");
         _this._prevButton.addClass("lvp-clipbar-carousel-button--left");
         _this._prevButton.setAttribute("title", "Previous page");
-        _this._prevButton.on("click", function () { return _this.incrementPage(-1); });
-        _this._nextButton = new Button(_this.player());
+        _this._prevButton.on(["tap", "click"], function () { return _this.incrementPage(-1); });
+        _this._nextButton = new ClickableComponent(_this.player());
         _this._nextButton.addClass("lvp-clipbar-carousel-button");
         _this._nextButton.addClass("lvp-clipbar-carousel-button--right");
         _this._nextButton.setAttribute("title", "Next page");
-        _this._nextButton.on("click", function () { return _this.incrementPage(1); });
+        _this._nextButton.on(["tap", "click"], function () { return _this.incrementPage(1); });
         _this._carousel = new ClipBarCarouselList_1.default(_this.player());
         _this._pagination = new ClipBarPagination_1.default(_this.player());
         _this._pagination.on("update-page", function (_, _a) {
@@ -4121,7 +4123,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var video_js_1 = __webpack_require__(649);
 var Component = video_js_1.default.getComponent("Component");
-var Button = video_js_1.default.getComponent("Button");
+var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
 var ClipBarCarouselItem = /** @class */ (function (_super) {
     __extends(ClipBarCarouselItem, _super);
     function ClipBarCarouselItem(player, x, width, startTime, duration) {
@@ -4133,7 +4135,7 @@ var ClipBarCarouselItem = /** @class */ (function (_super) {
         _this.addClass("lvp-clipbar-carousel-list-item");
         _this.setAttribute("style", "left:".concat(x * 100, "%;width:").concat(width * 100, "%"));
         _this.addChild(_this._fill);
-        _this.on("click", function () {
+        _this.on(["tap", "click"], function () {
             _this.player().currentTime(startTime);
         });
         return _this;
@@ -4157,7 +4159,7 @@ var ClipBarCarouselItem = /** @class */ (function (_super) {
         configurable: true
     });
     return ClipBarCarouselItem;
-}(Button));
+}(ClickableComponent));
 exports["default"] = ClipBarCarouselItem;
 
 
@@ -4260,7 +4262,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var video_js_1 = __webpack_require__(649);
 var Component = video_js_1.default.getComponent("Component");
-var Button = video_js_1.default.getComponent("Button");
+var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
 var ClipBarCarousel = /** @class */ (function (_super) {
     __extends(ClipBarCarousel, _super);
     function ClipBarCarousel(player) {
@@ -4273,10 +4275,10 @@ var ClipBarCarousel = /** @class */ (function (_super) {
         var _this = this;
         this._items.forEach(function (item) { return _this.removeChild(item); });
         this._items = Array.apply(null, Array(value)).map(function (_, value) {
-            var button = new Button(_this.player());
+            var button = new ClickableComponent(_this.player());
             button.addClass("lvp-clipbar-pagination-item");
             button.setAttribute("title", "Page ".concat(value + 1));
-            button.on("click", function () { return _this.trigger("update-page", { value: value }); });
+            button.on(["tap", "click"], function () { return _this.trigger("update-page", { value: value }); });
             return button;
         });
         this._items.forEach(function (item) { return _this.addChild(item); });
@@ -4319,23 +4321,23 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var video_js_1 = __webpack_require__(649);
 var Component = video_js_1.default.getComponent("Component");
-var Button = video_js_1.default.getComponent("Button");
+var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
 var ClipBarScale = /** @class */ (function (_super) {
     __extends(ClipBarScale, _super);
     function ClipBarScale(player, options) {
         var _this = _super.call(this, player, options) || this;
         _this._value = 0;
         _this._prev = 0;
-        _this._lessButton = new Button(_this.player());
+        _this._lessButton = new ClickableComponent(_this.player());
         _this._lessButton.addClass("lvp-clipbar-scale-button");
         _this._lessButton.addClass("lvp-clipbar-scale-button--minus");
         _this._lessButton.setAttribute("title", "Zoom out");
-        _this._lessButton.on("click", function () { return _this.incrementScale(-1); });
-        _this._moreButton = new Button(_this.player());
+        _this._lessButton.on(["tap", "click"], function () { return _this.incrementScale(-1); });
+        _this._moreButton = new ClickableComponent(_this.player());
         _this._moreButton.addClass("lvp-clipbar-scale-button");
         _this._moreButton.addClass("lvp-clipbar-scale-button--plus");
         _this._moreButton.setAttribute("title", "Zoom in");
-        _this._moreButton.on("click", function () { return _this.incrementScale(1); });
+        _this._moreButton.on(["tap", "click"], function () { return _this.incrementScale(1); });
         _this.addClass("lvp-clipbar-scale");
         _this.addChild(_this._lessButton);
         _this.addChild(_this._moreButton);
