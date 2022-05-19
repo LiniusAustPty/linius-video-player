@@ -3,7 +3,7 @@
     bottom: 0;
     height: 6em;
     background: transparent;
-    transition: bottom 0.15s;
+    transition: bottom 0.15s, opacity 0.15s;
 
     &::before {
       content: "";
@@ -23,12 +23,17 @@
 
   &.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
     opacity: 1;
-    bottom: -6em;
-    transition: bottom 0.25s, opacity 0.25s;
+  }
 
-    &::before {
-      opacity: 0;
-      transition-delay: 0.1s;
+  @media (hover: hover) {
+    &.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+      bottom: -6em;
+      transition: bottom 0.25s, opacity 0.25s;
+
+      &::before {
+        opacity: 0;
+        transition-delay: 0.1s;
+      }
     }
   }
 }

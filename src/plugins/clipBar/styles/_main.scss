@@ -62,9 +62,11 @@
     }
   }
 
-  &.vjs-has-started.vjs-user-inactive.vjs-playing
-    .vjs-control-bar
-    .lvp-clipbar {
-    opacity: 0;
+  @media (hover: hover) {
+    &.vjs-has-started.vjs-user-inactive.vjs-playing
+      .vjs-control-bar
+      .lvp-clipbar {
+      opacity: 0;
+    }
   }
 }
