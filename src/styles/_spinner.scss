@@ -1,0 +1,35 @@
+@keyframes vjs-spinner-fade {
+  0% {
+    border-top-color: $color-brand;
+  }
+  20% {
+    border-top-color: $color-brand;
+  }
+  35% {
+    border-top-color: white;
+  }
+  60% {
+    border-top-color: $color-brand;
+  }
+  100% {
+    border-top-color: $color-brand;
+  }
+}
+
+@-webkit-keyframes vjs-spinner-fade {
+  0% {
+    border-top-color: $color-brand;
+  }
+  20% {
+    border-top-color: $color-brand;
+  }
+  35% {
+    border-top-color: white;
+  }
+  60% {
+    border-top-color: $color-brand;
+  }
+  100% {
+    border-top-color: $color-brand;
+  }
+}
