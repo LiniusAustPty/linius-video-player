@@ -1,0 +1,25 @@
+.video-js.lvp {
+  .vjs-time-tooltip {
+    position: relative;
+    padding: 6px 8px;
+    height: auto;
+
+    &::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      border-right: 6px solid transparent;
+      border-left: 6px solid transparent;
+      border-top: 6px solid rgba(255, 255, 255, 0.8);
+      bottom: 0;
+    }
+  }
+
+  .vjs-mouse-display .vjs-time-tooltip::before {
+    border-top-color: rgba(0, 0, 0, 0.8);
+  }
+}

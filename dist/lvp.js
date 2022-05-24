@@ -3869,9 +3869,7 @@ var ClipBar = /** @class */ (function (_super) {
         _this._prevButton.addClass("lvp-skip-control");
         _this._prevButton.addClass("lvp-skip-control--previous");
         _this._prevButton.setAttribute("title", "Previous clip");
-        _this._prevButton.on(["tap", "click"], function () {
-            carousel.previous();
-        });
+        _this._prevButton.on(["tap", "click"], function () { return carousel.previous(); });
         _this._nextButton = new ClickableComponent(player);
         _this._nextButton.addClass("lvp-skip-control");
         _this._nextButton.addClass("lvp-skip-control--next");
@@ -3930,8 +3928,8 @@ var ClipBar = /** @class */ (function (_super) {
         return this;
     };
     ClipBar.prototype.dispose = function () {
-        _super.prototype.dispose.call(this);
         video_js_1.default.log("Linius Video Player: The ClipBar is being disposed.");
+        _super.prototype.dispose.call(this);
     };
     Object.defineProperty(ClipBar.prototype, "tech", {
         get: function () {

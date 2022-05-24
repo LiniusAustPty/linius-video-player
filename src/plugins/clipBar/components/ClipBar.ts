@@ -35,9 +35,7 @@ export default class ClipBar extends Plugin {
     this._prevButton.addClass("lvp-skip-control");
     this._prevButton.addClass("lvp-skip-control--previous");
     this._prevButton.setAttribute("title", "Previous clip");
-    this._prevButton.on(["tap", "click"], () => {
-      carousel.previous();
-    });
+    this._prevButton.on(["tap", "click"], () => carousel.previous());
 
     this._nextButton = new ClickableComponent(player);
     this._nextButton.addClass("lvp-skip-control");
@@ -107,9 +105,9 @@ export default class ClipBar extends Plugin {
   }
 
   public dispose() {
-    super.dispose();
-
     videojs.log("Linius Video Player: The ClipBar is being disposed.");
+
+    super.dispose();
   }
 
   public get tech() {
