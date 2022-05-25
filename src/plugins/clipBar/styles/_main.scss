@@ -9,8 +9,8 @@
       width: 100%;
       left: 0;
       bottom: 8em;
-      padding-left: 1em;
-      padding-right: 1em;
+      padding-left: 2em;
+      padding-right: 2em;
       transition: 150ms opacity;
 
       &-expand.vjs-button {
@@ -34,7 +34,7 @@
       &-collapse {
         position: relative;
         width: 100%;
-        height: 5em;
+        height: 4em;
         overflow: hidden;
         transition: 250ms height;
         padding-top: 0.25em;
