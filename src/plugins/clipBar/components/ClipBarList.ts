@@ -1,22 +1,27 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
-import ClipBarCarouselItem from "./ClipBarCarouselItem";
+import ClipBarItem from "./ClipBarItem";
 
 const Component = videojs.getComponent("Component");
 
-export default class ClipBarCarouselList extends Component {
-  private _items: ClipBarCarouselItem[] = [];
+export default class ClipBarList extends Component {
+  private _items: ClipBarItem[] = [];
+  private _container: videojs.Component;
 
   constructor(player: VideoJsPlayer) {
     super(player);
 
-    this.addClass("lvp-clipbar-carousel-list");
+    this._container = new Component(player);
+    this._container.addClass("lvp-clipbar-list");
+
+    this.addClass("lvp-clipbar-container");
+    this.addChild(this._container);
   }
 
   public setDurations(durations: number[]) {
-    this._items.forEach((child) => this.removeChild(child));
+    this._items.forEach((child) => this._container.removeChild(child));
     this._items = this.createItems(durations);
-    this._items.forEach((item) => this.addChild(item));
+    this._items.forEach((item) => this._container.addChild(item));
 
     return this;
   }
@@ -38,7 +43,7 @@ export default class ClipBarCarouselList extends Component {
   }
 
   private createItems(durations: number[]) {
-    const items: ClipBarCarouselItem[] = [];
+    const items: ClipBarItem[] = [];
     const totalDuration = durations.reduce(
       (previous, value) => previous + value,
       0
@@ -51,7 +56,7 @@ export default class ClipBarCarouselList extends Component {
     let currentTime = 0;
 
     durations.forEach((duration) => {
-      const component = new ClipBarCarouselItem(
+      const component = new ClipBarItem(
         this.player(),
         currentTime / totalDuration,
         duration / totalDuration,

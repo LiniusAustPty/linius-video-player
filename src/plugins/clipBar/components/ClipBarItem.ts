@@ -21,9 +21,9 @@ export default class ClipBarCarouselItem extends ClickableComponent {
     this._duration = duration;
 
     this._fill = new Component(this.player());
-    this._fill.addClass("lvp-clipbar-carousel-list-item-fill");
+    this._fill.addClass("lvp-clipbar-list-item-fill");
 
-    this.addClass("lvp-clipbar-carousel-list-item");
+    this.addClass("lvp-clipbar-list-item");
     this.setAttribute("style", `left:${x * 100}%;width:${width * 100}%`);
     this.addChild(this._fill);
     this.on(["tap", "click"], () => {
@@ -33,8 +33,6 @@ export default class ClipBarCarouselItem extends ClickableComponent {
 
   public setFill(value: number) {
     this._fill.setAttribute("style", `width:${value * 100}%`);
-
-    return this;
   }
 
   public get startTime() {

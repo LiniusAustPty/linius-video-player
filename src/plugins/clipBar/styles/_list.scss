@@ -1,0 +1,42 @@
+.video-js.lvp .vjs-control-bar .lvp-clipbar {
+  &-container {
+    position: relative;
+    height: 5em;
+  }
+
+  &-list {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transition: 500ms left, 500ms width;
+
+    &-item {
+      position: absolute;
+      width: 100%;
+      height: 1.2em;
+      border-radius: 0.6em;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+      background-color: rgba($color-light, 0.6);
+      transition: 150ms height;
+      transform: translateY(-50%);
+
+      &:hover {
+        background-color: rgba($color-light, 0.8);
+        height: 1.6em;
+      }
+
+      &-fill {
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 0;
+        width: 0%;
+        height: 100%;
+        background-color: $color-brand;
+        opacity: 0.9;
+      }
+    }
+  }
+}

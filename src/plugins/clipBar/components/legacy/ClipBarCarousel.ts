@@ -1,6 +1,6 @@
 import videojs, { VideoJsPlayer } from "video.js";
 
-import ClipBarCarouselList from "./ClipBarCarouselList";
+import ClipBarCarouselList from "../ClipBarList";
 import ClipBarPagination from "./ClipBarPagination";
 import ClipBarScale from "./ClipBarScale";
 

@@ -1,1 +1,1 @@
-export { default } from "./components/ClipBar";
+export { default } from "./components/ClipBarPlugin";

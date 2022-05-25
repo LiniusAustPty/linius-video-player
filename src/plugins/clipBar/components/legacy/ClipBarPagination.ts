@@ -3,7 +3,7 @@ import videojs, { VideoJsPlayer } from "video.js";
 const Component = videojs.getComponent("Component");
 const ClickableComponent = videojs.getComponent("ClickableComponent");
 
-export default class ClipBarCarousel extends Component {
+export default class ClipBarPagination extends Component {
   private _items: videojs.Button[] = [];
 
   constructor(player: VideoJsPlayer) {
