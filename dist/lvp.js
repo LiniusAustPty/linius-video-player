@@ -3823,282 +3823,7 @@ exports.defaultOptions = {
 
 /***/ }),
 
-/***/ 605:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var video_js_1 = __webpack_require__(649);
-var utils_1 = __webpack_require__(29);
-var ClipBarCarousel_1 = __webpack_require__(214);
-__webpack_require__(138);
-var Component = video_js_1.default.getComponent("Component");
-var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
-var Plugin = video_js_1.default.getPlugin("plugin");
-var ClipBar = /** @class */ (function (_super) {
-    __extends(ClipBar, _super);
-    function ClipBar(player, options) {
-        var _this = _super.call(this, player, options) || this;
-        _this._isOpen = true;
-        _this._isAdded = false;
-        var carousel = new ClipBarCarousel_1.default(player);
-        var collapseContainer = new Component(player);
-        collapseContainer.addClass("lvp-clipbar-collapse");
-        collapseContainer.addChild(carousel);
-        _this._openButton = new ClickableComponent(player);
-        _this._openButton.addClass("lvp-clipbar-expand");
-        _this._openButton.setAttribute("title", "Close");
-        _this._openButton.on(["tap", "click"], function () { return _this.toggleOpen(); });
-        _this._prevButton = new ClickableComponent(player);
-        _this._prevButton.addClass("lvp-skip-control");
-        _this._prevButton.addClass("lvp-skip-control--previous");
-        _this._prevButton.setAttribute("title", "Previous clip");
-        _this._prevButton.on(["tap", "click"], function () { return carousel.previous(); });
-        _this._nextButton = new ClickableComponent(player);
-        _this._nextButton.addClass("lvp-skip-control");
-        _this._nextButton.addClass("lvp-skip-control--next");
-        _this._nextButton.setAttribute("title", "Next clip");
-        _this._nextButton.on(["tap", "click"], function () { return carousel.next(); });
-        _this._clipBar = new Component(player, {});
-        _this._clipBar.addClass("lvp-clipbar");
-        _this._clipBar.addChild(collapseContainer);
-        _this._clipBar.addChild(_this._openButton);
-        _this.on(player, "loadedmetadata", function () {
-            var _a, _b, _c, _d;
-            var segments = (_d = (_c = (_b = (_a = _this.tech) === null || _a === void 0 ? void 0 : _a.vhs) === null || _b === void 0 ? void 0 : _b.playlists) === null || _c === void 0 ? void 0 : _c.media()) === null || _d === void 0 ? void 0 : _d.segments;
-            _this.addComponentToControlBar(!!segments);
-            if (segments) {
-                carousel.addItems((0, utils_1.segmentsToDurations)(segments));
-            }
-            else {
-                video_js_1.default.log("Linius Video Player: No video segments found.");
-            }
-        });
-        _this.on(player, "timeupdate", function () {
-            carousel.setCurrentTime(_this.player.currentTime());
-        });
-        return _this;
-    }
-    ClipBar.prototype.toggleOpen = function () {
-        this.setOpen(!this._isOpen);
-        return this;
-    };
-    ClipBar.prototype.setOpen = function (value) {
-        var _a;
-        if (value === void 0) { value = true; }
-        this._isOpen = value;
-        this._openButton.setAttribute("title", value ? "Close" : "Open");
-        (_a = this.player.controlBar) === null || _a === void 0 ? void 0 : _a[value ? "removeClass" : "addClass"]("lvp-clipbar--collapsed");
-        return this;
-    };
-    ClipBar.prototype.addComponentToControlBar = function (value) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        if (value === void 0) { value = true; }
-        if (this._isAdded !== value) {
-            this._isAdded = value;
-            if (value) {
-                (_a = this.player.controlBar) === null || _a === void 0 ? void 0 : _a.addChild(this._clipBar, undefined, 0);
-                (_b = this.player.controlBar) === null || _b === void 0 ? void 0 : _b.addChild(this._prevButton, undefined, 3);
-                (_c = this.player.controlBar) === null || _c === void 0 ? void 0 : _c.addChild(this._nextButton, undefined, 4);
-                (_d = this.player.controlBar) === null || _d === void 0 ? void 0 : _d.addClass("vjs-control-bar--lvp");
-            }
-            else {
-                (_e = this.player.controlBar) === null || _e === void 0 ? void 0 : _e.removeChild(this._clipBar);
-                (_f = this.player.controlBar) === null || _f === void 0 ? void 0 : _f.removeChild(this._prevButton);
-                (_g = this.player.controlBar) === null || _g === void 0 ? void 0 : _g.removeChild(this._nextButton);
-                (_h = this.player.controlBar) === null || _h === void 0 ? void 0 : _h.removeClass("vjs-control-bar--lvp");
-            }
-        }
-        return this;
-    };
-    ClipBar.prototype.dispose = function () {
-        video_js_1.default.log("Linius Video Player: The ClipBar is being disposed.");
-        _super.prototype.dispose.call(this);
-    };
-    Object.defineProperty(ClipBar.prototype, "tech", {
-        get: function () {
-            return this.player.tech(true);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ClipBar;
-}(Plugin));
-exports["default"] = ClipBar;
-
-
-/***/ }),
-
-/***/ 214:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var video_js_1 = __webpack_require__(649);
-var ClipBarCarouselList_1 = __webpack_require__(233);
-var ClipBarPagination_1 = __webpack_require__(611);
-var ClipBarScale_1 = __webpack_require__(470);
-var Component = video_js_1.default.getComponent("Component");
-var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
-var ClipBarCarousel = /** @class */ (function (_super) {
-    __extends(ClipBarCarousel, _super);
-    function ClipBarCarousel(player) {
-        var _this = _super.call(this, player) || this;
-        _this._page = 0;
-        _this._durations = [];
-        _this._prevButton = new ClickableComponent(_this.player());
-        _this._prevButton.addClass("lvp-clipbar-carousel-button");
-        _this._prevButton.addClass("lvp-clipbar-carousel-button--left");
-        _this._prevButton.setAttribute("title", "Previous page");
-        _this._prevButton.on(["tap", "click"], function () { return _this.incrementPage(-1); });
-        _this._nextButton = new ClickableComponent(_this.player());
-        _this._nextButton.addClass("lvp-clipbar-carousel-button");
-        _this._nextButton.addClass("lvp-clipbar-carousel-button--right");
-        _this._nextButton.setAttribute("title", "Next page");
-        _this._nextButton.on(["tap", "click"], function () { return _this.incrementPage(1); });
-        _this._carousel = new ClipBarCarouselList_1.default(_this.player());
-        _this._pagination = new ClipBarPagination_1.default(_this.player());
-        _this._pagination.on("update-page", function (_, _a) {
-            var value = _a.value;
-            _this.setCurrentPage(value);
-        });
-        _this._scale = new ClipBarScale_1.default(_this.player());
-        _this._scale.on("update-scale", function () { return _this.updateScale(); });
-        var carouselWrapper = new Component(_this.player());
-        carouselWrapper.addClass("lvp-clipbar-carousel-inner");
-        carouselWrapper.addChild(_this._carousel);
-        var topRow = new Component(_this.player());
-        topRow.addClass("lvp-clipbar-row");
-        topRow.addChild(_this._prevButton);
-        topRow.addChild(carouselWrapper);
-        topRow.addChild(_this._nextButton);
-        var bottomRow = new Component(_this.player());
-        bottomRow.addClass("lvp-clipbar-row");
-        bottomRow.addChild(_this._pagination);
-        bottomRow.addChild(_this._scale);
-        _this.addClass("lvp-clipbar-carousel");
-        _this.addChild(topRow);
-        _this.addChild(bottomRow);
-        _this.updateScale();
-        return _this;
-    }
-    ClipBarCarousel.prototype.addItems = function (durations) {
-        this._durations = durations;
-        this._carousel.setDurations(durations);
-        return this;
-    };
-    ClipBarCarousel.prototype.next = function () {
-        return this.incrementItem(1);
-    };
-    ClipBarCarousel.prototype.previous = function () {
-        return this.incrementItem(-1);
-    };
-    ClipBarCarousel.prototype.incrementItem = function (value) {
-        var index = Math.min(Math.max(this.indexToTime(this.currentTime) + value, 0), this._durations.length - 1);
-        var time = this.timeToIndex(index);
-        this.player().currentTime(time);
-        return this;
-    };
-    ClipBarCarousel.prototype.incrementPage = function (value) {
-        return this.setCurrentPage(Math.min(Math.max(this._page + value, 0), this._scale.scale - 1));
-    };
-    ClipBarCarousel.prototype.setCurrentTime = function (value) {
-        this._carousel.setCurrentTime(value);
-        return this;
-    };
-    ClipBarCarousel.prototype.setCurrentPage = function (value) {
-        this._page = value;
-        this._pagination.setCurrentPage(this._page);
-        return this.update();
-    };
-    ClipBarCarousel.prototype.updateScale = function () {
-        this._page =
-            this._scale.scale > this._scale.prevScale && this.duration
-                ? Math.floor((this.currentTime / this.duration) * this._scale.scale)
-                : Math.floor((this._scale.scale / this._scale.prevScale) * this._page);
-        this._pagination.setPages(this._scale.scale).setCurrentPage(this._page);
-        return this.update();
-    };
-    ClipBarCarousel.prototype.update = function () {
-        return this.updateButtons().updatePosition();
-    };
-    ClipBarCarousel.prototype.updateButtons = function () {
-        this._prevButton[this._page <= 0 ? "disable" : "enable"]();
-        this._nextButton[this._page >= this._scale.scale - 1 ? "disable" : "enable"]();
-        return this;
-    };
-    ClipBarCarousel.prototype.updatePosition = function () {
-        this._carousel.setAttribute("style", "left:".concat(-this._page * 100, "%;width:").concat(this._scale.scale * 100, "%"));
-        return this;
-    };
-    ClipBarCarousel.prototype.indexToTime = function (time) {
-        var index = 0;
-        var total = 0;
-        this._durations.forEach(function (value, i) {
-            if (total <= time) {
-                index = i;
-                total += value;
-            }
-        });
-        return index;
-    };
-    ClipBarCarousel.prototype.timeToIndex = function (index) {
-        return this._durations.reduce(function (previous, value, i) { return (i < index ? previous + value : previous); }, 0);
-    };
-    Object.defineProperty(ClipBarCarousel.prototype, "duration", {
-        get: function () {
-            return this.player().duration();
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClipBarCarousel.prototype, "currentTime", {
-        get: function () {
-            return this.player().currentTime();
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ClipBarCarousel;
-}(Component));
-exports["default"] = ClipBarCarousel;
-
-
-/***/ }),
-
-/***/ 325:
+/***/ 501:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -4129,8 +3854,8 @@ var ClipBarCarouselItem = /** @class */ (function (_super) {
         _this._startTime = startTime;
         _this._duration = duration;
         _this._fill = new Component(_this.player());
-        _this._fill.addClass("lvp-clipbar-carousel-list-item-fill");
-        _this.addClass("lvp-clipbar-carousel-list-item");
+        _this._fill.addClass("lvp-clipbar-list-item-fill");
+        _this.addClass("lvp-clipbar-list-item");
         _this.setAttribute("style", "left:".concat(x * 100, "%;width:").concat(width * 100, "%"));
         _this.addChild(_this._fill);
         _this.on(["tap", "click"], function () {
@@ -4140,7 +3865,6 @@ var ClipBarCarouselItem = /** @class */ (function (_super) {
     }
     ClipBarCarouselItem.prototype.setFill = function (value) {
         this._fill.setAttribute("style", "width:".concat(value * 100, "%"));
-        return this;
     };
     Object.defineProperty(ClipBarCarouselItem.prototype, "startTime", {
         get: function () {
@@ -4163,7 +3887,7 @@ exports["default"] = ClipBarCarouselItem;
 
 /***/ }),
 
-/***/ 233:
+/***/ 891:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -4185,24 +3909,27 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var video_js_1 = __webpack_require__(649);
-var ClipBarCarouselItem_1 = __webpack_require__(325);
+var ClipBarItem_1 = __webpack_require__(501);
 var Component = video_js_1.default.getComponent("Component");
-var ClipBarCarouselList = /** @class */ (function (_super) {
-    __extends(ClipBarCarouselList, _super);
-    function ClipBarCarouselList(player) {
+var ClipBarList = /** @class */ (function (_super) {
+    __extends(ClipBarList, _super);
+    function ClipBarList(player) {
         var _this = _super.call(this, player) || this;
         _this._items = [];
-        _this.addClass("lvp-clipbar-carousel-list");
+        _this._container = new Component(player);
+        _this._container.addClass("lvp-clipbar-list");
+        _this.addClass("lvp-clipbar-container");
+        _this.addChild(_this._container);
         return _this;
     }
-    ClipBarCarouselList.prototype.setDurations = function (durations) {
+    ClipBarList.prototype.setDurations = function (durations) {
         var _this = this;
-        this._items.forEach(function (child) { return _this.removeChild(child); });
+        this._items.forEach(function (child) { return _this._container.removeChild(child); });
         this._items = this.createItems(durations);
-        this._items.forEach(function (item) { return _this.addChild(item); });
+        this._items.forEach(function (item) { return _this._container.addChild(item); });
         return this;
     };
-    ClipBarCarouselList.prototype.setCurrentTime = function (value) {
+    ClipBarList.prototype.setCurrentTime = function (value) {
         this._items.forEach(function (segment) {
             var startTime = segment.startTime, duration = segment.duration;
             var isActive = value > startTime && value <= startTime + duration;
@@ -4215,7 +3942,7 @@ var ClipBarCarouselList = /** @class */ (function (_super) {
         });
         return this;
     };
-    ClipBarCarouselList.prototype.createItems = function (durations) {
+    ClipBarList.prototype.createItems = function (durations) {
         var _this = this;
         var items = [];
         var totalDuration = durations.reduce(function (previous, value) { return previous + value; }, 0);
@@ -4224,20 +3951,20 @@ var ClipBarCarouselList = /** @class */ (function (_super) {
         }
         var currentTime = 0;
         durations.forEach(function (duration) {
-            var component = new ClipBarCarouselItem_1.default(_this.player(), currentTime / totalDuration, duration / totalDuration, currentTime, duration);
+            var component = new ClipBarItem_1.default(_this.player(), currentTime / totalDuration, duration / totalDuration, currentTime, duration);
             items.push(component);
             currentTime += duration;
         });
         return items;
     };
-    return ClipBarCarouselList;
+    return ClipBarList;
 }(Component));
-exports["default"] = ClipBarCarouselList;
+exports["default"] = ClipBarList;
 
 
 /***/ }),
 
-/***/ 611:
+/***/ 382:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -4259,129 +3986,108 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var video_js_1 = __webpack_require__(649);
+var utils_1 = __webpack_require__(29);
+var ClipBarList_1 = __webpack_require__(891);
+__webpack_require__(138);
 var Component = video_js_1.default.getComponent("Component");
 var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
-var ClipBarCarousel = /** @class */ (function (_super) {
-    __extends(ClipBarCarousel, _super);
-    function ClipBarCarousel(player) {
-        var _this = _super.call(this, player) || this;
-        _this._items = [];
-        _this.addClass("lvp-clipbar-pagination");
-        return _this;
-    }
-    ClipBarCarousel.prototype.setPages = function (value) {
-        var _this = this;
-        this._items.forEach(function (item) { return _this.removeChild(item); });
-        this._items = Array.apply(null, Array(value)).map(function (_, value) {
-            var button = new ClickableComponent(_this.player());
-            button.addClass("lvp-clipbar-pagination-item");
-            button.setAttribute("title", "Page ".concat(value + 1));
-            button.on(["tap", "click"], function () { return _this.trigger("update-page", { value: value }); });
-            return button;
-        });
-        this._items.forEach(function (item) { return _this.addChild(item); });
-        return this;
-    };
-    ClipBarCarousel.prototype.setCurrentPage = function (value) {
-        this._items.forEach(function (item, index, array) {
-            item[value === index ? "addClass" : "removeClass"]("lvp-clipbar-pagination-item--active");
-            item[array.length === 1 ? "disable" : "enable"]();
-        });
-        return this;
-    };
-    return ClipBarCarousel;
-}(Component));
-exports["default"] = ClipBarCarousel;
-
-
-/***/ }),
-
-/***/ 470:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-var video_js_1 = __webpack_require__(649);
-var Component = video_js_1.default.getComponent("Component");
-var ClickableComponent = video_js_1.default.getComponent("ClickableComponent");
-var ClipBarScale = /** @class */ (function (_super) {
-    __extends(ClipBarScale, _super);
-    function ClipBarScale(player, options) {
+var Plugin = video_js_1.default.getPlugin("plugin");
+var ClipBarPlugin = /** @class */ (function (_super) {
+    __extends(ClipBarPlugin, _super);
+    function ClipBarPlugin(player, options) {
         var _this = _super.call(this, player, options) || this;
-        _this._value = 0;
-        _this._prev = 0;
-        _this._lessButton = new ClickableComponent(_this.player());
-        _this._lessButton.addClass("lvp-clipbar-scale-button");
-        _this._lessButton.addClass("lvp-clipbar-scale-button--minus");
-        _this._lessButton.setAttribute("title", "Zoom out");
-        _this._lessButton.on(["tap", "click"], function () { return _this.incrementScale(-1); });
-        _this._moreButton = new ClickableComponent(_this.player());
-        _this._moreButton.addClass("lvp-clipbar-scale-button");
-        _this._moreButton.addClass("lvp-clipbar-scale-button--plus");
-        _this._moreButton.setAttribute("title", "Zoom in");
-        _this._moreButton.on(["tap", "click"], function () { return _this.incrementScale(1); });
-        _this.addClass("lvp-clipbar-scale");
-        _this.addChild(_this._lessButton);
-        _this.addChild(_this._moreButton);
+        _this._isOpen = true;
+        _this._isAdded = false;
+        _this._durations = [];
+        var clipList = new ClipBarList_1.default(player);
+        var collapseContainer = new Component(player);
+        collapseContainer.addClass("lvp-clipbar-collapse");
+        collapseContainer.addChild(clipList);
+        _this._openButton = new ClickableComponent(player);
+        _this._openButton.addClass("lvp-clipbar-expand");
+        _this._openButton.setAttribute("title", "Close");
+        _this._openButton.on(["tap", "click"], function () { return _this.toggleOpen(); });
+        _this._prevButton = new ClickableComponent(player);
+        _this._prevButton.addClass("lvp-skip-control");
+        _this._prevButton.addClass("lvp-skip-control--previous");
+        _this._prevButton.setAttribute("title", "Previous clip");
+        _this._prevButton.on(["tap", "click"], function () { return _this.previous(); });
+        _this._nextButton = new ClickableComponent(player);
+        _this._nextButton.addClass("lvp-skip-control");
+        _this._nextButton.addClass("lvp-skip-control--next");
+        _this._nextButton.setAttribute("title", "Next clip");
+        _this._nextButton.on(["tap", "click"], function () { return _this.next(); });
+        _this._clipBar = new Component(player);
+        _this._clipBar.addClass("lvp-clipbar");
+        _this._clipBar.addChild(collapseContainer);
+        _this._clipBar.addChild(_this._openButton);
+        _this.on(player, "loadedmetadata", function () {
+            var _a, _b, _c, _d;
+            var segments = (_d = (_c = (_b = (_a = _this.tech) === null || _a === void 0 ? void 0 : _a.vhs) === null || _b === void 0 ? void 0 : _b.playlists) === null || _c === void 0 ? void 0 : _c.media()) === null || _d === void 0 ? void 0 : _d.segments;
+            _this.addComponentToControlBar(!!segments);
+            _this._durations = !!segments ? (0, utils_1.segmentsToDurations)(segments) : [];
+            clipList.setDurations(_this._durations);
+        });
+        _this.on(player, "timeupdate", function () {
+            clipList.setCurrentTime(_this.player.currentTime());
+        });
         return _this;
     }
-    ClipBarScale.prototype.incrementScale = function (direction) {
-        this._prev = this._value;
-        this._value = Math.min(Math.max(this._value + direction, this.min), this.max);
-        this._lessButton[this._value <= this.min ? "disable" : "enable"]();
-        this._moreButton[this._value >= this.max ? "disable" : "enable"]();
-        this.trigger("update-scale");
+    ClipBarPlugin.prototype.addComponentToControlBar = function (value) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        if (value === void 0) { value = true; }
+        if (this._isAdded !== value) {
+            this._isAdded = value;
+            if (value) {
+                (_a = this.player.controlBar) === null || _a === void 0 ? void 0 : _a.addChild(this._clipBar, undefined, 0);
+                (_b = this.player.controlBar) === null || _b === void 0 ? void 0 : _b.addChild(this._prevButton, undefined, 3);
+                (_c = this.player.controlBar) === null || _c === void 0 ? void 0 : _c.addChild(this._nextButton, undefined, 4);
+                (_d = this.player.controlBar) === null || _d === void 0 ? void 0 : _d.addClass("vjs-control-bar--lvp");
+            }
+            else {
+                (_e = this.player.controlBar) === null || _e === void 0 ? void 0 : _e.removeChild(this._clipBar);
+                (_f = this.player.controlBar) === null || _f === void 0 ? void 0 : _f.removeChild(this._prevButton);
+                (_g = this.player.controlBar) === null || _g === void 0 ? void 0 : _g.removeChild(this._nextButton);
+                (_h = this.player.controlBar) === null || _h === void 0 ? void 0 : _h.removeClass("vjs-control-bar--lvp");
+            }
+        }
     };
-    ClipBarScale.prototype.normalizeScale = function (value) {
-        return Math.pow(2, value + 1) / 2;
+    ClipBarPlugin.prototype.toggleOpen = function () {
+        this.setOpen(!this._isOpen);
     };
-    Object.defineProperty(ClipBarScale.prototype, "prevScale", {
+    ClipBarPlugin.prototype.setOpen = function (value) {
+        var _a;
+        if (value === void 0) { value = true; }
+        this._isOpen = value;
+        this._openButton.setAttribute("title", value ? "Close" : "Open");
+        (_a = this.player.controlBar) === null || _a === void 0 ? void 0 : _a[value ? "removeClass" : "addClass"]("lvp-clipbar--collapsed");
+    };
+    ClipBarPlugin.prototype.next = function () {
+        return this.incrementItem(1);
+    };
+    ClipBarPlugin.prototype.previous = function () {
+        return this.incrementItem(-1);
+    };
+    ClipBarPlugin.prototype.incrementItem = function (value) {
+        var index = Math.min(Math.max((0, utils_1.indexToTime)(this._durations, this.player.currentTime()) + value, 0), this._durations.length - 1);
+        var time = (0, utils_1.timeToIndex)(this._durations, index);
+        this.player.currentTime(time);
+        return this;
+    };
+    Object.defineProperty(ClipBarPlugin.prototype, "tech", {
         get: function () {
-            return this.normalizeScale(this._prev);
+            return this.player.tech(true);
         },
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(ClipBarScale.prototype, "scale", {
-        get: function () {
-            return this.normalizeScale(this._value);
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClipBarScale.prototype, "min", {
-        get: function () {
-            return 0;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(ClipBarScale.prototype, "max", {
-        get: function () {
-            return 2;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ClipBarScale;
-}(Component));
-exports["default"] = ClipBarScale;
+    ClipBarPlugin.prototype.dispose = function () {
+        video_js_1.default.log("Linius Video Player: The ClipBar is being disposed.");
+        _super.prototype.dispose.call(this);
+    };
+    return ClipBarPlugin;
+}(Plugin));
+exports["default"] = ClipBarPlugin;
 
 
 /***/ }),
@@ -4393,8 +4099,8 @@ exports["default"] = ClipBarScale;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = void 0;
-var ClipBar_1 = __webpack_require__(605);
-Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return ClipBar_1.default; } }));
+var ClipBarPlugin_1 = __webpack_require__(382);
+Object.defineProperty(exports, "default", ({ enumerable: true, get: function () { return ClipBarPlugin_1.default; } }));
 
 
 /***/ }),
@@ -4414,12 +4120,12 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.segmentsToDurations = void 0;
+exports.indexToTime = exports.timeToIndex = exports.segmentsToDurations = void 0;
 function segmentsToDurations(segments) {
     return segments.reduce(function (previous, segment, index) {
-        if (segment.discontinuity || !index) {
-            return __spreadArray(__spreadArray([], previous, true), [parseFloat(segment.duration)], false);
-        }
+        //if (segment.discontinuity || !index) {
+        return __spreadArray(__spreadArray([], previous, true), [parseFloat(segment.duration)], false);
+        //}
         return previous.map(function (value, index, array) {
             return index === array.length - 1
                 ? value + parseFloat(segment.duration)
@@ -4428,6 +4134,22 @@ function segmentsToDurations(segments) {
     }, []);
 }
 exports.segmentsToDurations = segmentsToDurations;
+function timeToIndex(durations, index) {
+    return durations.reduce(function (previous, value, i) { return (i < index ? previous + value : previous); }, 0);
+}
+exports.timeToIndex = timeToIndex;
+function indexToTime(durations, time) {
+    var index = 0;
+    var total = 0;
+    durations.forEach(function (value, i) {
+        if (total <= time) {
+            index = i;
+            total += value;
+        }
+    });
+    return index;
+}
+exports.indexToTime = indexToTime;
 
 
 /***/ }),
