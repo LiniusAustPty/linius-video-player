@@ -4123,9 +4123,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.indexToTime = exports.timeToIndex = exports.segmentsToDurations = void 0;
 function segmentsToDurations(segments) {
     return segments.reduce(function (previous, segment, index) {
-        //if (segment.discontinuity || !index) {
-        return __spreadArray(__spreadArray([], previous, true), [parseFloat(segment.duration)], false);
-        //}
+        if (segment.discontinuity || !index) {
+            return __spreadArray(__spreadArray([], previous, true), [parseFloat(segment.duration)], false);
+        }
         return previous.map(function (value, index, array) {
             return index === array.length - 1
                 ? value + parseFloat(segment.duration)
