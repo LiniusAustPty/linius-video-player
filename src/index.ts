@@ -51,11 +51,15 @@ export namespace lvp {
   }
 
   function registerPlugins(plugins: Partial<VideoJsPlayerPluginOptions>) {
+    const existingPlugins = videojs.getPlugins();
+
     Object.keys(plugins).forEach((key) => {
-      switch (key) {
-        case "ClipBarPlugin":
-          videojs.registerPlugin(key, ClipBarPlugin);
-          break;
+      if (!Object.keys(existingPlugins).includes(key)) {
+        switch (key) {
+          case "ClipBarPlugin":
+            videojs.registerPlugin(key, ClipBarPlugin);
+            break;
+        }
       }
     });
   }

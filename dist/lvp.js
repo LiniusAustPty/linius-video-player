@@ -3771,11 +3771,14 @@ var lvp;
         }
     }
     function registerPlugins(plugins) {
+        var existingPlugins = lvp.videojs.getPlugins();
         Object.keys(plugins).forEach(function (key) {
-            switch (key) {
-                case "ClipBarPlugin":
-                    lvp.videojs.registerPlugin(key, plugins_1.ClipBarPlugin);
-                    break;
+            if (!Object.keys(existingPlugins).includes(key)) {
+                switch (key) {
+                    case "ClipBarPlugin":
+                        lvp.videojs.registerPlugin(key, plugins_1.ClipBarPlugin);
+                        break;
+                }
             }
         });
     }
