@@ -14,14 +14,14 @@ export function segmentsToDurations(segments: Segment[]) {
   }, []);
 }
 
-export function timeToIndex(durations: number[], index: number) {
+export function indexToTime(durations: number[], index: number) {
   return durations.reduce(
     (previous, value, i) => (i < index ? previous + value : previous),
     0
   );
 }
 
-export function indexToTime(durations: number[], time: number) {
+export function timeToIndex(durations: number[], time: number) {
   let index = 0;
   let total = 0;
 

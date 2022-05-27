@@ -4027,9 +4027,11 @@ var ClipBarPlugin = /** @class */ (function (_super) {
         _this.on(player, "loadedmetadata", function () {
             var _a, _b, _c, _d;
             var segments = (_d = (_c = (_b = (_a = _this.tech) === null || _a === void 0 ? void 0 : _a.vhs) === null || _b === void 0 ? void 0 : _b.playlists) === null || _c === void 0 ? void 0 : _c.media()) === null || _d === void 0 ? void 0 : _d.segments;
-            _this.addComponentToControlBar(!!segments);
-            _this._durations = !!segments ? (0, utils_1.segmentsToDurations)(segments) : [];
+            var durations = (0, utils_1.segmentsToDurations)(segments);
+            var hasSegments = durations.length > 1;
+            _this._durations = hasSegments ? durations : [];
             clipList.setDurations(_this._durations);
+            _this.addComponentToControlBar(hasSegments);
         });
         _this.on(player, "timeupdate", function () {
             clipList.setCurrentTime(_this.player.currentTime());
@@ -4072,8 +4074,8 @@ var ClipBarPlugin = /** @class */ (function (_super) {
         return this.incrementItem(-1);
     };
     ClipBarPlugin.prototype.incrementItem = function (value) {
-        var index = Math.min(Math.max((0, utils_1.indexToTime)(this._durations, this.player.currentTime()) + value, 0), this._durations.length - 1);
-        var time = (0, utils_1.timeToIndex)(this._durations, index);
+        var index = Math.min(Math.max((0, utils_1.timeToIndex)(this._durations, this.player.currentTime()) + value, 0), this._durations.length - 1);
+        var time = (0, utils_1.indexToTime)(this._durations, index);
         this.player.currentTime(time);
         return this;
     };
@@ -4123,7 +4125,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.indexToTime = exports.timeToIndex = exports.segmentsToDurations = void 0;
+exports.timeToIndex = exports.indexToTime = exports.segmentsToDurations = void 0;
 function segmentsToDurations(segments) {
     return segments.reduce(function (previous, segment, index) {
         if (segment.discontinuity || !index) {
@@ -4137,11 +4139,11 @@ function segmentsToDurations(segments) {
     }, []);
 }
 exports.segmentsToDurations = segmentsToDurations;
-function timeToIndex(durations, index) {
+function indexToTime(durations, index) {
     return durations.reduce(function (previous, value, i) { return (i < index ? previous + value : previous); }, 0);
 }
-exports.timeToIndex = timeToIndex;
-function indexToTime(durations, time) {
+exports.indexToTime = indexToTime;
+function timeToIndex(durations, time) {
     var index = 0;
     var total = 0;
     durations.forEach(function (value, i) {
@@ -4152,7 +4154,7 @@ function indexToTime(durations, time) {
     });
     return index;
 }
-exports.indexToTime = indexToTime;
+exports.timeToIndex = timeToIndex;
 
 
 /***/ }),

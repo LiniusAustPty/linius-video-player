@@ -1,7 +1,7 @@
 import videojs, { VideoJsPlayer, VideoJsPlayerPluginOptions } from "video.js";
 
 import { Segment } from "../types";
-import { indexToTime, segmentsToDurations, timeToIndex } from "../utils";
+import { timeToIndex, segmentsToDurations, indexToTime } from "../utils";
 import ClipBarList from "./ClipBarList";
 import "../styles/index.scss";
 
@@ -53,11 +53,14 @@ export default class ClipBarPlugin extends Plugin {
       const segments = this.tech?.vhs?.playlists?.media()
         ?.segments as Segment[];
 
-      this.addComponentToControlBar(!!segments);
+      const durations = segmentsToDurations(segments);
+      const hasSegments = durations.length > 1;
 
-      this._durations = !!segments ? segmentsToDurations(segments) : [];
+      this._durations = hasSegments ? durations : [];
 
       clipList.setDurations(this._durations);
+
+      this.addComponentToControlBar(hasSegments);
     });
 
     this.on(player, "timeupdate", () => {
@@ -108,12 +111,12 @@ export default class ClipBarPlugin extends Plugin {
   public incrementItem(value: number) {
     const index = Math.min(
       Math.max(
-        indexToTime(this._durations, this.player.currentTime()) + value,
+        timeToIndex(this._durations, this.player.currentTime()) + value,
         0
       ),
       this._durations.length - 1
     );
-    const time = timeToIndex(this._durations, index);
+    const time = indexToTime(this._durations, index);
 
     this.player.currentTime(time);
 
